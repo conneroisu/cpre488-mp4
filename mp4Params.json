@@ -1,0 +1,30 @@
+{
+    "sys":
+    {
+        "e_stop": 0
+    },
+    "s_pid_rate":
+    {
+        "roll_kp": 0,
+        "roll_ki": 0,
+        "roll_kd": 0,
+        "pitch_kp": 0,
+        "pitch_ki": 0,
+        "pitch_kd": 0,
+        "yaw_kp": 0,
+        "yaw_ki": 0,
+        "yaw_kd": 0
+    },
+    "s_pid_attitude":
+    {
+        "roll_kp": 0,
+        "roll_ki": 0,
+        "roll_kd": 0,
+        "pitch_kp": 0,
+        "pitch_ki": 0,
+        "pitch_kd": 0,
+        "yaw_kp": 0,
+        "yaw_ki": 0,
+        "yaw_kd": 0
+    }
+}
