@@ -1036,8 +1036,6 @@ vii.           Any lines that are outside of a block definition are ig
 
 6.     The drop down on the right should now show your new logging block and will be active
 
-  
-
 ![](https://class.ece.iastate.edu/cpre488/labs/MP4/MP-4_files/image062.jpg)
 
 Figure 32: Log Block Commands
@@ -1071,26 +1069,3 @@ The CLI is the base of the communication with the Crazyflie drone. It can option
 | ./Cli getlogfile <id> | Get log file will get a certain log specified by the id of  0: data log  1: param id  2: logging toc |
 | ./Cli logblockcommand <id> | The log block command performs specific tasks on log files for the specified id of  0: delete all log blocks 1: refresh all log blocks 2: load log blocks  3: delete log block 4: resumelog block 5: pause log block |
 
-##### Document Version Changelog
-
-\-            Version 1.1
-
-\-            Changed optional logging variables in lab part one from gyro.x, y, z to ctrlStdnt.r\_roll, r\_pitch, r\_yaw
-
-\-            Changed git instructions for vm to use “Lab\_Part\_\* folder” instead of “Microcart folder.”
-
-\-            Updated student controller sequence diagram to have desired attitude rate being passed to the attitude rate controller.
-
-\-            Removed “Test Stand Control Board Rate mode” extra credit & replaced it with test stand visualization extra credit.
-
-\-            Version 1.2 (sdmay23-45) Last updated 3/19
-
-\-            Reorganized document for readability by adding appendices at the end.
-
-\-            Added additional tips to help students progress through the lab more efficiently.
-
-\-            Version 2.0 (sdmay24-32) Last updated 5/6
-
-\-            Added more core information about virtual machines and other VirtualBox logistics.
-
-\-            Added logging block value change section.
