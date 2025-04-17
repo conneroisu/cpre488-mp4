@@ -8,9 +8,9 @@
         "roll_kp" : 0,
         "roll_ki" : 0,
         "roll_kd" : 0,
-        "pitch_kp": 200,
-        "pitch_ki": 3,
-        "pitch_kd": 30,
+        "pitch_kp": 500,
+        "pitch_ki": 2,
+        "pitch_kd": 40,
         "yaw_kp"  : 300,
         "yaw_ki"  : 1,
         "yaw_kd"  : 10
