@@ -23,7 +23,7 @@
         "pitch_kp": 0,
         "pitch_ki": 0,
         "pitch_kd": 0,
-        "yaw_kp"  : 0,
+        "yaw_kp"  : 20,
         "yaw_ki"  : 0,
         "yaw_kd"  : 0
     }
