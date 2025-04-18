@@ -5,26 +5,26 @@
     },
     "s_pid_rate":
     {
-        "roll_kp": 0,
-        "roll_ki": 0,
-        "roll_kd": 0,
-        "pitch_kp": 0,
-        "pitch_ki": 0,
-        "pitch_kd": 0,
-        "yaw_kp": 0,
-        "yaw_ki": 0,
-        "yaw_kd": 0
+        "roll_kp": 800,
+        "roll_ki": 5,
+        "roll_kd": 60,
+        "pitch_kp": 2,
+        "pitch_ki": 40,
+        "pitch_kd": 300,
+        "yaw_kp": 300,
+        "yaw_ki": 1,
+        "yaw_kd": 10
     },
     "s_pid_attitude":
     {
         "roll_kp": 0,
         "roll_ki": 0,
         "roll_kd": 0,
-        "pitch_kp": 0,
-        "pitch_ki": 0,
+        "pitch_kp": 11.24,
+        "pitch_ki": 10,
         "pitch_kd": 0,
-        "yaw_kp": 9999,
-        "yaw_ki": 5,
-        "yaw_kd": 16
+        "yaw_kp": 20,
+        "yaw_ki": 0,
+        "yaw_kd": 0
     }
 }
