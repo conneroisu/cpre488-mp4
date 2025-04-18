@@ -2,6 +2,7 @@
  * student_attitude_pid_controller.c: Attitude controller using PID correctors
  */
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "FreeRTOS.h"
 
@@ -10,11 +11,22 @@
 #include "student_attitude_controller.h"
 #include "student_pid.h"
 
+// Update rate of the attitude
+#define ATTITUDE_RATE (float)(1.0f / IMU_UPDATE_DT)
+
 // low pass filter settings
 #define ATTITUDE_LPF_CUTOFF_FREQ 15.0f
 #define ATTITUDE_LPF_ENABLE false
 #define ATTITUDE_RATE_LPF_CUTOFF_FREQ 30.0f
 #define ATTITUDE_RATE_LPF_ENABLE false
+
+// structs to hold PID data between executions for each axis
+PidObject pidRollRate;
+PidObject pidPitchRate;
+PidObject pidYawRate;
+PidObject pidRoll;
+PidObject pidPitch;
+PidObject pidYaw;
 
 /**
  * @brief Convert float to 16 bit integer
@@ -45,10 +57,49 @@ static bool isInit;
  * @param updateDt expected delta time since last call for all PID loops
  */
 void studentAttitudeControllerInit(const float updateDt) {
-  if (isInit)
+  if (isInit) {
     return;
+  }
 
   // 488 TODO initialize all rate PID objects
+  PidObject pidObj;
+
+  studentPidInit(                    //
+      &pidRollRate,                  //
+      0,                             //
+      PID_ROLL_RATE_KP,              //
+      PID_ROLL_RATE_KI,              //
+      PID_ROLL_RATE_KD,              //
+      updateDt,                      //
+      ATTITUDE_RATE,                 //
+      ATTITUDE_RATE_LPF_CUTOFF_FREQ, //
+      ATTITUDE_RATE_LPF_ENABLE       //
+  );
+  studentPidInit(                    //
+      &pidPitchRate,                 //
+      0,                             //
+      PID_PITCH_RATE_KP,             //
+      PID_PITCH_RATE_KI,             //
+      PID_PITCH_RATE_KD,             //
+      updateDt,                      //
+      ATTITUDE_RATE,                 //
+      ATTITUDE_RATE_LPF_CUTOFF_FREQ, //
+      ATTITUDE_RATE_LPF_ENABLE       //
+  );
+  studentPidInit(                    //
+      &pidYawRate,                   //
+      0,                             //
+      PID_YAW_RATE_KP,               //
+      PID_YAW_RATE_KI,               //
+      PID_YAW_RATE_KD,               //
+      updateDt,                      //
+      ATTITUDE_RATE,                 //
+      ATTITUDE_RATE_LPF_CUTOFF_FREQ, //
+      ATTITUDE_RATE_LPF_ENABLE       //
+  );
+  // studentPidInit(PidObject *pid, const float desired, const float kp, const
+  // float ki, const float kd, const float dt, const float samplingRate, const
+  // float cutoffFreq, bool enableDFilter)
 
   // 488 TODO set integral limits for all rate PID loops, 0 for no limit
 
@@ -115,15 +166,36 @@ void studentAttitudeControllerCorrectRatePID(
   // 488 TODO update all attitude rate PID's
 }
 
-// 488 TODO write helper functions to reset pid values
+/**
+ * Reset the PID error values
+ *
+ * @param[in] pid   A pointer to the pid object.
+ */
+void studentPidReset(PidObject *pid) {
+  pid->prev_error = 0;
+  pid->total_error = 0;
+}
 
-void studentAttitudeControllerResetRollAttitudePID(void) {}
+void studentAttitudeControllerResetRollAttitudePID(void) {
+  studentPidReset(&pidRoll);
+}
 
-void studentAttitudeControllerResetYawAttitudePID(void) {}
+void studentAttitudeControllerResetYawAttitudePID(void) {
+  studentPidReset(&pidYaw);
+}
 
-void studentAttitudeControllerResetPitchAttitudePID(void) {}
+void studentAttitudeControllerResetPitchAttitudePID(void) {
+  studentPidReset(&pidPitch);
+}
 
-void studentAttitudeControllerResetAllPID(void) {}
+void studentAttitudeControllerResetAllPID(void) {
+  studentPidReset(&pidRoll);
+  studentPidReset(&pidPitch);
+  studentPidReset(&pidYaw);
+  studentPidReset(&pidRollRate);
+  studentPidReset(&pidPitchRate);
+  studentPidReset(&pidYawRate);
+}
 
 // 488 TODO setup logging parameters, replace null with pointer to globabl
 // variable
