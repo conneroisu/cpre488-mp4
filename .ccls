@@ -1,0 +1,10 @@
+clang
+%c -std=c11
+%cpp -std=c++2a
+%h %hpp --include=./src/*.h
+
+-Iinc
+-DMACRO
+-I./src/*.h
+-D__KERNEL__
+-DMODULE

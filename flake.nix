@@ -67,6 +67,7 @@
               nixd
               statix
               deadnix
+              ccls
             ]
             ++ (with pkgs;
               lib.optionals stdenv.isDarwin [
