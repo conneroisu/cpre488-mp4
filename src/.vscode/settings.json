@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "stabilizer.h": "c",
+        "stdbool.h": "c",
+        "stdint.h": "c",
+        "estimator.h": "c",
+        "stabilizer_types.h": "c",
+        "lighthouse_calibration.h": "c",
+        "imu_types.h": "c",
+        "student_pid.h": "c",
+        "math3d.h": "c"
+    }
+}
