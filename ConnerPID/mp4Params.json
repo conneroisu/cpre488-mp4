@@ -17,8 +17,8 @@
     },
     "s_pid_attitude":
     {
-        "roll_kp": 11.43,
-        "roll_ki": 8,
+        "roll_kp": 10.43,
+        "roll_ki": 0,
         "roll_kd": 0,
         "pitch_kp": 11.24,
         "pitch_ki": 10,
