@@ -112,11 +112,10 @@ void studentAttitudeControllerInit(const float updateDt) {
       ATTITUDE_RATE_LPF_CUTOFF_FREQ, //
       ATTITUDE_RATE_LPF_ENABLE       //
   );
-  // studentPidInit(PidObject *pid, const float desired, const float kp, const
-  // float ki, const float kd, const float dt, const float samplingRate, const
-  // float cutoffFreq, bool enableDFilter)
 
-  // 488 TODO set integral limits for all rate PID loops, 0 for no limit
+  studentPidSetIntegralLimit(&pidRollRate, PID_ROLL_RATE_INTEGRAL_LIMIT);
+  studentPidSetIntegralLimit(&pidPitchRate, PID_PITCH_RATE_INTEGRAL_LIMIT);
+  studentPidSetIntegralLimit(&pidYawRate, PID_YAW_RATE_INTEGRAL_LIMIT);
 
   // 488 TODO initialize all attitude PID objects
 

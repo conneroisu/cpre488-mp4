@@ -10,6 +10,12 @@
 #include "student_pid.h"
 #include <stdbool.h>
 #include <stdint.h>
+#define PID_ROLL_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_PITCH_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_YAW_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_ROLL_RATE_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_PITCH_RATE_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_YAW_RATE_INTEGRAL_LIMIT (float)(0.0f)
 
 // Enable unit test mode (defines the log functions)
 #define UNIT_TEST_MODE true
