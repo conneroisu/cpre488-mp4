@@ -10,11 +10,37 @@
 #include "student_pid.h"
 #include <stdbool.h>
 #include <stdint.h>
+
+// PID integral limits.
+// Set to 0 for no limit
+
+// PID integral limits.
+// These constants define the maximum accumulated error value (integral term)
+// for each PID controller to prevent integral windup.
+// Set to 0 for no limit, which disables integral anti-windup protection.
+
+// Maximum integral term accumulation for roll angle controller
+// Setting to 0.0f means no integral windup protection for roll angle
 #define PID_ROLL_INTEGRAL_LIMIT (float)(0.0f)
+
+// Maximum integral term accumulation for pitch angle controller
+// Setting to 0.0f means no integral windup protection for pitch angle
 #define PID_PITCH_INTEGRAL_LIMIT (float)(0.0f)
+
+// Maximum integral term accumulation for yaw angle controller
+// Setting to 0.0f means no integral windup protection for yaw angle
 #define PID_YAW_INTEGRAL_LIMIT (float)(0.0f)
+
+// Maximum integral term accumulation for roll rate controller
+// Setting to 0.0f means no integral windup protection for roll rate
 #define PID_ROLL_RATE_INTEGRAL_LIMIT (float)(0.0f)
+
+// Maximum integral term accumulation for pitch rate controller
+// Setting to 0.0f means no integral windup protection for pitch rate
 #define PID_PITCH_RATE_INTEGRAL_LIMIT (float)(0.0f)
+
+// Maximum integral term accumulation for yaw rate controller
+// Setting to 0.0f means no integral windup protection for yaw rate
 #define PID_YAW_RATE_INTEGRAL_LIMIT (float)(0.0f)
 
 // Enable unit test mode (defines the log functions)

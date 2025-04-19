@@ -119,7 +119,9 @@ void studentAttitudeControllerInit(const float updateDt) {
 
   // 488 TODO initialize all attitude PID objects
 
-  // 488 TODO set integral limits for attitude PID loops, 0 for no limit
+  studentPidSetIntegralLimit(&pidRoll, 0);
+  studentPidSetIntegralLimit(&pidPitch, 0);
+  studentPidSetIntegralLimit(&pidYaw, 0);
 
   isInit = true;
 }
