@@ -220,10 +220,28 @@ void studentAttitudeControllerCorrectAttitudePID( //
     float *yawRateDesired                         //
 ) {
 
-  // 488 TODO update all attitude PID's
+  // Update roll and pitch PIDs
+  *rollRateDesired =
+      studentPidUpdate(&pidRoll, eulerRollDesired - eulerRollActual, true);
+  *pitchRateDesired =
+      studentPidUpdate(&pidPitch, eulerPitchDesired - eulerPitchActual, true);
 
-  // 488 TODO Update PID for yaw axis, handle error update here instead of in
+  // Update PID for yaw axis, handle error update here instead of in
   // PID calculation to keep error between -180 and 180
+  float yawError = eulerYawDesired - eulerYawActual;
+
+  // Normalize yaw error to be between -180 and 180 degrees
+  // This assumes angles are in degrees. If they're in radians, use PI instead
+  // of 180
+  while (yawError > 180.0f) {
+    yawError -= 360.0f;
+  }
+  while (yawError < -180.0f) {
+    yawError += 360.0f;
+  }
+
+  // Update yaw PID with normalized error
+  *yawRateDesired = studentPidUpdate(&pidYaw, yawError, true);
 }
 
 /**
@@ -268,7 +286,18 @@ void studentAttitudeControllerCorrectRatePID( //
     int16_t *pitchCmd,                        //
     int16_t *yawCmd                           //
 ) {
-  // 488 TODO update all attitude rate PID's
+  // Update all attitude rate PIDs
+  float rollOutput =
+      studentPidUpdate(&pidRollRate, rollRateDesired - rollRateActual, true);
+  float pitchOutput =
+      studentPidUpdate(&pidPitchRate, pitchRateDesired - pitchRateActual, true);
+  float yawOutput =
+      studentPidUpdate(&pidYawRate, yawRateDesired - yawRateActual, true);
+
+  // Convert floating point outputs to int16_t motor commands
+  *rollCmd = saturateSignedInt16(rollOutput);
+  *pitchCmd = saturateSignedInt16(pitchOutput);
+  *yawCmd = saturateSignedInt16(yawOutput);
 }
 
 /**
