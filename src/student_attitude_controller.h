@@ -1,8 +1,27 @@
 #ifndef STUDENT_ATTITUDE_CONTROLLER_H_
 #define STUDENT_ATTITUDE_CONTROLLER_H_
 
+#include "FreeRTOS.h"
+
 #include "commander.h"
+#include "debug.h"
+#include "log.h"
+#include "param.h"
+#include "student_pid.h"
 #include <stdbool.h>
+#include <stdint.h>
+
+// Enable unit test mode (defines the log functions)
+#define UNIT_TEST_MODE true
+
+// Update rate of the attitude
+#define ATTITUDE_RATE (float)(1.0f / IMU_UPDATE_DT)
+
+// low pass filter settings
+#define ATTITUDE_LPF_CUTOFF_FREQ 15.0f
+#define ATTITUDE_LPF_ENABLE false
+#define ATTITUDE_RATE_LPF_CUTOFF_FREQ 30.0f
+#define ATTITUDE_RATE_LPF_ENABLE false
 
 /**
  * @brief Initialize PID data structures with coefficients defined in `pid.h`.

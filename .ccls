@@ -3,10 +3,14 @@ clang
 %cpp -std=c++2a
 %h %hpp --include=./src/*.h
 %h %hpp --include=./vendor/crazyflie_software/crazyflie-firmware-lab-part-2/src/modules/interface/*.h
+%h %hpp --include=./vendor/uboot-compiler/bm_crazyflie/FreeRTOS/Source/include/*.h
+%h %hpp --include=./vendor/crazyflie_software/crazyflie-firmware-2021.06/src/modules/interface/*.h
 
 -Iinc
 -DMACRO
 -I./src/*.h
 -I./vendor/crazyflie_software/crazyflie-firmware-lab-part-2/src/modules/interface/*.h
+-I./vendor/uboot-compiler/bm_crazyflie/FreeRTOS/Source/include/*.h
+-I./vendor/crazyflie_software/crazyflie-firmware-2021.06/src/modules/interface/*.h
 -D__KERNEL__
 -DMODULE
