@@ -1,7 +1,7 @@
 #include "student_pid.h"
 #include "num.h"
-#include <math.h>
 #include <float.h>
+#include <math.h>
 
 /**
  * PID object initialization.
@@ -16,11 +16,10 @@
  * @param[in] cutoffFreq   Frequency to set the low pass filter cutoff at
  * @param[in] enableDFilter Enable setting for the D lowpass filter
  */
-void studentPidInit(PidObject* pid, const float desired, const float kp,
-             const float ki, const float kd, const float dt,
-             const float samplingRate, const float cutoffFreq,
-             bool enableDFilter)
-{
+void studentPidInit(PidObject *pid, const float desired, const float kp,
+                    const float ki, const float kd, const float dt,
+                    const float samplingRate, const float cutoffFreq,
+                    bool enableDFilter) {
   pid->kp = kp;
   pid->ki = ki;
   pid->kd = kd;
@@ -40,22 +39,21 @@ void studentPidInit(PidObject* pid, const float desired, const float kp,
  *                        Set to False if studentPidSetError() has been used.
  * @return PID algorithm output
  */
-float studentPidUpdate(PidObject* pid, const float measured, const bool updateError)
-{
+float studentPidUpdate(PidObject *pid, const float measured,
+                       const bool updateError) {
   float error = pid->setpoint - measured;
 
   // Incorporate P and D terms.
-  float control = (pid->kp * error) + (pid->kd * ((error - pid->prev_error) / pid->dt));
+  float control =
+      (pid->kp * error) + (pid->kd * ((error - pid->prev_error) / pid->dt));
 
   // Update error.
-  if(updateError)
-  {
+  if (updateError) {
     pid->prev_error = error;
     pid->total_error += error * pid->dt;
 
     // Limit total error.
-    if(pid->total_error > pid->i_limit)
-    {
+    if (pid->total_error > pid->i_limit) {
       pid->total_error = pid->i_limit;
     }
   }
@@ -72,8 +70,7 @@ float studentPidUpdate(PidObject* pid, const float measured, const bool updateEr
  * @param[in] pid   A pointer to the pid object.
  * @param[in] limit Pid integral swing limit.
  */
-void studentPidSetIntegralLimit(PidObject* pid, const float limit) 
-{
+void studentPidSetIntegralLimit(PidObject *pid, const float limit) {
   pid->i_limit = limit;
 }
 
@@ -82,10 +79,29 @@ void studentPidSetIntegralLimit(PidObject* pid, const float limit)
  *
  * @param[in] pid   A pointer to the pid object.
  */
-void studentPidReset(PidObject* pid)
-{
+void studentPidReset(PidObject *pid) {
   pid->prev_error = 0;
   pid->total_error = 0;
+}
+void studentAttitudeControllerResetRollAttitudePID(void) {
+  studentPidReset(&pidRoll);
+}
+
+void studentAttitudeControllerResetYawAttitudePID(void) {
+  studentPidReset(&pidYaw);
+}
+
+void studentAttitudeControllerResetPitchAttitudePID(void) {
+  studentPidReset(&pidPitch);
+}
+
+void studentAttitudeControllerResetAllPID(void) {
+  studentPidReset(&pidRoll);
+  studentPidReset(&pidPitch);
+  studentPidReset(&pidYaw);
+  studentPidReset(&pidRollRate);
+  studentPidReset(&pidPitchRate);
+  studentPidReset(&pidYawRate);
 }
 
 /**
@@ -94,8 +110,7 @@ void studentPidReset(PidObject* pid)
  * @param[in] pid   A pointer to the pid object.
  * @param[in] error The new error
  */
-void studentPidSetError(PidObject* pid, const float error)
-{
+void studentPidSetError(PidObject *pid, const float error) {
   pid->total_error = error;
 }
 
@@ -105,29 +120,23 @@ void studentPidSetError(PidObject* pid, const float error)
  * @param[in] pid   A pointer to the pid object.
  * @param[in] angle The new set point
  */
-void studentPidSetDesired(PidObject* pid, const float desired)
-{
+void studentPidSetDesired(PidObject *pid, const float desired) {
   pid->setpoint = desired;
 }
 
 /**
  * Get the current desired setpoint
- * 
+ *
  * @param[in] pid  A pointer to the pid object.
  * @return The set point
  */
-float studentPidGetDesired(PidObject* pid)
-{
-  return pid->setpoint;
-}
-
+float studentPidGetDesired(PidObject *pid) { return pid->setpoint; }
 
 /**
  * Find out if PID is active
  * @return TRUE if active, FALSE otherwise
  */
-bool studentPidIsActive(PidObject* pid)
-{
+bool studentPidIsActive(PidObject *pid) {
   return (pid->kp + pid->ki + pid->kd);
 }
 
@@ -137,10 +146,7 @@ bool studentPidIsActive(PidObject* pid)
  * @param[in] pid   A pointer to the pid object.
  * @param[in] kp    The new proportional gain
  */
-void studentPidSetKp(PidObject* pid, const float kp)
-{
-  pid->kp = kp;
-}
+void studentPidSetKp(PidObject *pid, const float kp) { pid->kp = kp; }
 
 /**
  * Set a new integral gain for the PID.
@@ -148,10 +154,7 @@ void studentPidSetKp(PidObject* pid, const float kp)
  * @param[in] pid   A pointer to the pid object.
  * @param[in] ki    The new integral gain
  */
-void studentPidSetKi(PidObject* pid, const float ki)
-{
-  pid->ki = ki;
-}
+void studentPidSetKi(PidObject *pid, const float ki) { pid->ki = ki; }
 
 /**
  * Set a new derivative gain for the PID.
@@ -159,10 +162,7 @@ void studentPidSetKi(PidObject* pid, const float ki)
  * @param[in] pid   A pointer to the pid object.
  * @param[in] kd    The derivative gain
  */
-void studentPidSetKd(PidObject* pid, const float kd)
-{
-  pid->kd = kd;
-}
+void studentPidSetKd(PidObject *pid, const float kd) { pid->kd = kd; }
 
 /**
  * Set a new dt gain for the PID. Defaults to IMU_UPDATE_DT upon construction
@@ -170,7 +170,4 @@ void studentPidSetKd(PidObject* pid, const float kd)
  * @param[in] pid   A pointer to the pid object.
  * @param[in] dt    Delta time
  */
-void studentPidSetDt(PidObject* pid, const float dt) 
-{
-  pid->dt = dt;
-}
+void studentPidSetDt(PidObject *pid, const float dt) { pid->dt = dt; }
