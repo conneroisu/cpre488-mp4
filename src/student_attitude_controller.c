@@ -117,7 +117,39 @@ void studentAttitudeControllerInit(const float updateDt) {
   studentPidSetIntegralLimit(&pidPitchRate, PID_PITCH_RATE_INTEGRAL_LIMIT);
   studentPidSetIntegralLimit(&pidYawRate, PID_YAW_RATE_INTEGRAL_LIMIT);
 
-  // 488 TODO initialize all attitude PID objects
+  studentPidInit(               //
+      &pidRoll,                 //
+      0,                        //
+      PID_ROLL_KP,              //
+      PID_ROLL_KI,              //
+      PID_ROLL_KD,              //
+      updateDt,                 //
+      ATTITUDE_RATE,            //
+      ATTITUDE_LPF_CUTOFF_FREQ, //
+      ATTITUDE_LPF_ENABLE       //
+  );
+  studentPidInit(               //
+      &pidPitch,                //
+      0,                        //
+      PID_PITCH_KP,             //
+      PID_PITCH_KI,             //
+      PID_PITCH_KD,             //
+      updateDt,                 //
+      ATTITUDE_RATE,            //
+      ATTITUDE_LPF_CUTOFF_FREQ, //
+      ATTITUDE_LPF_ENABLE       //
+  );
+  studentPidInit(               //
+      &pidYaw,                  //
+      0,                        //
+      PID_YAW_KP,               //
+      PID_YAW_KI,               //
+      PID_YAW_KD,               //
+      updateDt,                 //
+      ATTITUDE_RATE,            //
+      ATTITUDE_LPF_CUTOFF_FREQ, //
+      ATTITUDE_LPF_ENABLE       //
+  );
 
   studentPidSetIntegralLimit(&pidRoll, 0);
   studentPidSetIntegralLimit(&pidPitch, 0);
