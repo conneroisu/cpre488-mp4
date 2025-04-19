@@ -2,25 +2,25 @@
 #include "stabilizer.h"
 #include "stabilizer_types.h"
 
-#include "student_attitude_controller.h"
-#include "sensfusion6.h"
 #include "controller_student.h"
+#include "sensfusion6.h"
+#include "student_attitude_controller.h"
 
-#include "log.h"
 #include "debug.h"
+#include "log.h"
 
-#include "param.h"
 #include "math3d.h"
+#include "param.h"
 
-//delta time between calls to the update function
-#define STUDENT_UPDATE_DT    (float)(1.0f/ATTITUDE_RATE)
+// delta time between calls to the update function
+#define STUDENT_UPDATE_DT (float)(1.0f / ATTITUDE_RATE)
 
-//desired vehicle state as calculated by PID controllers
+// desired vehicle state as calculated by PID controllers
 static attitude_t attitudeDesired;
 static attitude_t rateDesired;
 static float thrustDesired;
 
-//variables used only for logging PID command outputs
+// variables used only for logging PID command outputs
 static float cmd_thrust;
 static float cmd_roll;
 static float cmd_pitch;
@@ -30,27 +30,25 @@ static float r_pitch;
 static float r_yaw;
 static float accelz;
 
-void controllerStudentInit(void)
-{
+void controllerStudentInit(void) {
   studentAttitudeControllerInit(STUDENT_UPDATE_DT);
 }
 
-bool controllerStudentTest(void)
-{
+bool controllerStudentTest(void) {
   bool pass = true;
-  //controller passes check if attitude controller passes
+  // controller passes check if attitude controller passes
   pass &= studentAttitudeControllerTest();
 
   return pass;
 }
 
-
 /**
  * Limit the input angle between -180 and 180
- * 
- * @param angle 
- * @return float 
+ *
+ * @param angle
+ * @return float
  */
+
 static float capAngle(float angle) 
 {
   int coterminal = (int) angle / 360;
@@ -67,29 +65,29 @@ static float capAngle(float angle)
     return (-180.0f) + angle;
   }
 
-  return 0;
-}
-
 
 /**
  * This function is called periodically to update the PID loop,
  * Reads state estimate and setpoint values and passes them
  * to the functions that perform PID calculations,
  * attitude PID and attitude rate PID
- * 
+ *
  * @param control Output, struct is modified as the ouput of the control loop
- * @param setpoint Input, setpoints for thrust, attitude, position, velocity etc. of the quad
- * @param sensors Input, Raw sensor values (typically want to use the state estimated instead) includes gyro, 
- * accelerometer, barometer, magnatometer 
- * @param state Input, A more robust way to measure the current state of the quad, allows for direct
- * measurements of the orientation of the quad. Includes attitude, position, velocity,
- * and acceleration
+ * @param setpoint Input, setpoints for thrust, attitude, position, velocity
+ * etc. of the quad
+ * @param sensors Input, Raw sensor values (typically want to use the state
+ * estimated instead) includes gyro, accelerometer, barometer, magnatometer
+ * @param state Input, A more robust way to measure the current state of the
+ * quad, allows for direct measurements of the orientation of the quad. Includes
+ * attitude, position, velocity, and acceleration
  * @param tick Input, system clock
  */
-void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorData_t *sensors, const state_t *state, const uint32_t tick)
-{
+void controllerStudent(control_t *control, setpoint_t *setpoint,
+                       const sensorData_t *sensors, const state_t *state,
+                       const uint32_t tick) {
 
   float p_rate, r_rate, y_rate = 0;
+
 
   // check if time to update the attutide controller
   if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick))
@@ -204,7 +202,8 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
  */
 LOG_GROUP_START(ctrlStdnt)
 
-// 488 TODO setup logging parameters, replace null with pointer to globabl variable
+// 488 TODO setup logging parameters, replace null with pointer to globabl
+// variable
 
 /**
  * @brief Thrust command output
@@ -265,13 +264,13 @@ LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 
 LOG_GROUP_STOP(ctrlStdnt)
 
-
 /**
  * Controller parameters
  */
 PARAM_GROUP_START(ctrlStdnt)
 
-//488 TODO optionally add any parameters to modify the controller code while running
+// 488 TODO optionally add any parameters to modify the controller code while
+// running
 
 PARAM_ADD(PARAM_FLOAT, placeHolder, NULL)
 
