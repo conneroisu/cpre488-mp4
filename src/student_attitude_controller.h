@@ -46,6 +46,8 @@
 // Enable unit test mode (defines the log functions)
 #define UNIT_TEST_MODE true
 
+// Update rate of the inertial measurement unit
+#define IMU_UPDATE_DT (float)(0.01f)
 // Update rate of the attitude
 #define ATTITUDE_RATE (float)(1.0f / IMU_UPDATE_DT)
 

@@ -268,7 +268,6 @@ void studentAttitudeControllerCorrectRatePID( //
     int16_t *pitchCmd,                        //
     int16_t *yawCmd                           //
 ) {
-
   // 488 TODO update all attitude rate PID's
 }
 
