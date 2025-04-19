@@ -128,6 +128,9 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
           &y_rate
         );
 
+        // Update desired attitudes
+        attitudeDesired = setpoint->attitude;
+
         // If mixed mode, overwrite yaw to the setpoint yaw rate.
         if(setpoint->mode.yaw == modeVelocity)
         {
@@ -164,6 +167,10 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
         &control->yaw
       );
 
+      // Update desired rates.
+      rateDesired.pitch = p_rate;
+      rateDesired.roll = r_rate;
+      rateDesired.yaw = y_rate;
     }
 
   }
@@ -179,7 +186,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
     control->yaw = 0;
     studentAttitudeControllerResetAllPID();
   }
-  
+
   //copy values for logging
   cmd_thrust = control->thrust;
   cmd_roll = control->roll;
@@ -202,59 +209,59 @@ LOG_GROUP_START(ctrlStdnt)
 /**
  * @brief Thrust command output
  */
-LOG_ADD(LOG_FLOAT, cmd_thrust, NULL)
+LOG_ADD(LOG_FLOAT, cmd_thrust, &cmd_thrust)
 /**
  * @brief Roll command output
  */
-LOG_ADD(LOG_FLOAT, cmd_roll, NULL)
+LOG_ADD(LOG_FLOAT, cmd_roll, &cmd_roll)
 /**
  * @brief Pitch command output
  */
-LOG_ADD(LOG_FLOAT, cmd_pitch, NULL)
+LOG_ADD(LOG_FLOAT, cmd_pitch, &cmd_pitch)
 /**
  * @brief yaw command output
  */
-LOG_ADD(LOG_FLOAT, cmd_yaw, NULL)
+LOG_ADD(LOG_FLOAT, cmd_yaw, &cmd_yaw)
 /**
  * @brief Gyro roll measurement in degrees
  */
-LOG_ADD(LOG_FLOAT, r_roll, NULL)
+LOG_ADD(LOG_FLOAT, r_roll, &r_roll)
 /**
  * @brief Gyro pitch measurement in degrees
  */
-LOG_ADD(LOG_FLOAT, r_pitch, NULL)
+LOG_ADD(LOG_FLOAT, r_pitch, &r_pitch)
 /**
  * @brief Gyro yaw rate measurement in degrees
  */
-LOG_ADD(LOG_FLOAT, r_yaw, NULL)
+LOG_ADD(LOG_FLOAT, r_yaw, &r_yaw)
 /**
  * @brief Acceleration in the z axis in G-force
  */
-LOG_ADD(LOG_FLOAT, accelz, NULL)
+LOG_ADD(LOG_FLOAT, accelz, &accelz)
 /**
  * @brief Desired roll setpoint
  */
-LOG_ADD(LOG_FLOAT, roll, NULL)
+LOG_ADD(LOG_FLOAT, roll, &attitudeDesired.roll)
 /**
  * @brief Desired pitch setpoint
  */
-LOG_ADD(LOG_FLOAT, pitch, NULL)
+LOG_ADD(LOG_FLOAT, pitch, &attitudeDesired.pitch)
 /**
  * @brief Desired yaw setpoint
  */
-LOG_ADD(LOG_FLOAT, yaw, NULL)
+LOG_ADD(LOG_FLOAT, yaw, &attitudeDesired.yaw)
 /**
  * @brief Desired roll rate setpoint
  */
-LOG_ADD(LOG_FLOAT, rollRate, NULL)
+LOG_ADD(LOG_FLOAT, rollRate, &rateDesired.roll)
 /**
  * @brief Desired pitch rate setpoint
  */
-LOG_ADD(LOG_FLOAT, pitchRate, NULL)
+LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
 /**
  * @brief Desired yaw rate setpoint
  */
-LOG_ADD(LOG_FLOAT, yawRate, NULL)
+LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 
 LOG_GROUP_STOP(ctrlStdnt)
 
