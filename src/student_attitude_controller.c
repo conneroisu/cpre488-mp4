@@ -149,10 +149,17 @@ bool studentAttitudeControllerTest() { return isInit; }
  * @param pitchRateDesired output
  * @param yawRateDesired output
  */
-void studentAttitudeControllerCorrectAttitudePID(
-    float eulerRollActual, float eulerPitchActual, float eulerYawActual,
-    float eulerRollDesired, float eulerPitchDesired, float eulerYawDesired,
-    float *rollRateDesired, float *pitchRateDesired, float *yawRateDesired) {
+void studentAttitudeControllerCorrectAttitudePID( //
+    float eulerRollActual,                        //
+    float eulerPitchActual,                       //
+    float eulerYawActual,                         //
+    float eulerRollDesired,                       //
+    float eulerPitchDesired,                      //
+    float eulerYawDesired,                        //
+    float *rollRateDesired,                       //
+    float *pitchRateDesired,                      //
+    float *yawRateDesired                         //
+) {
 
   // 488 TODO update all attitude PID's
 
@@ -164,20 +171,27 @@ void studentAttitudeControllerCorrectAttitudePID(
  * Make the controller run an update of the rate PID. Input comes from the
  * correct attitude function. The output is the actuator force.
  *
- * @param rollRateActual input
- * @param pitchRateActual input
- * @param yawRateActual input
- * @param rollRateDesired input
- * @param pitchRateDesired input
- * @param yawRateDesired input
- * @param rollCmd output
- * @param pitchCmd output
- * @param yawCmd
+ * @param `float` **rollRateActual** the actual current roll rate
+ * @param `float` **pitchRateActual** the actual current pitch rate
+ * @param `float` **yawRateActual** the actual current yaw rate
+ * @param `float` **rollRateDesired** the desired roll rate
+ * @param `float` **pitchRateDesired** the desired pitch rate
+ * @param `float` **yawRateDesired** the desired yaw rate
+ * @param `int16_t` **rollCmd** the output roll command
+ * @param `int16_t` **pitchCmd** the output pitch command
+ * @param `int16_t` **yawCmd** the output yaw command
  */
-void studentAttitudeControllerCorrectRatePID(
-    float rollRateActual, float pitchRateActual, float yawRateActual,
-    float rollRateDesired, float pitchRateDesired, float yawRateDesired,
-    int16_t *rollCmd, int16_t *pitchCmd, int16_t *yawCmd) {
+void studentAttitudeControllerCorrectRatePID( //
+    float rollRateActual,                     //
+    float pitchRateActual,                    //
+    float yawRateActual,                      //
+    float rollRateDesired,                    //
+    float pitchRateDesired,                   //
+    float yawRateDesired,                     //
+    int16_t *rollCmd,                         //
+    int16_t *pitchCmd,                        //
+    int16_t *yawCmd                           //
+) {
 
   // 488 TODO update all attitude rate PID's
 }
