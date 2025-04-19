@@ -38,14 +38,46 @@ static inline int16_t saturateSignedInt16(float in) {
   }
 }
 
-// structs to hold PID data between executions for each axis
-
-// pidRollRate is used for roll rate PID
+// PidObject for Roll Rate control.
+// Controls the angular velocity around the roll axis (X-axis)
+// Used in the inner loop of the cascaded control system
+// Processes the error between desired and measured roll rate
+// Outputs motor commands to achieve desired roll rate
 PidObject pidRollRate;
+
+// PidObject for Pitch Rate control.
+// Controls the angular velocity around the pitch axis (Y-axis)
+// Used in the inner loop of the cascaded control system
+// Processes the error between desired and measured pitch rate
+// Outputs motor commands to achieve desired pitch rate
 PidObject pidPitchRate;
+
+// PidObject for Yaw Rate control.
+// Controls the angular velocity around the yaw axis (Z-axis)
+// Used in the inner loop of the cascaded control system
+// Processes the error between desired and measured yaw rate
+// Outputs motor commands to achieve desired yaw rate
 PidObject pidYawRate;
+
+// PidObject for Roll Angle control.
+// Controls the absolute roll angle of the drone
+// Used in the outer loop of the cascaded control system
+// Processes the error between desired and measured roll angle
+// Outputs a desired roll rate that becomes setpoint for pidRollRate
 PidObject pidRoll;
+
+// PidObject for Pitch Angle control.
+// Controls the absolute pitch angle of the drone
+// Used in the outer loop of the cascaded control system
+// Processes the error between desired and measured pitch angle
+// Outputs a desired pitch rate that becomes setpoint for pidPitchRate
 PidObject pidPitch;
+
+// PidObject for Yaw Angle control.
+// Controls the absolute yaw angle (heading) of the drone
+// Used in the outer loop of the cascaded control system
+// Processes the error between desired and measured yaw angle
+// Outputs a desired yaw rate that becomes setpoint for pidYawRate
 PidObject pidYaw;
 
 static bool isInit;
