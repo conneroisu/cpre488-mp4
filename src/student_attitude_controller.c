@@ -171,15 +171,41 @@ bool studentAttitudeControllerTest() { return isInit; }
  * attitude controller can be run in a slower update rate then the rate
  * controller.
  *
- * @param `float` **eulerRollActual** input
- * @param `float` **eulerPitchActual** input
- * @param `float` **eulerYawActual** input
- * @param `float` **eulerRollDesired** input
- * @param `float` **eulerPitchDesired** input
- * @param `float` **eulerYawDesired** input
- * @param `float` **rollRateDesired** output
- * @param `float` **pitchRateDesired** output
- * @param `float` **yawRateDesired** output
+ * @param `float` **eulerRollActual** - Current measured roll angle in radians
+ * or degrees. Represents the drone's current rotation around its longitudinal
+ * axis (X-axis).
+ *
+ * @param `float` **eulerPitchActual** - Current measured pitch angle in radians
+ * or degrees. Represents the drone's current rotation around its lateral axis
+ * (Y-axis).
+ *
+ * @param `float` **eulerYawActual** - Current measured yaw angle in radians or
+ * degrees. Represents the drone's current rotation around its vertical axis
+ * (Z-axis), determining its heading.
+ *
+ * @param `float` **eulerRollDesired** - Target roll angle in radians or
+ * degrees. The angle that the attitude controller attempts to achieve around
+ * the X-axis.
+ *
+ * @param `float` **eulerPitchDesired** - Target pitch angle in radians or
+ * degrees. The angle that the attitude controller attempts to achieve around
+ * the Y-axis.
+ *
+ * @param `float` **eulerYawDesired** - Target yaw angle in radians or degrees.
+ * The angle that the attitude controller attempts to achieve around the Z-axis,
+ * determining the desired heading.
+ *
+ * @param `*float` **rollRateDesired** - Pointer to store the calculated desired
+ * roll rotation rate in radians/sec or degrees/sec. This value feeds into the
+ * roll rate PID controller.
+ *
+ * @param `*float` **pitchRateDesired** - Pointer to store the calculated
+ * desired pitch rotation rate in radians/sec or degrees/sec. This value feeds
+ * into the pitch rate PID controller.
+ *
+ * @param `*float` **yawRateDesired** - Pointer to store the calculated desired
+ * yaw rotation rate in radians/sec or degrees/sec. This value feeds into the
+ * yaw rate PID controller.
  */
 void studentAttitudeControllerCorrectAttitudePID( //
     float eulerRollActual,                        //
@@ -203,15 +229,32 @@ void studentAttitudeControllerCorrectAttitudePID( //
  * Make the controller run an update of the rate PID. Input comes from the
  * correct attitude function. The output is the actuator force.
  *
- * @param `float` **rollRateActual** the actual current roll rate
- * @param `float` **pitchRateActual** the actual current pitch rate
- * @param `float` **yawRateActual** the actual current yaw rate
- * @param `float` **rollRateDesired** the desired roll rate
- * @param `float` **pitchRateDesired** the desired pitch rate
- * @param `float` **yawRateDesired** the desired yaw rate
- * @param `int16_t` **rollCmd** the output roll command
- * @param `int16_t` **pitchCmd** the output pitch command
- * @param `int16_t` **yawCmd** the output yaw command
+ * @param `float` **rollRateActual** Measured angular velocity around the roll
+ * axis (X-axis) in radians/sec or degrees/sec.
+ *
+ * @param `float` **pitchRateActual** Measured angular velocity around the pitch
+ * axis (Y-axis) in radians/sec or degrees/sec.
+ *
+ * @param `float` **yawRateActual** Measured angular velocity around the yaw
+ * axis (Z-axis) in radians/sec or degrees/sec.
+ *
+ * @param `float` **rollRateDesired** Target angular velocity around the roll
+ * axis in radians/sec or degrees/sec.
+ *
+ * @param `float` **pitchRateDesired** Target angular velocity around the pitch
+ * axis in radians/sec or degrees/sec.
+ *
+ * @param `float` **yawRateDesired** Target angular velocity around the yaw axis
+ * in radians/sec or degrees/sec.
+ *
+ * @param `*int16_t` **rollCmd** Pointer to store the calculated motor command
+ * value for roll control.
+ *
+ * @param `*int16_t` **pitchCmd** Pointer to store the calculated motor command
+ * value for pitch control.
+ *
+ * @param `*int16_t` **yawCmd** Pointer to store the calculated motor command
+ * value for yaw control.
  */
 void studentAttitudeControllerCorrectRatePID( //
     float rollRateActual,                     //
