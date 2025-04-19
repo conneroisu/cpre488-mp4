@@ -171,15 +171,15 @@ bool studentAttitudeControllerTest() { return isInit; }
  * attitude controller can be run in a slower update rate then the rate
  * controller.
  *
- * @param eulerRollActual input
- * @param eulerPitchActual input
- * @param eulerYawActual input
- * @param eulerRollDesired input
- * @param eulerPitchDesired input
- * @param eulerYawDesired input
- * @param rollRateDesired output
- * @param pitchRateDesired output
- * @param yawRateDesired output
+ * @param `float` **eulerRollActual** input
+ * @param `float` **eulerPitchActual** input
+ * @param `float` **eulerYawActual** input
+ * @param `float` **eulerRollDesired** input
+ * @param `float` **eulerPitchDesired** input
+ * @param `float` **eulerYawDesired** input
+ * @param `float` **rollRateDesired** output
+ * @param `float` **pitchRateDesired** output
+ * @param `float` **yawRateDesired** output
  */
 void studentAttitudeControllerCorrectAttitudePID( //
     float eulerRollActual,                        //
@@ -231,7 +231,7 @@ void studentAttitudeControllerCorrectRatePID( //
 /**
  * Reset the PID error values
  *
- * @param[in] pid   A pointer to the pid object.
+ * @param `PidObject` **pid** A pointer to the pid object.
  */
 void studentPidReset(PidObject *pid) {
   pid->prev_error = 0;
