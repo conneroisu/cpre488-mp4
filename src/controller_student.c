@@ -91,7 +91,6 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
 
   float p_rate, r_rate, y_rate = 0;
 
-  //488 TODO, write main controller function
   // check if time to update the attutide controller
   if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick))
   {
@@ -133,6 +132,9 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
         if(setpoint->mode.yaw == modeVelocity)
         {
           y_rate = setpoint->attitudeRate.yaw;
+
+          // Yaw attitude PID should be reset since we are not using its value.
+          studentAttitudeControllerResetYawAttitudePID();
         }
       }
       // Attitude rate control
@@ -141,41 +143,43 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
         r_rate = setpoint->attitudeRate.roll;
         p_rate = setpoint->attitudeRate.pitch;
         y_rate = setpoint->attitudeRate.yaw;
+
+        // Reset all attitude PIDs to avoid error build up.
+        // We are not using this PID loop currently.
+        studentAttitudeControllerResetAllPID();
       }
+
+      // Run the rate PID to get control values.
+      // Roll, pitch, and yaw values set.
+      studentAttitudeControllerCorrectRatePID
+      (
+        sensors->gyro.x,
+        sensors->gyro.y,
+        sensors->gyro.z,
+        r_rate,
+        p_rate,
+        y_rate,
+        &control->roll,
+        &control->pitch,
+        &control->yaw
+      );
+
     }
-
-    // 488 TODO if yaw is in rate mode, move the yaw angle setpoint accordingly
-
-    
-    // 488 TODO set desired attitude, roll, pitch, and yaw angles
-
-
-    // 488 TODO set desired thrust
-
-
-
-    // 488 TODO Run the attitude controller update with the actual attitude and desired attitude
-    // outputs the desired attitude rates
-
-
-    // 488 TODO if velocity mode, overwrite rateDesired output
-    // from the attitude controller with the setpoint value
-    // Also reset the PID to avoid error buildup, which can lead to unstable
-    // behavior if level mode is engaged later
-
-    
-
-    // 488 TODO update the attitude rate PID, given the current angular rate 
-    // read by the gyro and the desired rate 
-
 
   }
 
-  //488 TODO set control->thrust 
+  // Set thrust
+  control->thrust = setpoint->thrust;
 
-  //488 TODO if no thrust active, set all outputs to 0 and reset PID variables
-
-
+  // Reset PID if no thrust and set control values to 0.
+  if(!setpoint->thrust)
+  {
+    control->pitch = 0;
+    control->roll = 0;
+    control->yaw = 0;
+    studentAttitudeControllerResetAllPID();
+  }
+  
   //copy values for logging
   cmd_thrust = control->thrust;
   cmd_roll = control->roll;
