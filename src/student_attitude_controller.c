@@ -20,33 +20,33 @@
 #define ATTITUDE_RATE_LPF_CUTOFF_FREQ 30.0f
 #define ATTITUDE_RATE_LPF_ENABLE false
 
+/**
+ * @brief Convert float to 16 bit integer
+ * Use this for converting final value to store in the control struct.
+ * As later we may negate INT16_MIN, it is not used here.
+ *
+ * @param in float
+ * @return int16_t
+ */
+static inline int16_t saturateSignedInt16(float in) {
+  if (in > INT16_MAX) {
+    return INT16_MAX;
+  } else if (in < -INT16_MAX) {
+    return -INT16_MAX;
+  } else {
+    return (int16_t)in;
+  }
+}
+
 // structs to hold PID data between executions for each axis
+
+// pidRollRate is used for roll rate PID
 PidObject pidRollRate;
 PidObject pidPitchRate;
 PidObject pidYawRate;
 PidObject pidRoll;
 PidObject pidPitch;
 PidObject pidYaw;
-
-/**
- * @brief Convert float to 16 bit integer
- * Use this for converting final value to store in the control struct
- *
- * @param in float
- * @return int16_t
- */
-static inline int16_t saturateSignedInt16(float in) {
-  // don't use INT16_MIN, because later we may negate it, which won't work for
-  // that value.
-  if (in > INT16_MAX)
-    return INT16_MAX;
-  else if (in < -INT16_MAX)
-    return -INT16_MAX;
-  else
-    return (int16_t)in;
-}
-
-// 488 TODO PidObject structs to hold PID data between executions for each axis
 
 static bool isInit;
 
