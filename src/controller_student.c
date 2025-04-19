@@ -51,8 +51,22 @@ bool controllerStudentTest(void)
  * @param angle 
  * @return float 
  */
-static float capAngle(float angle) {
-  //488 TODO
+static float capAngle(float angle) 
+{
+  int coterminal = (int) angle / 360;
+
+  angle -= coterminal * 360;
+
+  // Assumed units are degrees.
+  if(angle <= 180.0f)
+  {
+    return angle;
+  }
+  else
+  {
+    return (-180.0f) + angle;
+  }
+
   return 0;
 }
 
@@ -75,19 +89,59 @@ static float capAngle(float angle) {
 void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorData_t *sensors, const state_t *state, const uint32_t tick)
 {
 
-  //488 TODO, write main controller function
+  float p_rate, r_rate, y_rate = 0;
 
+  //488 TODO, write main controller function
   // check if time to update the attutide controller
-  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick)) {
+  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick))
+  {
 
     //only support attitude and attitude rate control
-    if(setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable){
+    if(setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable)
+    {
       DEBUG_PRINT("Student controller does not support vehicle position or velocity mode. Check flight mode.");
       control->thrust = 0;
       control->roll = 0;
       control->pitch = 0;
       control->yaw = 0;
       return;
+    }
+    else
+    {
+      // When in attitude control, attitude rates are calculated via the attitude PID controller.
+      // When in attitude rate control, attitude rates are not calculated and instead directly passed.
+      // When in mixed, roll and pitch attitudes are set (so the rates are calculated), but the yaw rate is passed in directly.
+
+      // Attitude control (yaw can be abs or velocity since the attitude PID needs to run for "attitude" and "mixed" modes)
+      if(setpoint->mode.pitch == modeAbs && setpoint->mode.roll == modeAbs && setpoint->mode.yaw != modeDisable)
+      {
+        // Run attitude PID to get the rates.
+        studentAttitudeControllerCorrectAttitudePID
+        (
+          state->attitude.roll,
+          state->attitude.pitch,
+          state->attitude.yaw,
+          setpoint->attitude.roll,
+          setpoint->attitude.pitch,
+          setpoint->attitude.yaw,
+          &r_rate,
+          &p_rate,
+          &y_rate
+        );
+
+        // If mixed mode, overwrite yaw to the setpoint yaw rate.
+        if(setpoint->mode.yaw == modeVelocity)
+        {
+          y_rate = setpoint->attitudeRate.yaw;
+        }
+      }
+      // Attitude rate control
+      else if(setpoint->mode.pitch == modeVelocity && setpoint->mode.roll == modeVelocity && setpoint->mode.yaw == modeVelocity)
+      {
+        r_rate = setpoint->attitudeRate.roll;
+        p_rate = setpoint->attitudeRate.pitch;
+        y_rate = setpoint->attitudeRate.yaw;
+      }
     }
 
     // 488 TODO if yaw is in rate mode, move the yaw angle setpoint accordingly
