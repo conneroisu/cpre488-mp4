@@ -77,7 +77,6 @@ void studentAttitudeControllerInit(const float updateDt) {
     return;
   }
 
-  // 488 TODO initialize all rate PID objects
   PidObject pidObj;
 
   studentPidInit(                    //
