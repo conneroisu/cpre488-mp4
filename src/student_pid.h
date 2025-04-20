@@ -1,47 +1,95 @@
 #ifndef STUDENT_PID_H_
 #define STUDENT_PID_H_
 
-#include "filter.h"
 #include <stdbool.h>
+#include "filter.h"
 
-// 488 TODO hard code default PID constants found from Lab_Part_1
-
-#define PID_ROLL_RATE_KP 0.0
-#define PID_ROLL_RATE_KI 0.0
-#define PID_ROLL_RATE_KD 0.0
+extern const float PID_ROLL_RATE_KP;
+extern const float PID_ROLL_RATE_KI;
+extern const float PID_ROLL_RATE_KD;
 #define PID_ROLL_RATE_INTEGRATION_LIMIT 33.3
 
-#define PID_PITCH_RATE_KP 0.0
-#define PID_PITCH_RATE_KI 0.0
-#define PID_PITCH_RATE_KD 0.0
+extern const float PID_PITCH_RATE_KP;
+extern const float PID_PITCH_RATE_KI;
+extern const float PID_PITCH_RATE_KD;
 #define PID_PITCH_RATE_INTEGRATION_LIMIT 33.3
 
-#define PID_YAW_RATE_KP 0.0
-#define PID_YAW_RATE_KI 0.0
-#define PID_YAW_RATE_KD 0.0
+extern const float PID_YAW_RATE_KP;
+extern const float PID_YAW_RATE_KI;
+extern const float PID_YAW_RATE_KD;
 #define PID_YAW_RATE_INTEGRATION_LIMIT 166.7
 
-#define PID_ROLL_KP 0.0
-#define PID_ROLL_KI 0.0
-#define PID_ROLL_KD 0.0
+extern const float PID_ROLL_KP;
+extern const float PID_ROLL_KI;
+extern const float PID_ROLL_KD;
 #define PID_ROLL_INTEGRATION_LIMIT 20.0
 
-#define PID_PITCH_KP 0.0
-#define PID_PITCH_KI 0.0
-#define PID_PITCH_KD 0.0
+extern const float PID_PITCH_KP;
+extern const float PID_PITCH_KI;
+extern const float PID_PITCH_KD;
 #define PID_PITCH_INTEGRATION_LIMIT 20.0
 
-#define PID_YAW_KP 0.0
-#define PID_YAW_KI 0.0
-#define PID_YAW_KD 0.0
+extern const float PID_YAW_KP;
+extern const float PID_YAW_KI;
+extern const float PID_YAW_KD;
 #define PID_YAW_INTEGRATION_LIMIT 360.0
 
 #define DEFAULT_PID_INTEGRATION_LIMIT 5000.0
 #define DEFAULT_PID_OUTPUT_LIMIT 0.0
 
-typedef struct {
+typedef struct
+{
+  // 488 TODO write PidObject struct
+  // needs all values that will be used for PID calculations
+  // error, kp, ki, kd, setpoint ...
   float kp, ki, kd, dt, setpoint, i_limit, total_error, prev_error;
+
+  lpf2pData dFilter;  //< filter for D term
+  bool enableDFilter; //< filter for D term enable flag
 } PidObject;
+
+// pidRollRate controls the angular velocity around the roll axis (**x-axis**).
+//
+// Used in the inner loop of the cascaded control system.
+// Processes the error between desired and measured roll rate
+// Outputs motor commands to achieve desired roll rate
+PidObject pidRollRate;
+
+// pidPitchRate controls the angular velocity around the pitch axis (Y-axis)
+//
+// Used in the inner loop of the cascaded control system.
+// Processes the error between desired and measured pitch rate>
+// Outputs motor commands to achieve desired pitch rate
+PidObject pidPitchRate;
+
+// pidYawRate controls the angular velocity around the yaw axis (Z-axis)
+//
+// Used in the inner loop of the cascaded control system.
+// Processes the error between desired and measured yaw rate.
+// Outputs motor commands to achieve desired yaw rate
+PidObject pidYawRate;
+
+// pidRoll controls the absolute roll angle of the drone (**x-axis**).
+//
+// Used in the outer loop of the cascaded control system.
+// Processes the error between desired and measured roll angle.
+// Outputs a desired roll rate that becomes setpoint for pidRollRate.
+PidObject pidRoll;
+
+// pidPitch controls the absolute pitch angle of the drone (**y-axis**).
+//
+// Used in the outer loop of the cascaded control system.
+// Processes the error between desired and measured pitch angle.
+// Outputs a desired pitch rate that becomes setpoint for pidPitchRate.
+PidObject pidPitch;
+
+// PidObject controls the absolute yaw angle (heading) of the drone
+// (**z-axis**).
+//
+// Used in the outer loop of the cascaded control system.
+// Processes the error between desired and measured yaw angle.
+// Outputs a desired yaw rate that becomes setpoint for pidYawRate
+PidObject pidYaw;
 
 void studentPidInit(PidObject *pid, const float desired, const float kp,
                     const float ki, const float kd, const float dt,
@@ -52,8 +100,7 @@ void studentPidSetIntegralLimit(PidObject *pid, const float limit);
 
 void studentPidReset(PidObject *pid);
 
-float studentPidUpdate(PidObject *pid, const float measured,
-                       const bool updateError);
+float studentPidUpdate(PidObject *pid, const float measured, const bool updateError);
 
 void studentPidSetDesired(PidObject *pid, const float desired);
 
@@ -70,4 +117,4 @@ void studentPidSetKi(PidObject *pid, const float ki);
 void studentPidSetKd(PidObject *pid, const float kd);
 
 void studentPidSetDt(PidObject *pid, const float dt);
-#endif /* PID_H_ */
+#endif /* STUDENT_PID_H_ */

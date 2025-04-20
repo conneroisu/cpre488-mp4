@@ -4,6 +4,8 @@
 
 #include "student_attitude_controller.h"
 
+static bool isInit;
+
 /**
  * @brief Convert float to 16 bit integer
  * Use this for converting final value to store in the control struct.
@@ -22,51 +24,6 @@ static inline int16_t saturateSignedInt16(float in) {
   }
 }
 
-// pidRollRate controls the angular velocity around the roll axis (**x-axis**).
-//
-// Used in the inner loop of the cascaded control system.
-// Processes the error between desired and measured roll rate
-// Outputs motor commands to achieve desired roll rate
-PidObject pidRollRate;
-
-// pidPitchRate controls the angular velocity around the pitch axis (Y-axis)
-//
-// Used in the inner loop of the cascaded control system.
-// Processes the error between desired and measured pitch rate>
-// Outputs motor commands to achieve desired pitch rate
-PidObject pidPitchRate;
-
-// pidYawRate controls the angular velocity around the yaw axis (Z-axis)
-//
-// Used in the inner loop of the cascaded control system.
-// Processes the error between desired and measured yaw rate.
-// Outputs motor commands to achieve desired yaw rate
-PidObject pidYawRate;
-
-// pidRoll controls the absolute roll angle of the drone (**x-axis**).
-//
-// Used in the outer loop of the cascaded control system.
-// Processes the error between desired and measured roll angle.
-// Outputs a desired roll rate that becomes setpoint for pidRollRate.
-PidObject pidRoll;
-
-// pidPitch controls the absolute pitch angle of the drone (**y-axis**).
-//
-// Used in the outer loop of the cascaded control system.
-// Processes the error between desired and measured pitch angle.
-// Outputs a desired pitch rate that becomes setpoint for pidPitchRate.
-PidObject pidPitch;
-
-// PidObject controls the absolute yaw angle (heading) of the drone
-// (**z-axis**).
-//
-// Used in the outer loop of the cascaded control system.
-// Processes the error between desired and measured yaw angle.
-// Outputs a desired yaw rate that becomes setpoint for pidYawRate
-PidObject pidYaw;
-
-static bool isInit;
-
 /**
  * @brief Initialize all PID data structures with PID coefficients defined in
  * student_pid.h
@@ -77,8 +34,7 @@ void studentAttitudeControllerInit(const float updateDt) {
   if (isInit) {
     return;
   }
-
-  PidObject pidObj;
+  isInit = true;
 
   studentPidInit(                    //
       &pidRollRate,                  //
@@ -300,36 +256,6 @@ void studentAttitudeControllerCorrectRatePID( //
   *yawCmd = saturateSignedInt16(yawOutput);
 }
 
-/**
- * Reset the PID error values
- *
- * @param `PidObject` **pid** A pointer to the pid object.
- */
-void studentPidReset(PidObject *pid) {
-  pid->prev_error = 0;
-  pid->total_error = 0;
-}
-
-void studentAttitudeControllerResetRollAttitudePID(void) {
-  studentPidReset(&pidRoll);
-}
-
-void studentAttitudeControllerResetYawAttitudePID(void) {
-  studentPidReset(&pidYaw);
-}
-
-void studentAttitudeControllerResetPitchAttitudePID(void) {
-  studentPidReset(&pidPitch);
-}
-
-void studentAttitudeControllerResetAllPID(void) {
-  studentPidReset(&pidRoll);
-  studentPidReset(&pidPitch);
-  studentPidReset(&pidYaw);
-  studentPidReset(&pidRollRate);
-  studentPidReset(&pidPitchRate);
-  studentPidReset(&pidYawRate);
-}
 
 /**
  *  Log variables of attitude PID controller
@@ -371,12 +297,12 @@ LOG_ADD(LOG_FLOAT, yaw_outI, &pidYaw.ki)
  * @brief Derivative output yaw
  */
 LOG_ADD(LOG_FLOAT, yaw_outD, &pidYaw.kd)
-LOG_GROUP_STOP(s_ &pid_attitude)
+LOG_GROUP_STOP(s_pid_attitude)
 
 /**
  *  Log variables of attitude rate &pid controller
  */
-LOG_GROUP_START(s_ &pid_rate)
+LOG_GROUP_START(s_pid_rate)
 /**
  * @brief Proportional output roll rate
  */
@@ -413,7 +339,7 @@ LOG_ADD(LOG_FLOAT, yaw_outI, &pidYawRate.ki)
  * @brief Derivative output yaw rate
  */
 LOG_ADD(LOG_FLOAT, yaw_outD, &pidYawRate.kd)
-LOG_GROUP_STOP(s_ &pid_rate)
+LOG_GROUP_STOP(s_pid_rate)
 
 /**
  * Tuning settings for the gains of the PID
