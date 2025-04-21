@@ -30,6 +30,8 @@ static float r_pitch;
 static float r_yaw;
 static float accelz;
 
+static float dummy_ts_angle, dummy_ts_rate = 0.0f;
+
 void controllerStudentInit(void) {
   studentAttitudeControllerInit(STUDENT_UPDATE_DT);
 }
@@ -239,3 +241,8 @@ LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
 LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 
 LOG_GROUP_STOP(ctrlStdnt)
+
+LOG_GROUP_START(Test_Stand)
+LOG_ADD(LOG_FLOAT, angle, &dummy_ts_angle)
+LOG_ADD(LOG_FLOAT, rate, &dummy_ts_rate)
+LOG_GROUP_STOP(Test_Stand)
