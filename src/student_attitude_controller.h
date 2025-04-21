@@ -9,29 +9,29 @@
 
 #include "student_pid.h"
 
-// Maximum integral term accumulation for roll angle controller
-// Setting to 0.0f means no integral windup protection for roll angle
-#define PID_ROLL_INTEGRAL_LIMIT (float)(0.0f)
-
-// Maximum integral term accumulation for pitch angle controller
-// Setting to 0.0f means no integral windup protection for pitch angle
-#define PID_PITCH_INTEGRAL_LIMIT (float)(0.0f)
-
-// Maximum integral term accumulation for yaw angle controller
-// Setting to 0.0f means no integral windup protection for yaw angle
-#define PID_YAW_INTEGRAL_LIMIT (float)(0.0f)
-
 // Maximum integral term accumulation for roll rate controller
 // Setting to 0.0f means no integral windup protection for roll rate
-#define PID_ROLL_RATE_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_ROLL_RATE_INTEGRAL_LIMIT (float)(33.3f)
 
 // Maximum integral term accumulation for pitch rate controller
 // Setting to 0.0f means no integral windup protection for pitch rate
-#define PID_PITCH_RATE_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_PITCH_RATE_INTEGRAL_LIMIT (float)(33.0f)
 
 // Maximum integral term accumulation for yaw rate controller
 // Setting to 0.0f means no integral windup protection for yaw rate
-#define PID_YAW_RATE_INTEGRAL_LIMIT (float)(0.0f)
+#define PID_YAW_RATE_INTEGRAL_LIMIT (float)(166.7f)
+
+// Maximum integral term accumulation for roll angle controller
+// Setting to 0.0f means no integral windup protection for roll angle
+#define PID_ROLL_INTEGRAL_LIMIT (float)(20.0f)
+
+// Maximum integral term accumulation for pitch angle controller
+// Setting to 0.0f means no integral windup protection for pitch angle
+#define PID_PITCH_INTEGRAL_LIMIT (float)(20.0f)
+
+// Maximum integral term accumulation for yaw angle controller
+// Setting to 0.0f means no integral windup protection for yaw angle
+#define PID_YAW_INTEGRAL_LIMIT (float)(360.0f)
 
 // low pass filter settings
 #define ATTITUDE_LPF_CUTOFF_FREQ 15.0f
