@@ -120,10 +120,6 @@ void studentAttitudeControllerResetAllPID(void)
   studentPidReset(&pidYawRate);
 }
 
-
-
-//488 TODO setup logging parameters, replace null with pointer to globabl variable
-
 /**
  *  Log variables of attitude PID controller
  */ 
@@ -131,42 +127,40 @@ LOG_GROUP_START(s_pid_attitude)
 /**
  * @brief Proportional output roll
  */
-LOG_ADD(LOG_FLOAT, roll_outP, NULL)
+LOG_ADD(LOG_FLOAT, roll_outP, &pidRoll.outP)
 /**
  * @brief Integral output roll
  */
-LOG_ADD(LOG_FLOAT, roll_outI, NULL)
+LOG_ADD(LOG_FLOAT, roll_outI, &pidRoll.outI)
 /**
  * @brief Derivative output roll
  */
-LOG_ADD(LOG_FLOAT, roll_outD, NULL)
+LOG_ADD(LOG_FLOAT, roll_outD, &pidRoll.outD)
 /**
  * @brief Proportional output pitch
  */
-LOG_ADD(LOG_FLOAT, pitch_outP, NULL)
+LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitch.outP)
 /**
  * @brief Integral output pitch
  */
-LOG_ADD(LOG_FLOAT, pitch_outI, NULL)
+LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitch.outI)
 /**
  * @brief Derivative output pitch
  */
-LOG_ADD(LOG_FLOAT, pitch_outD, NULL)
+LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitch.outD)
 /**
  * @brief Proportional output yaw
  */
-LOG_ADD(LOG_FLOAT, yaw_outP, NULL)
+LOG_ADD(LOG_FLOAT, yaw_outP, &pidYaw.outP)
 /**
  * @brief Intergal output yaw
  */
-LOG_ADD(LOG_FLOAT, yaw_outI, NULL)
+LOG_ADD(LOG_FLOAT, yaw_outI, &pidYaw.outI)
 /**
  * @brief Derivative output yaw
  */
-LOG_ADD(LOG_FLOAT, yaw_outD, NULL)
+LOG_ADD(LOG_FLOAT, yaw_outD, &pidYaw.outD)
 LOG_GROUP_STOP(s_pid_attitude)
-
-//488 TODO setup logging parameters, replace null with pointer to globabl variable
 
 /**
  *  Log variables of attitude rate PID controller
@@ -175,42 +169,40 @@ LOG_GROUP_START(s_pid_rate)
 /**
  * @brief Proportional output roll rate
  */
-LOG_ADD(LOG_FLOAT, roll_outP, NULL)
+LOG_ADD(LOG_FLOAT, roll_outP, &pidRollRate.outP)
 /**
  * @brief Integral output roll rate
  */
-LOG_ADD(LOG_FLOAT, roll_outI, NULL)
+LOG_ADD(LOG_FLOAT, roll_outI, &pidRollRate.outI)
 /**
  * @brief Derivative output roll rate
  */
-LOG_ADD(LOG_FLOAT, roll_outD, NULL)
+LOG_ADD(LOG_FLOAT, roll_outD, &pidRollRate.outD)
 /**
  * @brief Proportional output pitch rate
  */
-LOG_ADD(LOG_FLOAT, pitch_outP, NULL)
+LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitchRate.outP)
 /**
  * @brief Integral output pitch rate
  */
-LOG_ADD(LOG_FLOAT, pitch_outI, NULL)
+LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitchRate.outI)
 /**
  * @brief Derivative output pitch rate
  */
-LOG_ADD(LOG_FLOAT, pitch_outD, NULL)
+LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitchRate.outD)
 /**
  * @brief Proportional output yaw rate
  */
-LOG_ADD(LOG_FLOAT, yaw_outP, NULL)
+LOG_ADD(LOG_FLOAT, yaw_outP, &pidYawRate.outP)
 /**
  * @brief Integral output yaw rate
  */
-LOG_ADD(LOG_FLOAT, yaw_outI, NULL)
+LOG_ADD(LOG_FLOAT, yaw_outI, &pidYawRate.outI)
 /**
  * @brief Derivative output yaw rate
  */
-LOG_ADD(LOG_FLOAT, yaw_outD, NULL)
+LOG_ADD(LOG_FLOAT, yaw_outD, &pidYawRate.outD)
 LOG_GROUP_STOP(s_pid_rate)
-
-//488 TODO setup adjustment parameters, replace null with pointer to globabl variables
 
 /**
  * Tuning settings for the gains of the PID
@@ -221,42 +213,40 @@ PARAM_GROUP_START(s_pid_attitude)
 /**
  * @brief Proportional gain for the PID roll controller
  */
-PARAM_ADD(PARAM_FLOAT, roll_kp, NULL)
+PARAM_ADD(PARAM_FLOAT, roll_kp, &pidRoll.kp)
 /**
  * @brief Integral gain for the PID roll controller
  */
-PARAM_ADD(PARAM_FLOAT, roll_ki, NULL)
+PARAM_ADD(PARAM_FLOAT, roll_ki, &pidRoll.ki)
 /**
  * @brief Derivative gain for the PID roll controller
  */
-PARAM_ADD(PARAM_FLOAT, roll_kd, NULL)
+PARAM_ADD(PARAM_FLOAT, roll_kd, &pidRoll.kd)
 /**
  * @brief Proportional gain for the PID pitch controller
  */
-PARAM_ADD(PARAM_FLOAT, pitch_kp, NULL)
+PARAM_ADD(PARAM_FLOAT, pitch_kp, &pidPitch.kp)
 /**
  * @brief Integral gain for the PID pitch controller
  */
-PARAM_ADD(PARAM_FLOAT, pitch_ki, NULL)
+PARAM_ADD(PARAM_FLOAT, pitch_ki, &pidPitch.ki)
 /**
  * @brief Derivative gain for the PID pitch controller
  */
-PARAM_ADD(PARAM_FLOAT, pitch_kd, NULL)
+PARAM_ADD(PARAM_FLOAT, pitch_kd, &pidPitch.kd)
 /**
  * @brief Proportional gain for the PID yaw controller
  */
-PARAM_ADD(PARAM_FLOAT, yaw_kp, NULL)
+PARAM_ADD(PARAM_FLOAT, yaw_kp, &pidYaw.kp)
 /**
  * @brief Integral gain for the PID yaw controller
  */
-PARAM_ADD(PARAM_FLOAT, yaw_ki, NULL)
+PARAM_ADD(PARAM_FLOAT, yaw_ki, &pidYaw.ki)
 /**
  * @brief Derivative gain for the PID yaw controller
  */
-PARAM_ADD(PARAM_FLOAT, yaw_kd, NULL)
+PARAM_ADD(PARAM_FLOAT, yaw_kd, &pidYaw.kd)
 PARAM_GROUP_STOP(s_pid_attitude)
-
-//488 TODO setup adjustment parameters, replace null with pointer to globabl variables
 
 /**
  * Tuning settings for the gains of the PID controller for the rate angles of
@@ -266,37 +256,37 @@ PARAM_GROUP_START(s_pid_rate)
 /**
  * @brief Proportional gain for the PID roll rate controller
  */
-PARAM_ADD(PARAM_FLOAT, roll_kp, NULL)
+PARAM_ADD(PARAM_FLOAT, roll_kp, &pidRollRate.kp)
 /**
  * @brief Integral gain for the PID roll rate controller
  */
-PARAM_ADD(PARAM_FLOAT, roll_ki, NULL)
+PARAM_ADD(PARAM_FLOAT, roll_ki, &pidRollRate.ki)
 /**
  * @brief Derivative gain for the PID roll rate controller
  */
-PARAM_ADD(PARAM_FLOAT, roll_kd, NULL)
+PARAM_ADD(PARAM_FLOAT, roll_kd, &pidRollRate.kd)
 /**
  * @brief Proportional gain for the PID pitch rate controller
  */
-PARAM_ADD(PARAM_FLOAT, pitch_kp, NULL)
+PARAM_ADD(PARAM_FLOAT, pitch_kp, &pidPitchRate.kp)
 /**
  * @brief Integral gain for the PID pitch rate controller
  */
-PARAM_ADD(PARAM_FLOAT, pitch_ki, NULL)
+PARAM_ADD(PARAM_FLOAT, pitch_ki, &pidPitchRate.ki)
 /**
  * @brief Derivative gain for the PID pitch rate controller
  */
-PARAM_ADD(PARAM_FLOAT, pitch_kd, NULL)
+PARAM_ADD(PARAM_FLOAT, pitch_kd, &pidPitchRate.kd)
 /**
  * @brief Proportional gain for the PID yaw rate controller
  */
-PARAM_ADD(PARAM_FLOAT, yaw_kp, NULL)
+PARAM_ADD(PARAM_FLOAT, yaw_kp, &pidYawRate.kp)
 /**
  * @brief Integral gain for the PID yaw rate controller
  */
-PARAM_ADD(PARAM_FLOAT, yaw_ki, NULL)
+PARAM_ADD(PARAM_FLOAT, yaw_ki, &pidYawRate.ki)
 /**
  * @brief Derivative gain for the PID yaw rate controller
  */
-PARAM_ADD(PARAM_FLOAT, yaw_kd, NULL)
+PARAM_ADD(PARAM_FLOAT, yaw_kd, &pidYawRate.kd)
 PARAM_GROUP_STOP(s_pid_rate)
