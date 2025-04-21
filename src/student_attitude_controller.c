@@ -15,9 +15,9 @@ static bool isInit = false;
  * @return int16_t
  */
 static inline int16_t saturateSignedInt16(float in) {
-  if (in > INT16_MAX) {
+  if ((int16_t) in > INT16_MAX) {
     return INT16_MAX;
-  } else if (in < -INT16_MAX) {
+  } else if ((int16_t) in < -INT16_MAX) {
     return -INT16_MAX;
   } else {
     return (int16_t)in;

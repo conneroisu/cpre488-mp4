@@ -2,6 +2,7 @@
 #include "num.h"
 #include <float.h>
 #include <math.h>
+#include "log.h"
 
 const float PID_ROLL_RATE_KP = 800;
 const float PID_ROLL_RATE_KI = 5;
@@ -21,6 +22,8 @@ const float PID_PITCH_KD = 0.0;
 const float PID_YAW_KP = 20;
 const float PID_YAW_KI = 0.0;
 const float PID_YAW_KD = 0.0;
+
+static float yaw_error, yaw_total_error = 0.0f;
 
 /**
  * Limit the input angle between -180 and 180
@@ -132,6 +135,12 @@ float studentPidUpdate(PidObject *pid, const float measured,
     pid->first_error_read_saved = 1;
   }
 
+  if(pid == &pidYawRate)
+  {
+    yaw_error = error;
+    yaw_total_error = pid->total_error;
+  }
+
   // Incorporate I term.
   control += pid->ki * pid->total_error;
 
@@ -226,3 +235,10 @@ void studentPidSetKd(PidObject *pid, const float kd) { pid->kd = kd; }
  * @param[in] dt    Delta time
  */
 void studentPidSetDt(PidObject *pid, const float dt) { pid->dt = dt; }
+
+LOG_GROUP_START(yaw_error)
+
+LOG_ADD(LOG_FLOAT, error, &yaw_error)
+LOG_ADD(LOG_FLOAT, total_error, &yaw_total_error)
+
+LOG_GROUP_STOP(yaw_error)
