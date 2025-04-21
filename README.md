@@ -74,6 +74,7 @@ The Crazyflie runs off of a cascaded PID system where the output of the first PI
 
 We found it useful to have a script for creating new configurations for building and flashing firmware to different drones as it kept our iteration times as short as possible.
 
+We mounted our git repo onto the root of the vm by clicking [Tab Item] Devices -> Shared Folders, then adding a new folder that we would cd into each time we wanted to make firmware changes. Then we would just execute the `vm.sh` script to update the files in the part 2 software folder with their newest replacements. 
 
 Reload in Vm bash script (Copies git maintained files from a mounted git repo in the vm to the correct places to build firmware and generates a correct config.mk files for the specified drone)
 ```bash
