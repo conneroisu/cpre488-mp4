@@ -13,30 +13,6 @@ MP-4: UAV Control (ver. 2.0)
 
 3.     Debugging over telemetry — you will learn to debug systems using parameter logging over wireless communication.
 
-## Your Mission
-
-[A MAN HAS FALLEN INTO THE RIVER IN LEGO CITY!](https://www.youtube.com/watch?v=Rl1HcsdVf0w) Start the new rescue quadcopter! HEY! Program and tune the quadcopter, and off to the rescue! Prepare the lifeline, lower the stretcher, and make the rescue! The Crazyflie collection from MicroCART!
-
-Say hello to your Crazyflie drone! The goal at the end of this lab is to be able to smoothly control the Crazyflie with the algorithms that you will write and test. First, we will give you a brief overview of the Crazyflie system and how to set up the development environment for this lab.
-
-This lab has been developed over the course of several years by the MicroCart Senior Design project. The [MicroCart Youtube Channel](https://www.youtube.com/%40microcart8754) has many videos you may find helpful in case you get stuck during this lab, or for ideas you can do for extra credit.
-
-  
-
-## Part 0: Meet the Crazyflie.
-
-There is only one physical button on the Crazyflie, the power button. To start the Crazyflie:
-
-1.     Plug in a charged battery
-
-2.     ![](https://class.ece.iastate.edu/cpre488/labs/MP4/MP-4_files/image002.jpg)Press the power button located near the front right arm of the drone
-
-3.     Wait for all four props to do a short spin and the startup tone to play.
-
-4.     Place the Crazyflie on a flat surface to allow its sensors to calibrate. This is indicated by the flashing red LED. If it flashes quickly, then the sensors have been calibrated properly and the drone is ready to fly. If the LED flashes slowly, then the sensors have not been calibrated yet. If some hardware is damaged on the Crazyflie it may fail to pass its self check on startup. This is indicated by the red led flashing quickly 5 times. In this case the hardware may be inoperable. If this is the case, notify a TA or the instructor.
-
-##### 5.     Always secure the CrazyFlie to a test-stand during PID tuning, and Controller development
-
 Figure 1. Crazyflie top down diagram
 
 | **LED Lights** | **Diagnostic** |
@@ -47,10 +23,6 @@ Figure 1. Crazyflie top down diagram
 
 ## Crazyflie System Overview
 
-This is the complete Crazyflie control system. You will only be modifying a small portion of it, but it will be helpful to understand the full scope of the system you are interfacing with.
-
-  
-
 ![](https://class.ece.iastate.edu/cpre488/labs/MP4/MP-4_files/image004.jpg)
 
 Figure 2. Crazyflie control diagram
@@ -59,8 +31,6 @@ The control process starts with the state estimator module receiving sensor data
 
 You will be implementing the State Controller’s cascading PID in part 2 of this lab.
 
-|  |
-| --- |
 |  | ![](https://class.ece.iastate.edu/cpre488/labs/MP4/MP-4_files/image006.jpg) |
 
   
