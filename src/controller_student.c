@@ -242,7 +242,7 @@ LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 
 LOG_GROUP_STOP(ctrlStdnt)
 
-LOG_GROUP_START(Test_Stand)
-LOG_ADD(LOG_FLOAT, angle, &dummy_ts_angle)
-LOG_ADD(LOG_FLOAT, rate, &dummy_ts_rate)
-LOG_GROUP_STOP(Test_Stand)
+// LOG_GROUP_START(Test_Stand)
+// LOG_ADD(LOG_FLOAT, angle, &dummy_ts_angle)
+// LOG_ADD(LOG_FLOAT, rate, &dummy_ts_rate)
+// LOG_GROUP_STOP(Test_Stand)
