@@ -7,6 +7,7 @@
  * PID object initialization.
  *
  * @param[out] pid   A pointer to the pid object to initialize.
+ * @param[in] desired  The initial set point.
  * @param[in] kp        The proportional gain
  * @param[in] ki        The integral gain
  * @param[in] kd        The derivative gain
@@ -15,29 +16,22 @@
  * @param[in] cutoffFreq   Frequency to set the low pass filter cutoff at
  * @param[in] enableDFilter Enable setting for the D lowpass filter
  */
-void studentPidInit(PidObject* pid, const float kp, const float ki,
-             const float kd, const float dt,
+void studentPidInit(PidObject* pid, const float desired, const float kp,
+             const float ki, const float kd, const float dt,
              const float samplingRate, const float cutoffFreq,
              bool enableDFilter)
 {
-  // Initialize all the values in the PidObject struct
   pid->kp = kp;
   pid->ki = ki;
   pid->kd = kd;
   pid->dt = dt;
+  pid->setpoint = desired;
+  pid->prev_error = 0.0f;
+  pid->total_error = 0.0f;
+  pid->i_limit = 0.0f;
+  pid->out_limit = 0.0f;
   
-  pid->desired = 0.0f;
-  pid->prevError = 0.0f;
-  pid->integ = 0.0f;
-  pid->outP = 0.0f;
-  pid->outI = 0.0f;
-  pid->outD = 0.0f;
-  pid->output = 0.0f;
-  
-  pid->integLimit = 0.0f;  // No limit by default
-  pid->outputLimit = 0.0f; // No limit by default
-
-  // Additional initialization for optional low pass filter
+  // Initialize derivative filter if enabled
   pid->enableDFilter = enableDFilter;
   if (pid->enableDFilter)
   {
@@ -49,63 +43,52 @@ void studentPidInit(PidObject* pid, const float kp, const float ki,
  * Update the PID parameters.
  *
  * @param[in] pid         A pointer to the pid object.
- * @param[in] error       The current error (or measured value if updateError is TRUE)
- * @param[in] updateError Set to TRUE if error should be calculated internally (measured is passed).
- *                        Set to FALSE if studentPidSetError() has been used (error is passed directly).
+ * @param[in] measured    The measured value
+ * @param[in] updateError Set to TRUE if error should be calculated.
+ *                        Set to False if studentPidSetError() has been used.
  * @return PID algorithm output
  */
-float studentPidUpdate(PidObject* pid, const float error, const bool updateError)
+float studentPidUpdate(PidObject* pid, const float measured, const bool updateError)
 {
-    float currentError;
-    
-    // Calculate error if needed
-    if (updateError) {
-        // If updateError is true, 'error' is actually the measured value
-        currentError = pid->desired - error;
-    } else {
-        // If updateError is false, 'error' is the pre-calculated error
-        currentError = error;
+  float error = pid->setpoint - measured;
+  float deriv = 0.0f;
+  
+  // Calculate derivative term
+  if (pid->dt > 0.0f) {
+    deriv = (error - pid->prev_error) / pid->dt;
+  }
+  
+  // Apply derivative filter if enabled
+  if (pid->enableDFilter)
+  {
+    deriv = lpf2pApply(&pid->dFilter, deriv);
+    if (isnan(deriv)) {
+      deriv = 0;
     }
+  }
+  
+  // Update error terms if requested
+  if (updateError) {
+    pid->prev_error = error;
+    pid->total_error += error * pid->dt;
     
-    // Calculate P term
-    pid->outP = pid->kp * currentError;
-    
-    // Calculate I term
-    pid->integ += currentError * pid->dt;
-    
-    // Constrain the integral (unless the integral limit is zero)
-    if (pid->integLimit > 0) {
-        pid->integ = constrain(pid->integ, -pid->integLimit, pid->integLimit);
+    // Constrain integral term if limit is set
+    if (pid->i_limit > 0.0f) {
+      pid->total_error = constrain(pid->total_error, -pid->i_limit, pid->i_limit);
     }
-    
-    pid->outI = pid->ki * pid->integ;
-    
-    // Calculate D term
-    float deriv = (currentError - pid->prevError) / pid->dt;
-    pid->prevError = currentError;
-    
-    // Optionally enable derivative low pass filtering
-    if (pid->enableDFilter)
-    {
-        pid->deriv = lpf2pApply(&pid->dFilter, deriv);
-        if (isnan(pid->deriv)) {
-            pid->deriv = 0;
-        }
-    } else {
-        pid->deriv = deriv;
-    }
-    
-    pid->outD = pid->kd * pid->deriv;
-    
-    // Sum the PID output
-    pid->output = pid->outP + pid->outI + pid->outD;
-    
-    // Constrain the total PID output (unless the output Limit is zero)
-    if (pid->outputLimit > 0) {
-        pid->output = constrain(pid->output, -pid->outputLimit, pid->outputLimit);
-    }
-    
-    return pid->output;
+  }
+  
+  // Calculate PID output
+  float output = (pid->kp * error) + 
+                (pid->ki * pid->total_error) + 
+                (pid->kd * deriv);
+  
+  // Constrain output if limit is set
+  if (pid->out_limit > 0.0f) {
+    output = constrain(output, -pid->out_limit, pid->out_limit);
+  }
+  
+  return output;
 }
 
 /**
@@ -115,7 +98,7 @@ float studentPidUpdate(PidObject* pid, const float error, const bool updateError
  * @param[in] limit Pid integral swing limit.
  */
 void studentPidSetIntegralLimit(PidObject* pid, const float limit) {
-    pid->integLimit = limit;
+  pid->i_limit = limit;
 }
 
 /**
@@ -125,12 +108,8 @@ void studentPidSetIntegralLimit(PidObject* pid, const float limit) {
  */
 void studentPidReset(PidObject* pid)
 {
-    pid->prevError = 0;
-    pid->integ = 0;
-    pid->outP = 0;
-    pid->outI = 0;
-    pid->outD = 0;
-    pid->output = 0;
+  pid->prev_error = 0.0f;
+  pid->total_error = 0.0f;
 }
 
 /**
@@ -141,18 +120,18 @@ void studentPidReset(PidObject* pid)
  */
 void studentPidSetError(PidObject* pid, const float error)
 {
-    pid->prevError = error;
+  pid->total_error = error;
 }
 
 /**
  * Set a new set point for the PID to track.
  *
  * @param[in] pid   A pointer to the pid object.
- * @param[in] desired The new set point
+ * @param[in] angle The new set point
  */
 void studentPidSetDesired(PidObject* pid, const float desired)
 {
-    pid->desired = desired;
+  pid->setpoint = desired;
 }
 
 /**
@@ -163,7 +142,7 @@ void studentPidSetDesired(PidObject* pid, const float desired)
  */
 float studentPidGetDesired(PidObject* pid)
 {
-    return pid->desired;
+  return pid->setpoint;
 }
 
 /**
@@ -172,12 +151,10 @@ float studentPidGetDesired(PidObject* pid)
  */
 bool studentPidIsActive(PidObject* pid)
 {
-    // PID is active if at least one of the gains is above a small threshold
-    const float epsilon = 1e-6f; // Small threshold to avoid floating point errors
-    
-    return (fabsf(pid->kp) > epsilon || 
-            fabsf(pid->ki) > epsilon || 
-            fabsf(pid->kd) > epsilon);
+  // Consider PID active if any of the gains are above a small threshold
+  return (fabsf(pid->kp) > 0.001f) || 
+         (fabsf(pid->ki) > 0.001f) || 
+         (fabsf(pid->kd) > 0.001f);
 }
 
 /**
@@ -188,7 +165,7 @@ bool studentPidIsActive(PidObject* pid)
  */
 void studentPidSetKp(PidObject* pid, const float kp)
 {
-    pid->kp = kp;
+  pid->kp = kp;
 }
 
 /**
@@ -199,7 +176,7 @@ void studentPidSetKp(PidObject* pid, const float kp)
  */
 void studentPidSetKi(PidObject* pid, const float ki)
 {
-    pid->ki = ki;
+  pid->ki = ki;
 }
 
 /**
@@ -210,7 +187,7 @@ void studentPidSetKi(PidObject* pid, const float ki)
  */
 void studentPidSetKd(PidObject* pid, const float kd)
 {
-    pid->kd = kd;
+  pid->kd = kd;
 }
 
 /**
@@ -220,5 +197,5 @@ void studentPidSetKd(PidObject* pid, const float kd)
  * @param[in] dt    Delta time
  */
 void studentPidSetDt(PidObject* pid, const float dt) {
-    pid->dt = dt;
+  pid->dt = dt;
 }
