@@ -10,10 +10,12 @@
 
 #define STUDENT_UPDATE_DT    (float)(1.0f/ATTITUDE_RATE)
 
+// Controller state
 static attitude_t attitudeDesired;
 static attitude_t rateDesired;
 static float thrustDesired;
 
+// Logging variables
 static float cmd_thrust;
 static float cmd_roll;
 static float cmd_pitch;
@@ -23,30 +25,30 @@ static float r_pitch;
 static float r_yaw;
 static float accelz;
 
-void controllerStudentInit(void)
-{
+void controllerStudentInit(void) {
   studentAttitudeControllerInit(STUDENT_UPDATE_DT);
 }
 
-bool controllerStudentTest(void)
-{
+bool controllerStudentTest(void) {
   bool pass = true;
   pass &= studentAttitudeControllerTest();
   return pass;
 }
 
-static float capAngle(float angle)
-{
+static float capAngle(float angle) {
   while (angle > 180.0f) angle -= 360.0f;
   while (angle < -180.0f) angle += 360.0f;
   return angle;
 }
 
-void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorData_t *sensors, const state_t *state, const uint32_t tick)
-{
-  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick))
-  {
-    if(setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable){
+void controllerStudent(control_t *control, setpoint_t *setpoint, 
+                      const sensorData_t *sensors, const state_t *state, 
+                      const uint32_t tick) {
+  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick)) {
+    // Check for unsupported control modes
+    if(setpoint->mode.x != modeDisable || 
+       setpoint->mode.y != modeDisable || 
+       setpoint->mode.z != modeDisable) {
       DEBUG_PRINT("Student controller does not support position or velocity mode.");
       control->thrust = 0;
       control->roll = 0;
@@ -55,22 +57,22 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
       return;
     }
 
-    // Handle yaw mixed control mode (rate mode for yaw)
-    if (setpoint->mode.yaw == modeVelocity)
-    {
+    // Handle yaw control mode (rate or angle)
+    if (setpoint->mode.yaw == modeVelocity) {
+      // Yaw rate control mode
       attitudeDesired.yaw += setpoint->attitudeRate.z * STUDENT_UPDATE_DT;
       attitudeDesired.yaw = capAngle(attitudeDesired.yaw);
-    }
-    else
-    {
+    } else {
+      // Yaw angle control mode
       attitudeDesired.yaw = setpoint->attitude.yaw;
     }
 
+    // Set desired roll and pitch angles
     attitudeDesired.roll = setpoint->attitude.roll;
     attitudeDesired.pitch = setpoint->attitude.pitch;
-
     thrustDesired = setpoint->thrust;
 
+    // Run attitude controller to get desired rates
     studentAttitudeControllerCorrectAttitudePID(
       state->attitude.roll,
       state->attitude.pitch,
@@ -83,24 +85,21 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
       &rateDesired.yaw
     );
 
-    // If setpoint mode is velocity, overwrite rateDesired
-    if (setpoint->mode.roll == modeVelocity)
-    {
+    // Handle direct rate control modes
+    if (setpoint->mode.roll == modeVelocity) {
       rateDesired.roll = setpoint->attitudeRate.roll;
       studentAttitudeControllerResetRollAttitudePID();
     }
-    if (setpoint->mode.pitch == modeVelocity)
-    {
+    if (setpoint->mode.pitch == modeVelocity) {
       rateDesired.pitch = setpoint->attitudeRate.pitch;
       studentAttitudeControllerResetPitchAttitudePID();
     }
-    if (setpoint->mode.yaw == modeVelocity)
-    {
+    if (setpoint->mode.yaw == modeVelocity) {
       rateDesired.yaw = setpoint->attitudeRate.yaw;
       studentAttitudeControllerResetYawAttitudePID();
     }
 
-    // Run the rate PID controller
+    // Run rate controller to get motor commands
     int16_t rollCmd, pitchCmd, yawCmd;
     studentAttitudeControllerCorrectRatePID(
       sensors->gyro.x,
@@ -120,9 +119,8 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
     control->pitch = pitchCmd;
     control->yaw = yawCmd;
 
-    // If no thrust, zero all outputs and reset
-    if (thrustDesired <= 0.01f)
-    {
+    // Handle zero thrust case
+    if (thrustDesired <= 0.01f) {
       control->roll = 0;
       control->pitch = 0;
       control->yaw = 0;
@@ -130,7 +128,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
       studentAttitudeControllerResetAllPID();
     }
 
-    // Save for logging
+    // Update logging variables
     cmd_thrust = control->thrust;
     cmd_roll = control->roll;
     cmd_pitch = control->pitch;
@@ -142,6 +140,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
   }
 }
 
+// Logging configuration
 LOG_GROUP_START(ctrlStdnt)
 LOG_ADD(LOG_FLOAT, cmd_thrust, &cmd_thrust)
 LOG_ADD(LOG_FLOAT, cmd_roll, &cmd_roll)
@@ -159,6 +158,7 @@ LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
 LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 LOG_GROUP_STOP(ctrlStdnt)
 
+// Parameter configuration
 PARAM_GROUP_START(ctrlStdnt)
 PARAM_ADD(PARAM_FLOAT, placeHolder, NULL)
 PARAM_GROUP_STOP(ctrlStdnt)
