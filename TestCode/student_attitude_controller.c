@@ -11,6 +11,7 @@
 #define ATTITUDE_RATE_LPF_CUTOFF_FREQ 30.0f
 #define ATTITUDE_RATE_LPF_ENABLE false
 
+// PID objects
 static PidObject pidRollRate;
 static PidObject pidPitchRate;
 static PidObject pidYawRate;
@@ -21,8 +22,15 @@ static PidObject pidYaw;
 
 static bool isInit;
 
-static inline int16_t saturateSignedInt16(float in)
-{
+// Logging variables
+static float roll_outP, roll_outI, roll_outD;
+static float pitch_outP, pitch_outI, pitch_outD;
+static float yaw_outP, yaw_outI, yaw_outD;
+static float rollRate_outP, rollRate_outI, rollRate_outD;
+static float pitchRate_outP, pitchRate_outI, pitchRate_outD;
+static float yawRate_outP, yawRate_outI, yawRate_outD;
+
+static inline int16_t saturateSignedInt16(float in) {
   if (in > INT16_MAX)
     return INT16_MAX;
   else if (in < -INT16_MAX)
@@ -31,39 +39,44 @@ static inline int16_t saturateSignedInt16(float in)
     return (int16_t)in;
 }
 
-void studentAttitudeControllerInit(const float updateDt)
-{
+void studentAttitudeControllerInit(const float updateDt) {
   if (isInit)
     return;
 
-  studentPidInit(&pidRollRate, RATE_ROLL_KP, RATE_ROLL_KI, RATE_ROLL_KD, updateDt);
-  studentPidSetIntegralLimit(&pidRollRate, 0);
+  // Initialize rate PIDs (inner loop)
+  studentPidInit(&pidRollRate, 0, PID_ROLL_RATE_KP, PID_ROLL_RATE_KI, PID_ROLL_RATE_KD,
+                updateDt, 1.0f/updateDt, ATTITUDE_RATE_LPF_CUTOFF_FREQ, ATTITUDE_RATE_LPF_ENABLE);
+  studentPidSetIntegralLimit(&pidRollRate, 20.0f);
   
-  studentPidInit(&pidPitchRate, RATE_PITCH_KP, RATE_PITCH_KI, RATE_PITCH_KD, updateDt);
-  studentPidSetIntegralLimit(&pidPitchRate, 0);
+  studentPidInit(&pidPitchRate, 0, PID_PITCH_RATE_KP, PID_PITCH_RATE_KI, PID_PITCH_RATE_KD,
+                updateDt, 1.0f/updateDt, ATTITUDE_RATE_LPF_CUTOFF_FREQ, ATTITUDE_RATE_LPF_ENABLE);
+  studentPidSetIntegralLimit(&pidPitchRate, 20.0f);
 
-  studentPidInit(&pidYawRate, RATE_YAW_KP, RATE_YAW_KI, RATE_YAW_KD, updateDt);
-  studentPidSetIntegralLimit(&pidYawRate, 0);
+  studentPidInit(&pidYawRate, 0, PID_YAW_RATE_KP, PID_YAW_RATE_KI, PID_YAW_RATE_KD,
+                updateDt, 1.0f/updateDt, ATTITUDE_RATE_LPF_CUTOFF_FREQ, ATTITUDE_RATE_LPF_ENABLE);
+  studentPidSetIntegralLimit(&pidYawRate, 20.0f);
 
-  studentPidInit(&pidRoll, ATT_ROLL_KP, ATT_ROLL_KI, ATT_ROLL_KD, updateDt);
-  studentPidSetIntegralLimit(&pidRoll, 0);
+  // Initialize attitude PIDs (outer loop)
+  studentPidInit(&pidRoll, 0, PID_ROLL_KP, PID_ROLL_KI, PID_ROLL_KD,
+                updateDt, 1.0f/updateDt, ATTITUDE_LPF_CUTOFF_FREQ, ATTITUDE_LPF_ENABLE);
+  studentPidSetIntegralLimit(&pidRoll, 10.0f);
 
-  studentPidInit(&pidPitch, ATT_PITCH_KP, ATT_PITCH_KI, ATT_PITCH_KD, updateDt);
-  studentPidSetIntegralLimit(&pidPitch, 0);
+  studentPidInit(&pidPitch, 0, PID_PITCH_KP, PID_PITCH_KI, PID_PITCH_KD,
+                updateDt, 1.0f/updateDt, ATTITUDE_LPF_CUTOFF_FREQ, ATTITUDE_LPF_ENABLE);
+  studentPidSetIntegralLimit(&pidPitch, 10.0f);
 
-  studentPidInit(&pidYaw, ATT_YAW_KP, ATT_YAW_KI, ATT_YAW_KD, updateDt);
-  studentPidSetIntegralLimit(&pidYaw, 0);
+  studentPidInit(&pidYaw, 0, PID_YAW_KP, PID_YAW_KI, PID_YAW_KD,
+                updateDt, 1.0f/updateDt, ATTITUDE_LPF_CUTOFF_FREQ, ATTITUDE_LPF_ENABLE);
+  studentPidSetIntegralLimit(&pidYaw, 10.0f);
 
   isInit = true;
 }
 
-bool studentAttitudeControllerTest()
-{
+bool studentAttitudeControllerTest() {
   return isInit;
 }
 
-static float capAngle(float angle)
-{
+static float capAngle(float angle) {
   while (angle > 180.0f) angle -= 360.0f;
   while (angle < -180.0f) angle += 360.0f;
   return angle;
@@ -74,11 +87,28 @@ void studentAttitudeControllerCorrectAttitudePID(
        float eulerRollDesired, float eulerPitchDesired, float eulerYawDesired,
        float* rollRateDesired, float* pitchRateDesired, float* yawRateDesired)
 {
-  *rollRateDesired = studentPidUpdate(&pidRoll, eulerRollDesired - eulerRollActual);
-  *pitchRateDesired = studentPidUpdate(&pidPitch, eulerPitchDesired - eulerPitchActual);
-
+  // Calculate attitude errors
+  float rollError = eulerRollDesired - eulerRollActual;
+  float pitchError = eulerPitchDesired - eulerPitchActual;
   float yawError = capAngle(eulerYawDesired - eulerYawActual);
-  *yawRateDesired = studentPidUpdate(&pidYaw, yawError);
+
+  // Update attitude PIDs and get desired rates
+  *rollRateDesired = studentPidUpdate(&pidRoll, rollError, true);
+  *pitchRateDesired = studentPidUpdate(&pidPitch, pitchError, true);
+  *yawRateDesired = studentPidUpdate(&pidYaw, yawError, true);
+
+  // Store PID outputs for logging
+  roll_outP = pidRoll.kp * rollError;
+  roll_outI = pidRoll.ki * pidRoll.total_error;
+  roll_outD = pidRoll.kd * (rollError - pidRoll.prev_error) / pidRoll.dt;
+
+  pitch_outP = pidPitch.kp * pitchError;
+  pitch_outI = pidPitch.ki * pidPitch.total_error;
+  pitch_outD = pidPitch.kd * (pitchError - pidPitch.prev_error) / pidPitch.dt;
+
+  yaw_outP = pidYaw.kp * yawError;
+  yaw_outI = pidYaw.ki * pidYaw.total_error;
+  yaw_outD = pidYaw.kd * (yawError - pidYaw.prev_error) / pidYaw.dt;
 }
 
 void studentAttitudeControllerCorrectRatePID(
@@ -86,32 +116,49 @@ void studentAttitudeControllerCorrectRatePID(
        float rollRateDesired, float pitchRateDesired, float yawRateDesired,
        int16_t* rollCmd, int16_t* pitchCmd, int16_t* yawCmd)
 {
-  float rollCmdRaw = studentPidUpdate(&pidRollRate, rollRateDesired - rollRateActual);
-  float pitchCmdRaw = studentPidUpdate(&pidPitchRate, pitchRateDesired - pitchRateActual);
-  float yawCmdRaw = studentPidUpdate(&pidYawRate, yawRateDesired - yawRateActual);
+  // Calculate rate errors
+  float rollRateError = rollRateDesired - rollRateActual;
+  float pitchRateError = pitchRateDesired - pitchRateActual;
+  float yawRateError = yawRateDesired - yawRateActual;
 
+  // Update rate PIDs and get motor commands
+  float rollCmdRaw = studentPidUpdate(&pidRollRate, rollRateError, true);
+  float pitchCmdRaw = studentPidUpdate(&pidPitchRate, pitchRateError, true);
+  float yawCmdRaw = studentPidUpdate(&pidYawRate, yawRateError, true);
+
+  // Saturate outputs to int16 range
   *rollCmd = saturateSignedInt16(rollCmdRaw);
   *pitchCmd = saturateSignedInt16(pitchCmdRaw);
   *yawCmd = saturateSignedInt16(yawCmdRaw);
+
+  // Store PID outputs for logging
+  rollRate_outP = pidRollRate.kp * rollRateError;
+  rollRate_outI = pidRollRate.ki * pidRollRate.total_error;
+  rollRate_outD = pidRollRate.kd * (rollRateError - pidRollRate.prev_error) / pidRollRate.dt;
+
+  pitchRate_outP = pidPitchRate.kp * pitchRateError;
+  pitchRate_outI = pidPitchRate.ki * pidPitchRate.total_error;
+  pitchRate_outD = pidPitchRate.kd * (pitchRateError - pidPitchRate.prev_error) / pidPitchRate.dt;
+
+  yawRate_outP = pidYawRate.kp * yawRateError;
+  yawRate_outI = pidYawRate.ki * pidYawRate.total_error;
+  yawRate_outD = pidYawRate.kd * (yawRateError - pidYawRate.prev_error) / pidYawRate.dt;
 }
 
-void studentAttitudeControllerResetRollAttitudePID(void)
-{
+// Reset functions
+void studentAttitudeControllerResetRollAttitudePID(void) {
   studentPidReset(&pidRoll);
 }
 
-void studentAttitudeControllerResetYawAttitudePID(void)
-{
+void studentAttitudeControllerResetYawAttitudePID(void) {
   studentPidReset(&pidYaw);
 }
 
-void studentAttitudeControllerResetPitchAttitudePID(void)
-{
+void studentAttitudeControllerResetPitchAttitudePID(void) {
   studentPidReset(&pidPitch);
 }
 
-void studentAttitudeControllerResetAllPID(void)
-{
+void studentAttitudeControllerResetAllPID(void) {
   studentPidReset(&pidRoll);
   studentPidReset(&pidPitch);
   studentPidReset(&pidYaw);
@@ -120,173 +167,52 @@ void studentAttitudeControllerResetAllPID(void)
   studentPidReset(&pidYawRate);
 }
 
-/**
- *  Log variables of attitude PID controller
- */ 
+// Logging setup
 LOG_GROUP_START(s_pid_attitude)
-/**
- * @brief Proportional output roll
- */
-LOG_ADD(LOG_FLOAT, roll_outP, &pidRoll.outP)
-/**
- * @brief Integral output roll
- */
-LOG_ADD(LOG_FLOAT, roll_outI, &pidRoll.outI)
-/**
- * @brief Derivative output roll
- */
-LOG_ADD(LOG_FLOAT, roll_outD, &pidRoll.outD)
-/**
- * @brief Proportional output pitch
- */
-LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitch.outP)
-/**
- * @brief Integral output pitch
- */
-LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitch.outI)
-/**
- * @brief Derivative output pitch
- */
-LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitch.outD)
-/**
- * @brief Proportional output yaw
- */
-LOG_ADD(LOG_FLOAT, yaw_outP, &pidYaw.outP)
-/**
- * @brief Intergal output yaw
- */
-LOG_ADD(LOG_FLOAT, yaw_outI, &pidYaw.outI)
-/**
- * @brief Derivative output yaw
- */
-LOG_ADD(LOG_FLOAT, yaw_outD, &pidYaw.outD)
+LOG_ADD(LOG_FLOAT, roll_outP, &roll_outP)
+LOG_ADD(LOG_FLOAT, roll_outI, &roll_outI)
+LOG_ADD(LOG_FLOAT, roll_outD, &roll_outD)
+LOG_ADD(LOG_FLOAT, pitch_outP, &pitch_outP)
+LOG_ADD(LOG_FLOAT, pitch_outI, &pitch_outI)
+LOG_ADD(LOG_FLOAT, pitch_outD, &pitch_outD)
+LOG_ADD(LOG_FLOAT, yaw_outP, &yaw_outP)
+LOG_ADD(LOG_FLOAT, yaw_outI, &yaw_outI)
+LOG_ADD(LOG_FLOAT, yaw_outD, &yaw_outD)
 LOG_GROUP_STOP(s_pid_attitude)
 
-/**
- *  Log variables of attitude rate PID controller
- */
 LOG_GROUP_START(s_pid_rate)
-/**
- * @brief Proportional output roll rate
- */
-LOG_ADD(LOG_FLOAT, roll_outP, &pidRollRate.outP)
-/**
- * @brief Integral output roll rate
- */
-LOG_ADD(LOG_FLOAT, roll_outI, &pidRollRate.outI)
-/**
- * @brief Derivative output roll rate
- */
-LOG_ADD(LOG_FLOAT, roll_outD, &pidRollRate.outD)
-/**
- * @brief Proportional output pitch rate
- */
-LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitchRate.outP)
-/**
- * @brief Integral output pitch rate
- */
-LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitchRate.outI)
-/**
- * @brief Derivative output pitch rate
- */
-LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitchRate.outD)
-/**
- * @brief Proportional output yaw rate
- */
-LOG_ADD(LOG_FLOAT, yaw_outP, &pidYawRate.outP)
-/**
- * @brief Integral output yaw rate
- */
-LOG_ADD(LOG_FLOAT, yaw_outI, &pidYawRate.outI)
-/**
- * @brief Derivative output yaw rate
- */
-LOG_ADD(LOG_FLOAT, yaw_outD, &pidYawRate.outD)
+LOG_ADD(LOG_FLOAT, roll_outP, &rollRate_outP)
+LOG_ADD(LOG_FLOAT, roll_outI, &rollRate_outI)
+LOG_ADD(LOG_FLOAT, roll_outD, &rollRate_outD)
+LOG_ADD(LOG_FLOAT, pitch_outP, &pitchRate_outP)
+LOG_ADD(LOG_FLOAT, pitch_outI, &pitchRate_outI)
+LOG_ADD(LOG_FLOAT, pitch_outD, &pitchRate_outD)
+LOG_ADD(LOG_FLOAT, yaw_outP, &yawRate_outP)
+LOG_ADD(LOG_FLOAT, yaw_outI, &yawRate_outI)
+LOG_ADD(LOG_FLOAT, yaw_outD, &yawRate_outD)
 LOG_GROUP_STOP(s_pid_rate)
 
-/**
- * Tuning settings for the gains of the PID
- * controller for the attitude of the Crazyflie which consists
- * of the Yaw Pitch and Roll 
- */
+// Parameter setup
 PARAM_GROUP_START(s_pid_attitude)
-/**
- * @brief Proportional gain for the PID roll controller
- */
 PARAM_ADD(PARAM_FLOAT, roll_kp, &pidRoll.kp)
-/**
- * @brief Integral gain for the PID roll controller
- */
 PARAM_ADD(PARAM_FLOAT, roll_ki, &pidRoll.ki)
-/**
- * @brief Derivative gain for the PID roll controller
- */
 PARAM_ADD(PARAM_FLOAT, roll_kd, &pidRoll.kd)
-/**
- * @brief Proportional gain for the PID pitch controller
- */
 PARAM_ADD(PARAM_FLOAT, pitch_kp, &pidPitch.kp)
-/**
- * @brief Integral gain for the PID pitch controller
- */
 PARAM_ADD(PARAM_FLOAT, pitch_ki, &pidPitch.ki)
-/**
- * @brief Derivative gain for the PID pitch controller
- */
 PARAM_ADD(PARAM_FLOAT, pitch_kd, &pidPitch.kd)
-/**
- * @brief Proportional gain for the PID yaw controller
- */
 PARAM_ADD(PARAM_FLOAT, yaw_kp, &pidYaw.kp)
-/**
- * @brief Integral gain for the PID yaw controller
- */
 PARAM_ADD(PARAM_FLOAT, yaw_ki, &pidYaw.ki)
-/**
- * @brief Derivative gain for the PID yaw controller
- */
 PARAM_ADD(PARAM_FLOAT, yaw_kd, &pidYaw.kd)
 PARAM_GROUP_STOP(s_pid_attitude)
 
-/**
- * Tuning settings for the gains of the PID controller for the rate angles of
- * the Crazyflie, which consists of the yaw, pitch and roll rates 
- */
 PARAM_GROUP_START(s_pid_rate)
-/**
- * @brief Proportional gain for the PID roll rate controller
- */
 PARAM_ADD(PARAM_FLOAT, roll_kp, &pidRollRate.kp)
-/**
- * @brief Integral gain for the PID roll rate controller
- */
 PARAM_ADD(PARAM_FLOAT, roll_ki, &pidRollRate.ki)
-/**
- * @brief Derivative gain for the PID roll rate controller
- */
 PARAM_ADD(PARAM_FLOAT, roll_kd, &pidRollRate.kd)
-/**
- * @brief Proportional gain for the PID pitch rate controller
- */
 PARAM_ADD(PARAM_FLOAT, pitch_kp, &pidPitchRate.kp)
-/**
- * @brief Integral gain for the PID pitch rate controller
- */
 PARAM_ADD(PARAM_FLOAT, pitch_ki, &pidPitchRate.ki)
-/**
- * @brief Derivative gain for the PID pitch rate controller
- */
 PARAM_ADD(PARAM_FLOAT, pitch_kd, &pidPitchRate.kd)
-/**
- * @brief Proportional gain for the PID yaw rate controller
- */
 PARAM_ADD(PARAM_FLOAT, yaw_kp, &pidYawRate.kp)
-/**
- * @brief Integral gain for the PID yaw rate controller
- */
 PARAM_ADD(PARAM_FLOAT, yaw_ki, &pidYawRate.ki)
-/**
- * @brief Derivative gain for the PID yaw rate controller
- */
 PARAM_ADD(PARAM_FLOAT, yaw_kd, &pidYawRate.kd)
 PARAM_GROUP_STOP(s_pid_rate)
