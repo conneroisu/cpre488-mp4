@@ -153,3 +153,9 @@ echo "Config file generated successfully."
 
 code ~/MicroCART/crazyflie_software/crazyflie-firmware-lab-part-2/
 ```
+
+
+Sometimes windows screws up the line endings of the vm.sh file so this script can be used to fix it:
+```bash
+sed -i 's/\r$//' vm.sh
+```
