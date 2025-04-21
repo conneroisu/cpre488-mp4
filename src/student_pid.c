@@ -36,14 +36,29 @@ const float PID_YAW_KD = 0.0;
    angle -= coterminal * 360;
  
    // Assumed units are degrees.
-   if(angle <= 180.0f)
+   if(angle > 0)
    {
-     return angle;
+        if(angle <= 180.0f)
+        {
+        return angle;
+        }
+        else
+        {
+        return (-180.0f) + angle;
+        }
    }
    else
    {
-     return (-180.0f) + angle;
+        if(angle >= -180.0f)
+        {
+        return angle;
+        }
+        else
+        {
+        return (180.0f) + angle;
+        }
    }
+
  }
 
 /**
