@@ -246,13 +246,11 @@ LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
  */
 LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 
-LOG_GROUP_STOP(ctrlStdnt)
+LOG_ADD(LOG_FLOAT, gyro_x, &gyro_x)
+LOG_ADD(LOG_FLOAT, gyro_y, &gyro_y)
+LOG_ADD(LOG_FLOAT, gyro_z, &gyro_z)
 
-LOG_GROUP_START(gryo_vals)
-LOG_ADD(LOG_FLOAT, x, &gyro_x)
-LOG_ADD(LOG_FLOAT, y, &gyro_y)
-LOG_ADD(LOG_FLOAT, z, &gyro_z)
-LOG_GROUP_STOP(gryo_vals)
+LOG_GROUP_STOP(ctrlStdnt)
 
 // LOG_GROUP_START(Test_Stand)
 // LOG_ADD(LOG_FLOAT, angle, &dummy_ts_angle)
