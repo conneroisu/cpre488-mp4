@@ -121,6 +121,11 @@ float studentPidUpdate(PidObject *pid, const float measured,
     control += pid->kd * ((error - pid->prev_error) / pid->dt);
   }
 
+  if(pid == &pidYawRate)
+  {
+    yaw_error = error - pid->prev_error;
+    yaw_total_error = pid->total_error;
+  }
 
   // Update error.
   if (updateError) {
@@ -133,12 +138,6 @@ float studentPidUpdate(PidObject *pid, const float measured,
     }
 
     pid->first_error_read_saved = 1;
-  }
-
-  if(pid == &pidYawRate)
-  {
-    yaw_error = error - pid->prev_error;
-    yaw_total_error = pid->total_error;
   }
 
   // Incorporate I term.
