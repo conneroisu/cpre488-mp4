@@ -2,7 +2,8 @@
 #define STUDENT_PID_H_
 
 #include <stdbool.h>
-#include "filter.h"
+
+#define EPSILON 0.001f
 
 extern const float PID_ROLL_RATE_KP;
 extern const float PID_ROLL_RATE_KI;
@@ -44,8 +45,10 @@ typedef struct
   // error, kp, ki, kd, setpoint ...
   float kp, ki, kd, dt, setpoint, i_limit, total_error, prev_error;
 
-  lpf2pData dFilter;  //< filter for D term
-  bool enableDFilter; //< filter for D term enable flag
+  // first_error_read_saved: Indicates if the first error reading has been saved.
+  // cap_error_angle: Indicates if the calculated error should be capped between -180 and 180
+  int first_error_read_saved, cap_error_angle;
+
 } PidObject;
 
 // pidRollRate controls the angular velocity around the roll axis (**x-axis**).
@@ -91,10 +94,10 @@ PidObject pidPitch;
 // Outputs a desired yaw rate that becomes setpoint for pidYawRate
 PidObject pidYaw;
 
+static float capAngle(float angle);
+
 void studentPidInit(PidObject *pid, const float desired, const float kp,
-                    const float ki, const float kd, const float dt,
-                    const float samplingRate, const float cutoffFreq,
-                    bool enableDFilter);
+                    const float ki, const float kd, const float dt, const int cap_error_angle);
 
 void studentPidSetIntegralLimit(PidObject *pid, const float limit);
 

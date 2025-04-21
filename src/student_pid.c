@@ -23,6 +23,30 @@ const float PID_YAW_KI = 0.0;
 const float PID_YAW_KD = 0.0;
 
 /**
+ * Limit the input angle between -180 and 180
+ *
+ * @param angle
+ * @return float
+ */
+
+ static float capAngle(float angle) 
+ {
+   int coterminal = (int) angle / 360;
+ 
+   angle -= coterminal * 360;
+ 
+   // Assumed units are degrees.
+   if(angle <= 180.0f)
+   {
+     return angle;
+   }
+   else
+   {
+     return (-180.0f) + angle;
+   }
+ }
+
+/**
  * PID object initialization.
  *
  * @param[out] pid   A pointer to the pid object to initialize.
@@ -36,17 +60,18 @@ const float PID_YAW_KD = 0.0;
  * @param[in] enableDFilter Enable setting for the D lowpass filter
  */
 void studentPidInit(PidObject *pid, const float desired, const float kp,
-                    const float ki, const float kd, const float dt,
-                    const float samplingRate, const float cutoffFreq,
-                    bool enableDFilter) {
+                    const float ki, const float kd, const float dt, const int cap_error_angle)
+{
   pid->kp = kp;
   pid->ki = ki;
   pid->kd = kd;
   pid->dt = dt;
-  pid->setpoint = 0;
+  pid->setpoint = desired;
   pid->total_error = 0;
   pid->total_error = 0;
   pid->i_limit = 0;
+  pid->first_error_read_saved = 0;
+  pid->cap_error_angle = cap_error_angle;
 }
 
 /**
@@ -62,9 +87,22 @@ float studentPidUpdate(PidObject *pid, const float measured,
                        const bool updateError) {
   float error = pid->setpoint - measured;
 
-  // Incorporate P and D terms.
-  float control =
-      (pid->kp * error) + (pid->kd * ((error - pid->prev_error) / pid->dt));
+  if(pid->cap_error_angle)
+  {
+    error = capAngle(error);
+  }
+
+  // Incorporate P term.
+  float control = pid->kp * error;
+
+
+  // If the first error reading has not happened yet, do NOT incorporate D.
+  if(pid->first_error_read_saved)
+  {
+    // Incorporate D term.
+    control += pid->kd * ((error - pid->prev_error) / pid->dt);
+  }
+
 
   // Update error.
   if (updateError) {
@@ -75,6 +113,8 @@ float studentPidUpdate(PidObject *pid, const float measured,
     if (pid->total_error > pid->i_limit) {
       pid->total_error = pid->i_limit;
     }
+
+    pid->first_error_read_saved = 1;
   }
 
   // Incorporate I term.
@@ -101,26 +141,7 @@ void studentPidSetIntegralLimit(PidObject *pid, const float limit) {
 void studentPidReset(PidObject *pid) {
   pid->prev_error = 0;
   pid->total_error = 0;
-}
-void studentAttitudeControllerResetRollAttitudePID(void) {
-  studentPidReset(&pidRoll);
-}
-
-void studentAttitudeControllerResetYawAttitudePID(void) {
-  studentPidReset(&pidYaw);
-}
-
-void studentAttitudeControllerResetPitchAttitudePID(void) {
-  studentPidReset(&pidPitch);
-}
-
-void studentAttitudeControllerResetAllPID(void) {
-  studentPidReset(&pidRoll);
-  studentPidReset(&pidPitch);
-  studentPidReset(&pidYaw);
-  studentPidReset(&pidRollRate);
-  studentPidReset(&pidPitchRate);
-  studentPidReset(&pidYawRate);
+  pid->first_error_read_saved = 0;
 }
 
 /**
@@ -156,7 +177,7 @@ float studentPidGetDesired(PidObject *pid) { return pid->setpoint; }
  * @return TRUE if active, FALSE otherwise
  */
 bool studentPidIsActive(PidObject *pid) {
-  return (pid->kp + pid->ki + pid->kd);
+  return (pid->kp + pid->ki + pid->kd) > EPSILON;
 }
 
 /**

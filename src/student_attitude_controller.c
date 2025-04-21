@@ -4,7 +4,7 @@
 
 #include "student_attitude_controller.h"
 
-static bool isInit;
+static bool isInit = false;
 
 /**
  * @brief Convert float to 16 bit integer
@@ -22,6 +22,32 @@ static inline int16_t saturateSignedInt16(float in) {
   } else {
     return (int16_t)in;
   }
+}
+
+void studentAttitudeControllerResetRollAttitudePID(void)
+{
+  studentPidReset(&pidRoll);
+}
+
+void studentAttitudeControllerResetYawAttitudePID(void)
+{
+  studentPidReset(&pidYaw);
+}
+
+void studentAttitudeControllerResetPitchAttitudePID(void)
+{
+  studentPidReset(&pidPitch);
+}
+
+// Also reset rate PIDs, not just attitude PIDs.
+void studentAttitudeControllerResetAllPID(void)
+{
+  studentAttitudeControllerResetRollAttitudePID();
+  studentAttitudeControllerResetPitchAttitudePID();
+  studentAttitudeControllerResetYawAttitudePID();
+  studentPidReset(&pidRollRate);
+  studentPidReset(&pidPitchRate);
+  studentPidReset(&pidYawRate);
 }
 
 /**
@@ -42,10 +68,8 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_ROLL_RATE_KP,              //
       PID_ROLL_RATE_KI,              //
       PID_ROLL_RATE_KD,              //
-      updateDt,                      //
-      ATTITUDE_RATE,                 //
-      ATTITUDE_RATE_LPF_CUTOFF_FREQ, //
-      ATTITUDE_RATE_LPF_ENABLE       //
+      updateDt,
+      0
   );
   studentPidInit(                    //
       &pidPitchRate,                 //
@@ -53,10 +77,8 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_PITCH_RATE_KP,             //
       PID_PITCH_RATE_KI,             //
       PID_PITCH_RATE_KD,             //
-      updateDt,                      //
-      ATTITUDE_RATE,                 //
-      ATTITUDE_RATE_LPF_CUTOFF_FREQ, //
-      ATTITUDE_RATE_LPF_ENABLE       //
+      updateDt,
+      0
   );
   studentPidInit(                    //
       &pidYawRate,                   //
@@ -64,26 +86,25 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_YAW_RATE_KP,               //
       PID_YAW_RATE_KI,               //
       PID_YAW_RATE_KD,               //
-      updateDt,                      //
-      ATTITUDE_RATE,                 //
-      ATTITUDE_RATE_LPF_CUTOFF_FREQ, //
-      ATTITUDE_RATE_LPF_ENABLE       //
+      updateDt,
+      0
   );
 
   studentPidSetIntegralLimit(&pidRollRate, PID_ROLL_RATE_INTEGRAL_LIMIT);
   studentPidSetIntegralLimit(&pidPitchRate, PID_PITCH_RATE_INTEGRAL_LIMIT);
   studentPidSetIntegralLimit(&pidYawRate, PID_YAW_RATE_INTEGRAL_LIMIT);
 
+
+  // Error is an angle for these and should
+  // be capped between -180 and 180.
   studentPidInit(               //
       &pidRoll,                 //
       0,                        //
       PID_ROLL_KP,              //
       PID_ROLL_KI,              //
       PID_ROLL_KD,              //
-      updateDt,                 //
-      ATTITUDE_RATE,            //
-      ATTITUDE_LPF_CUTOFF_FREQ, //
-      ATTITUDE_LPF_ENABLE       //
+      updateDt,
+      1
   );
   studentPidInit(               //
       &pidPitch,                //
@@ -91,10 +112,8 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_PITCH_KP,             //
       PID_PITCH_KI,             //
       PID_PITCH_KD,             //
-      updateDt,                 //
-      ATTITUDE_RATE,            //
-      ATTITUDE_LPF_CUTOFF_FREQ, //
-      ATTITUDE_LPF_ENABLE       //
+      updateDt,
+      1
   );
   studentPidInit(               //
       &pidYaw,                  //
@@ -102,15 +121,13 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_YAW_KP,               //
       PID_YAW_KI,               //
       PID_YAW_KD,               //
-      updateDt,                 //
-      ATTITUDE_RATE,            //
-      ATTITUDE_LPF_CUTOFF_FREQ, //
-      ATTITUDE_LPF_ENABLE       //
+      updateDt,
+      1
   );
 
-  studentPidSetIntegralLimit(&pidRoll, 0);
-  studentPidSetIntegralLimit(&pidPitch, 0);
-  studentPidSetIntegralLimit(&pidYaw, 0);
+  studentPidSetIntegralLimit(&pidRoll, PID_ROLL_INTEGRAL_LIMIT);
+  studentPidSetIntegralLimit(&pidPitch, PID_PITCH_INTEGRAL_LIMIT);
+  studentPidSetIntegralLimit(&pidYaw, PID_YAW_INTEGRAL_LIMIT);
 
   isInit = true;
 }
@@ -176,28 +193,19 @@ void studentAttitudeControllerCorrectAttitudePID( //
     float *yawRateDesired                         //
 ) {
 
+  // Update setpoints
+  studentPidSetDesired(&pidRoll, eulerRollDesired);
+  studentPidSetDesired(&pidPitch, eulerPitchDesired);
+  studentPidSetDesired(&pidYaw, eulerYawDesired);
+
   // Update roll and pitch PIDs
   *rollRateDesired =
-      studentPidUpdate(&pidRoll, eulerRollDesired - eulerRollActual, true);
+      studentPidUpdate(&pidRoll, eulerRollActual, true);
   *pitchRateDesired =
-      studentPidUpdate(&pidPitch, eulerPitchDesired - eulerPitchActual, true);
-
-  // Update PID for yaw axis, handle error update here instead of in
-  // PID calculation to keep error between -180 and 180
-  float yawError = eulerYawDesired - eulerYawActual;
-
-  // Normalize yaw error to be between -180 and 180 degrees
-  // This assumes angles are in degrees. If they're in radians, use PI instead
-  // of 180
-  while (yawError > 180.0f) {
-    yawError -= 360.0f;
-  }
-  while (yawError < -180.0f) {
-    yawError += 360.0f;
-  }
+      studentPidUpdate(&pidPitch, eulerPitchActual, true);
 
   // Update yaw PID with normalized error
-  *yawRateDesired = studentPidUpdate(&pidYaw, yawError, true);
+  *yawRateDesired = studentPidUpdate(&pidYaw, eulerYawActual, true);
 }
 
 /**
@@ -242,13 +250,19 @@ void studentAttitudeControllerCorrectRatePID( //
     int16_t *pitchCmd,                        //
     int16_t *yawCmd                           //
 ) {
+
+  // Update setpoints
+  studentPidSetDesired(&pidRollRate, rollRateDesired);
+  studentPidSetDesired(&pidPitchRate, pitchRateDesired);
+  studentPidSetDesired(&pidYawRate, yawRateDesired);
+
   // Update all attitude rate PIDs
   float rollOutput =
-      studentPidUpdate(&pidRollRate, rollRateDesired - rollRateActual, true);
+      studentPidUpdate(&pidRollRate, rollRateActual, true);
   float pitchOutput =
-      studentPidUpdate(&pidPitchRate, pitchRateDesired - pitchRateActual, true);
+      studentPidUpdate(&pidPitchRate, pitchRateActual, true);
   float yawOutput =
-      studentPidUpdate(&pidYawRate, yawRateDesired - yawRateActual, true);
+      studentPidUpdate(&pidYawRate, yawRateActual, true);
 
   // Convert floating point outputs to int16_t motor commands
   *rollCmd = saturateSignedInt16(rollOutput);

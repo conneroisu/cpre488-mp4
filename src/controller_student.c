@@ -42,29 +42,6 @@ bool controllerStudentTest(void) {
   return pass;
 }
 
-/**
- * Limit the input angle between -180 and 180
- *
- * @param angle
- * @return float
- */
-
-static float capAngle(float angle) 
-{
-  int coterminal = (int) angle / 360;
-
-  angle -= coterminal * 360;
-
-  // Assumed units are degrees.
-  if(angle <= 180.0f)
-  {
-    return angle;
-  }
-  else
-  {
-    return (-180.0f) + angle;
-  }
-}
 
 /**
  * This function is called periodically to update the PID loop,
@@ -118,15 +95,15 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
           state->attitude.roll,
           state->attitude.pitch,
           state->attitude.yaw,
-          setpoint->attitude.roll,
-          setpoint->attitude.pitch,
-          setpoint->attitude.yaw,
+          capAngle(setpoint->attitude.roll),
+          capAngle(setpoint->attitude.pitch),
+          capAngle(setpoint->attitude.yaw),
           &r_rate,
           &p_rate,
           &y_rate
         );
 
-        // Update desired attitudes
+        // Update desired attitudes (logging)
         attitudeDesired = setpoint->attitude;
 
         // If mixed mode, overwrite yaw to the setpoint yaw rate.
@@ -165,7 +142,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
         &control->yaw
       );
 
-      // Update desired rates.
+      // Update desired rates. (logging)
       rateDesired.pitch = p_rate;
       rateDesired.roll = r_rate;
       rateDesired.yaw = y_rate;
@@ -177,7 +154,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
   control->thrust = setpoint->thrust;
 
   // Reset PID if no thrust and set control values to 0.
-  if(!setpoint->thrust)
+  if(setpoint->thrust < EPSILON)
   {
     control->pitch = 0;
     control->roll = 0;

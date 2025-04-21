@@ -73,4 +73,6 @@ void studentAttitudeControllerResetYawAttitudePID(void);
  */
 void studentAttitudeControllerResetAllPID(void);
 
+static float capAngle(float angle);
+
 #endif /* STUDENT_ATTITUDE_CONTROLLER_H_ */

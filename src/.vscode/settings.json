@@ -10,6 +10,8 @@
         "imu_types.h": "c",
         "student_pid.h": "c",
         "math3d.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "controller_student.h": "c",
+        "student_attitude_controller.h": "c"
     }
 }
