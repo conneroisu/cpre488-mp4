@@ -137,7 +137,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
 
   if(pid == &pidYawRate)
   {
-    yaw_error = error;
+    yaw_error = error - pid->prev_error;
     yaw_total_error = pid->total_error;
   }
 
