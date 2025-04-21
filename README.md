@@ -69,6 +69,11 @@ Figure 3. Cascading PID diagram
 
 The Crazyflie runs off of a cascaded PID system where the output of the first PID controller is then used as an input for a second PID controller. This layout can be seen in figure 3, the output from the attitude PID controller, the desired attitude rate, becomes the input of the attitude rate PID controller. In part 2, we  implemented the attitude and attitude rate PID controllers for roll, pitch, and yaw. In part 1, you determined the PID values that should be present in the controllers by using a working PID controller before implementing it yourself.
 
+## Building Firmware
+
+
+We found it useful to have a script for creating new configurations for building and flashing firmware to different drones as it kept our iteration times as short as possible.
+
 
 Reload in Vm bash script (Copies git maintained files from a mounted git repo in the vm to the correct places to build firmware and generates a correct config.mk files for the specified drone)
 ```bash
