@@ -30,6 +30,8 @@ static float r_pitch;
 static float r_yaw;
 static float accelz;
 
+static float gyro_x, gyro_y, gyro_z;
+
 static float dummy_ts_angle, dummy_ts_rate = 0.0f;
 
 void controllerStudentInit(void) {
@@ -144,6 +146,10 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
         &control->yaw
       );
 
+      gyro_x = sensors->gyro.x;
+      gyro_y = sensors->gyro.y;
+      gyro_z = sensors->gyro.z;
+    
       // Update desired rates. (logging)
       rateDesired.pitch = p_rate;
       rateDesired.roll = r_rate;
@@ -241,6 +247,12 @@ LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
 LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 
 LOG_GROUP_STOP(ctrlStdnt)
+
+LOG_GROUP_START(gryo_vals)
+LOG_ADD(LOG_FLOAT, x, &gyro_x)
+LOG_ADD(LOG_FLOAT, y, &gyro_y)
+LOG_ADD(LOG_FLOAT, z, &gyro_z)
+LOG_GROUP_STOP(gryo_vals)
 
 // LOG_GROUP_START(Test_Stand)
 // LOG_ADD(LOG_FLOAT, angle, &dummy_ts_angle)
