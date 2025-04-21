@@ -1,26 +1,19 @@
-
 #include "stabilizer.h"
 #include "stabilizer_types.h"
-
 #include "student_attitude_controller.h"
 #include "sensfusion6.h"
 #include "controller_student.h"
-
 #include "log.h"
 #include "debug.h"
-
 #include "param.h"
 #include "math3d.h"
 
-//delta time between calls to the update function
 #define STUDENT_UPDATE_DT    (float)(1.0f/ATTITUDE_RATE)
 
-//desired vehicle state as calculated by PID controllers
 static attitude_t attitudeDesired;
 static attitude_t rateDesired;
 static float thrustDesired;
 
-//variables used only for logging PID command outputs
 static float cmd_thrust;
 static float cmd_roll;
 static float cmd_pitch;
@@ -38,51 +31,23 @@ void controllerStudentInit(void)
 bool controllerStudentTest(void)
 {
   bool pass = true;
-  //controller passes check if attitude controller passes
   pass &= studentAttitudeControllerTest();
-
   return pass;
 }
 
-
-/**
- * Limit the input angle between -180 and 180
- * 
- * @param angle 
- * @return float 
- */
-static float capAngle(float angle) {
-  //488 TODO
-  return 0;
+static float capAngle(float angle)
+{
+  while (angle > 180.0f) angle -= 360.0f;
+  while (angle < -180.0f) angle += 360.0f;
+  return angle;
 }
 
-
-/**
- * This function is called periodically to update the PID loop,
- * Reads state estimate and setpoint values and passes them
- * to the functions that perform PID calculations,
- * attitude PID and attitude rate PID
- * 
- * @param control Output, struct is modified as the ouput of the control loop
- * @param setpoint Input, setpoints for thrust, attitude, position, velocity etc. of the quad
- * @param sensors Input, Raw sensor values (typically want to use the state estimated instead) includes gyro, 
- * accelerometer, barometer, magnatometer 
- * @param state Input, A more robust way to measure the current state of the quad, allows for direct
- * measurements of the orientation of the quad. Includes attitude, position, velocity,
- * and acceleration
- * @param tick Input, system clock
- */
 void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorData_t *sensors, const state_t *state, const uint32_t tick)
 {
-
-  //488 TODO, write main controller function
-
-  // check if time to update the attutide controller
-  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick)) {
-
-    //only support attitude and attitude rate control
+  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick))
+  {
     if(setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable){
-      DEBUG_PRINT("Student controller does not support vehicle position or velocity mode. Check flight mode.");
+      DEBUG_PRINT("Student controller does not support position or velocity mode.");
       control->thrust = 0;
       control->roll = 0;
       control->pitch = 0;
@@ -90,124 +55,110 @@ void controllerStudent(control_t *control, setpoint_t *setpoint, const sensorDat
       return;
     }
 
-    // 488 TODO if yaw is in rate mode, move the yaw angle setpoint accordingly
+    // Handle yaw mixed control mode (rate mode for yaw)
+    if (setpoint->mode.yaw == modeVelocity)
+    {
+      attitudeDesired.yaw += setpoint->attitudeRate.z * STUDENT_UPDATE_DT;
+      attitudeDesired.yaw = capAngle(attitudeDesired.yaw);
+    }
+    else
+    {
+      attitudeDesired.yaw = setpoint->attitude.yaw;
+    }
 
-    
-    // 488 TODO set desired attitude, roll, pitch, and yaw angles
+    attitudeDesired.roll = setpoint->attitude.roll;
+    attitudeDesired.pitch = setpoint->attitude.pitch;
 
+    thrustDesired = setpoint->thrust;
 
-    // 488 TODO set desired thrust
+    studentAttitudeControllerCorrectAttitudePID(
+      state->attitude.roll,
+      state->attitude.pitch,
+      state->attitude.yaw,
+      attitudeDesired.roll,
+      attitudeDesired.pitch,
+      attitudeDesired.yaw,
+      &rateDesired.roll,
+      &rateDesired.pitch,
+      &rateDesired.yaw
+    );
 
+    // If setpoint mode is velocity, overwrite rateDesired
+    if (setpoint->mode.roll == modeVelocity)
+    {
+      rateDesired.roll = setpoint->attitudeRate.roll;
+      studentAttitudeControllerResetRollAttitudePID();
+    }
+    if (setpoint->mode.pitch == modeVelocity)
+    {
+      rateDesired.pitch = setpoint->attitudeRate.pitch;
+      studentAttitudeControllerResetPitchAttitudePID();
+    }
+    if (setpoint->mode.yaw == modeVelocity)
+    {
+      rateDesired.yaw = setpoint->attitudeRate.yaw;
+      studentAttitudeControllerResetYawAttitudePID();
+    }
 
+    // Run the rate PID controller
+    int16_t rollCmd, pitchCmd, yawCmd;
+    studentAttitudeControllerCorrectRatePID(
+      sensors->gyro.x,
+      sensors->gyro.y,
+      sensors->gyro.z,
+      rateDesired.roll,
+      rateDesired.pitch,
+      rateDesired.yaw,
+      &rollCmd,
+      &pitchCmd,
+      &yawCmd
+    );
 
-    // 488 TODO Run the attitude controller update with the actual attitude and desired attitude
-    // outputs the desired attitude rates
+    // Set control outputs
+    control->thrust = (uint16_t)constrain(thrustDesired, 0, 60000);
+    control->roll = rollCmd;
+    control->pitch = pitchCmd;
+    control->yaw = yawCmd;
 
+    // If no thrust, zero all outputs and reset
+    if (thrustDesired <= 0.01f)
+    {
+      control->roll = 0;
+      control->pitch = 0;
+      control->yaw = 0;
+      control->thrust = 0;
+      studentAttitudeControllerResetAllPID();
+    }
 
-    // 488 TODO if velocity mode, overwrite rateDesired output
-    // from the attitude controller with the setpoint value
-    // Also reset the PID to avoid error buildup, which can lead to unstable
-    // behavior if level mode is engaged later
-
-    
-
-    // 488 TODO update the attitude rate PID, given the current angular rate 
-    // read by the gyro and the desired rate 
-
-
+    // Save for logging
+    cmd_thrust = control->thrust;
+    cmd_roll = control->roll;
+    cmd_pitch = control->pitch;
+    cmd_yaw = control->yaw;
+    r_roll = sensors->gyro.x;
+    r_pitch = sensors->gyro.y;
+    r_yaw = sensors->gyro.z;
+    accelz = sensors->acc.z;
   }
-
-  //488 TODO set control->thrust 
-
-  //488 TODO if no thrust active, set all outputs to 0 and reset PID variables
-
-
-  //copy values for logging
-  cmd_thrust = control->thrust;
-  cmd_roll = control->roll;
-  cmd_pitch = control->pitch;
-  cmd_yaw = control->yaw;
-  r_roll = sensors->gyro.x;
-  r_pitch = sensors->gyro.y;
-  r_yaw = sensors->gyro.z;
-  accelz = sensors->acc.z;
 }
 
-/**
- * Logging variables for the command and reference signals for the
- * student PID controller
- */
 LOG_GROUP_START(ctrlStdnt)
-
-// 488 TODO setup logging parameters, replace null with pointer to globabl variable
-
-/**
- * @brief Thrust command output
- */
-LOG_ADD(LOG_FLOAT, cmd_thrust, NULL)
-/**
- * @brief Roll command output
- */
-LOG_ADD(LOG_FLOAT, cmd_roll, NULL)
-/**
- * @brief Pitch command output
- */
-LOG_ADD(LOG_FLOAT, cmd_pitch, NULL)
-/**
- * @brief yaw command output
- */
-LOG_ADD(LOG_FLOAT, cmd_yaw, NULL)
-/**
- * @brief Gyro roll measurement in degrees
- */
-LOG_ADD(LOG_FLOAT, r_roll, NULL)
-/**
- * @brief Gyro pitch measurement in degrees
- */
-LOG_ADD(LOG_FLOAT, r_pitch, NULL)
-/**
- * @brief Gyro yaw rate measurement in degrees
- */
-LOG_ADD(LOG_FLOAT, r_yaw, NULL)
-/**
- * @brief Acceleration in the z axis in G-force
- */
-LOG_ADD(LOG_FLOAT, accelz, NULL)
-/**
- * @brief Desired roll setpoint
- */
-LOG_ADD(LOG_FLOAT, roll, NULL)
-/**
- * @brief Desired pitch setpoint
- */
-LOG_ADD(LOG_FLOAT, pitch, NULL)
-/**
- * @brief Desired yaw setpoint
- */
-LOG_ADD(LOG_FLOAT, yaw, NULL)
-/**
- * @brief Desired roll rate setpoint
- */
-LOG_ADD(LOG_FLOAT, rollRate, NULL)
-/**
- * @brief Desired pitch rate setpoint
- */
-LOG_ADD(LOG_FLOAT, pitchRate, NULL)
-/**
- * @brief Desired yaw rate setpoint
- */
-LOG_ADD(LOG_FLOAT, yawRate, NULL)
-
+LOG_ADD(LOG_FLOAT, cmd_thrust, &cmd_thrust)
+LOG_ADD(LOG_FLOAT, cmd_roll, &cmd_roll)
+LOG_ADD(LOG_FLOAT, cmd_pitch, &cmd_pitch)
+LOG_ADD(LOG_FLOAT, cmd_yaw, &cmd_yaw)
+LOG_ADD(LOG_FLOAT, r_roll, &r_roll)
+LOG_ADD(LOG_FLOAT, r_pitch, &r_pitch)
+LOG_ADD(LOG_FLOAT, r_yaw, &r_yaw)
+LOG_ADD(LOG_FLOAT, accelz, &accelz)
+LOG_ADD(LOG_FLOAT, roll, &attitudeDesired.roll)
+LOG_ADD(LOG_FLOAT, pitch, &attitudeDesired.pitch)
+LOG_ADD(LOG_FLOAT, yaw, &attitudeDesired.yaw)
+LOG_ADD(LOG_FLOAT, rollRate, &rateDesired.roll)
+LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
+LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 LOG_GROUP_STOP(ctrlStdnt)
 
-
-/**
- * Controller parameters
- */
 PARAM_GROUP_START(ctrlStdnt)
-
-//488 TODO optionally add any parameters to modify the controller code while running
-
 PARAM_ADD(PARAM_FLOAT, placeHolder, NULL)
-
 PARAM_GROUP_STOP(ctrlStdnt)
