@@ -1,84 +1,93 @@
-#ifndef __STUDENT_PID_H
-#define __STUDENT_PID_H
+#ifndef STUDENT_PID_H_
+#define STUDENT_PID_H_
 
 #include <stdbool.h>
 #include "filter.h"
 
-// Default PID gains for rate controllers
-#define RATE_ROLL_KP  70.0f
-#define RATE_ROLL_KI  0.0f
-#define RATE_ROLL_KD  0.0f
+// Rate controller constants (inner loop)
+extern const float PID_ROLL_RATE_KP;
+extern const float PID_ROLL_RATE_KI;
+extern const float PID_ROLL_RATE_KD;
+#define PID_ROLL_RATE_INTEGRATION_LIMIT 33.3f
+#define PID_ROLL_RATE_OUTPUT_LIMIT 500.0f
 
-#define RATE_PITCH_KP 70.0f
-#define RATE_PITCH_KI 0.0f
-#define RATE_PITCH_KD 0.0f
+extern const float PID_PITCH_RATE_KP;
+extern const float PID_PITCH_RATE_KI;
+extern const float PID_PITCH_RATE_KD;
+#define PID_PITCH_RATE_INTEGRATION_LIMIT 33.3f
+#define PID_PITCH_RATE_OUTPUT_LIMIT 500.0f
 
-#define RATE_YAW_KP   50.0f
-#define RATE_YAW_KI   25.0f
-#define RATE_YAW_KD   0.0f
+extern const float PID_YAW_RATE_KP;
+extern const float PID_YAW_RATE_KI;
+extern const float PID_YAW_RATE_KD;
+#define PID_YAW_RATE_INTEGRATION_LIMIT 166.7f
+#define PID_YAW_RATE_OUTPUT_LIMIT 360.0f
 
-// Default PID gains for attitude controllers
-#define ATT_ROLL_KP  3.5f
-#define ATT_ROLL_KI  0.0f
-#define ATT_ROLL_KD  0.0f
+// Attitude controller constants (outer loop)
+extern const float PID_ROLL_KP;
+extern const float PID_ROLL_KI;
+extern const float PID_ROLL_KD;
+#define PID_ROLL_INTEGRATION_LIMIT 20.0f
+#define PID_ROLL_OUTPUT_LIMIT 200.0f
 
-#define ATT_PITCH_KP 3.5f
-#define ATT_PITCH_KI 0.0f
-#define ATT_PITCH_KD 0.0f
+extern const float PID_PITCH_KP;
+extern const float PID_PITCH_KI;
+extern const float PID_PITCH_KD;
+#define PID_PITCH_INTEGRATION_LIMIT 20.0f
+#define PID_PITCH_OUTPUT_LIMIT 200.0f
 
-#define ATT_YAW_KP   6.0f
-#define ATT_YAW_KI   1.0f
-#define ATT_YAW_KD   0.3f
+extern const float PID_YAW_KP;
+extern const float PID_YAW_KI;
+extern const float PID_YAW_KD;
+#define PID_YAW_INTEGRATION_LIMIT 360.0f
+#define PID_YAW_OUTPUT_LIMIT 180.0f
 
-// PID object structure definition
-typedef struct
-{
-    // PID gains
+typedef struct {
+    // PID gains and parameters
     float kp;           // Proportional gain
     float ki;           // Integral gain
     float kd;           // Derivative gain
+    float dt;           // Delta time
     
-    // PID state variables
-    float desired;      // Desired value (setpoint)
-    float prevError;    // Previous error for derivative calculation
-    float integ;        // Integral accumulator
-    float outP;         // Proportional output
-    float outI;         // Integral output
-    float outD;         // Derivative output
-    float output;       // Total PID output
+    // Controller state
+    float setpoint;     // Desired value
+    float prev_error;   // Previous error for derivative term
+    float total_error;  // Accumulated error for integral term
     
     // Limits
-    float integLimit;   // Integral limit
-    float outputLimit;  // Output limit
+    float i_limit;      // Integral windup limit
+    float out_limit;    // Output saturation limit
     
-    // Timing
-    float dt;           // Delta time between updates
-    
-    // Filter for derivative
-    bool enableDFilter; // Enable derivative low-pass filter
-    lpf2pData dFilter;  // Low-pass filter for derivative term
-    float deriv;        // Filtered derivative value
+    // Derivative filter
+    lpf2pData dFilter;  // Filter for D term
+    bool enableDFilter; // Filter enable flag
 } PidObject;
 
-// Function declarations
-void studentPidInit(PidObject* pid, const float kp, const float ki, const float kd, const float dt,
-                  const float samplingRate, const float cutoffFreq, bool enableDFilter);
-float studentPidUpdate(PidObject* pid, const float error, const bool updateError);
-void studentPidSetIntegralLimit(PidObject* pid, const float limit);
-void studentPidReset(PidObject* pid);
-void studentPidSetError(PidObject* pid, const float error);
-void studentPidSetDesired(PidObject* pid, const float desired);
-float studentPidGetDesired(PidObject* pid);
-bool studentPidIsActive(PidObject* pid);
-void studentPidSetKp(PidObject* pid, const float kp);
-void studentPidSetKi(PidObject* pid, const float ki);
-void studentPidSetKd(PidObject* pid, const float kd);
-void studentPidSetDt(PidObject* pid, const float dt);
+// Declare PID objects for all controllers
+extern PidObject pidRollRate;
+extern PidObject pidPitchRate;
+extern PidObject pidYawRate;
+extern PidObject pidRoll;
+extern PidObject pidPitch;
+extern PidObject pidYaw;
 
-// Simplified initialization with default filter parameters
-static inline void studentPidInit(PidObject* pid, const float kp, const float ki, const float kd, const float dt)
-{
-    studentPidInit(pid, kp, ki, kd, dt, 500.0f, 100.0f, false);
-}
+// Function prototypes
+void studentPidInit(PidObject *pid, const float desired, const float kp,
+                   const float ki, const float kd, const float dt,
+                   const float samplingRate, const float cutoffFreq,
+                   bool enableDFilter);
 
-#endif // __STUDENT_PID_Hst
+void studentPidSetIntegralLimit(PidObject *pid, const float limit);
+void studentPidSetOutputLimit(PidObject *pid, const float limit);
+void studentPidReset(PidObject *pid);
+float studentPidUpdate(PidObject *pid, const float measured, const bool updateError);
+void studentPidSetDesired(PidObject *pid, const float desired);
+float studentPidGetDesired(PidObject *pid);
+bool studentPidIsActive(PidObject *pid);
+void studentPidSetError(PidObject *pid, const float error);
+void studentPidSetKp(PidObject *pid, const float kp);
+void studentPidSetKi(PidObject *pid, const float ki);
+void studentPidSetKd(PidObject *pid, const float kd);
+void studentPidSetDt(PidObject *pid, const float dt);
+
+#endif /* STUDENT_PID_H_ */
