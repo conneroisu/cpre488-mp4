@@ -133,8 +133,11 @@ float studentPidUpdate(PidObject *pid, const float measured,
     pid->total_error += error * pid->dt;
 
     // Limit total error.
+    // Output = Kp * error + Ki * ∫error dt + Kd * (d/dt)error
     if (pid->total_error > pid->i_limit) {
       pid->total_error = pid->i_limit;
+    } else if (pid->total_error < -pid->i_limit) {
+      pid->total_error = -pid->i_limit;
     }
 
     pid->first_error_read_saved = 1;
