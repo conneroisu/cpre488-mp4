@@ -68,7 +68,7 @@ echo "student_pid.h copied"
 
 # Config file generation
 echo "Generating config file for CrazyFlie #$cf_number (Channel $channel)..."
-echo "CLOAD_CMDS=-w radio://0/$channel/2M/E7E7E7E7E7" > ~/MicroCART/crazyflie_software/crazyflie-firmware-lab-part-2/config.mk
+echo "CLOAD_CMDS=-w radio://0/$channel/2M/E7E7E7E7E7" > ~/MicroCART/crazyflie_software/crazyflie-firmware-lab-part-2/tools/make/config.mk
 echo "Config file generated successfully."
 
 code ~/MicroCART/crazyflie_software/crazyflie-firmware-lab-part-2/
