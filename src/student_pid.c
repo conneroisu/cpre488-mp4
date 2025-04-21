@@ -29,7 +29,7 @@ const float PID_YAW_KD = 0.0;
  * @return float
  */
 
- static float capAngle(float angle) 
+ float capAngle(float angle) 
  {
    int coterminal = (int) angle / 360;
  

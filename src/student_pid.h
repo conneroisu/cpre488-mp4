@@ -94,7 +94,7 @@ PidObject pidPitch;
 // Outputs a desired yaw rate that becomes setpoint for pidYawRate
 PidObject pidYaw;
 
-static float capAngle(float angle);
+float capAngle(float angle);
 
 void studentPidInit(PidObject *pid, const float desired, const float kp,
                     const float ki, const float kd, const float dt, const int cap_error_angle);
