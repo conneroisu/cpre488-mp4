@@ -23,8 +23,6 @@ const float PID_YAW_KP = 20;
 const float PID_YAW_KI = 0.0;
 const float PID_YAW_KD = 0.0;
 
-static float yaw_error, yaw_total_error = 0.0f;
-
 /**
  * Limit the input angle between -180 and 180
  *
@@ -103,7 +101,7 @@ void studentPidInit(PidObject *pid, const float desired, const float kp,
  */
 float studentPidUpdate(PidObject *pid, const float measured,
                        const bool updateError) {
-  float error = measured - pid->setpoint;
+  float error = pid->setpoint - measured;
 
   if(pid->cap_error_angle)
   {
@@ -118,13 +116,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   if(pid->first_error_read_saved)
   {
     // Incorporate D term.
-   // control += pid->kd * ((error - pid->prev_error) / pid->dt);
-  }
-
-  if(pid == &pidYawRate)
-  {
-    yaw_error = error - pid->prev_error;
-    yaw_total_error = pid->total_error;
+    control += pid->kd * ((error - pid->prev_error) / pid->dt);
   }
 
   // Update error.
@@ -133,7 +125,6 @@ float studentPidUpdate(PidObject *pid, const float measured,
     pid->total_error += error * pid->dt;
 
     // Limit total error.
-    // Output = Kp * error + Ki * ∫error dt + Kd * (d/dt)error
     if (pid->total_error > pid->i_limit) {
       pid->total_error = pid->i_limit;
     } else if (pid->total_error < -pid->i_limit) {
@@ -237,10 +228,3 @@ void studentPidSetKd(PidObject *pid, const float kd) { pid->kd = kd; }
  * @param[in] dt    Delta time
  */
 void studentPidSetDt(PidObject *pid, const float dt) { pid->dt = dt; }
-
-LOG_GROUP_START(yaw_error)
-
-LOG_ADD(LOG_FLOAT, error, &yaw_error)
-LOG_ADD(LOG_FLOAT, total_error, &yaw_total_error)
-
-LOG_GROUP_STOP(yaw_error)

@@ -32,8 +32,6 @@ static float accelz;
 
 static float gyro_x, gyro_y, gyro_z;
 
-static float dummy_ts_angle, dummy_ts_rate = 0.0f;
-
 void controllerStudentInit(void) {
   studentAttitudeControllerInit(STUDENT_UPDATE_DT);
 }
@@ -141,9 +139,9 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
         r_rate,
         p_rate,
         y_rate,
-        &control->roll,
-        &control->pitch,
-        &control->yaw
+        &(control->roll),
+        &(control->pitch),
+        &(control->yaw)
       );
 
       gyro_x = sensors->gyro.x;
