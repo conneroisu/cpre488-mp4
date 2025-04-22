@@ -3,6 +3,29 @@
 #include <math.h>
 #include <float.h>
 
+
+const float PID_ROLL_RATE_KP = 800;
+const float PID_ROLL_RATE_KI = 5;
+const float PID_ROLL_RATE_KD = 60;
+const float PID_PITCH_RATE_KP = 400;
+const float PID_PITCH_RATE_KI = 2;
+const float PID_PITCH_RATE_KD = 40;
+const float PID_YAW_RATE_KP = 300;
+const float PID_YAW_RATE_KI = 1;
+const float PID_YAW_RATE_KD = 10;
+const float PID_ROLL_KP = 10.43;
+const float PID_ROLL_KI = 0.0;
+const float PID_ROLL_KD = 0.0;
+const float PID_PITCH_KP = 11.24;
+const float PID_PITCH_KI = 10.0;
+const float PID_PITCH_KD = 0.0;
+const float PID_YAW_KP = 20;
+const float PID_YAW_KI = 0.0;
+const float PID_YAW_KD = 0.0;
+
+
+
+
 /**
  * PID object initialization.
  *
