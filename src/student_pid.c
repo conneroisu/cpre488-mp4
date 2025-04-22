@@ -118,7 +118,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   if(pid->first_error_read_saved)
   {
     // Incorporate D term.
-    control += pid->kd * ((error - pid->prev_error) / pid->dt);
+   // control += pid->kd * ((error - pid->prev_error) / pid->dt);
   }
 
   if(pid == &pidYawRate)
