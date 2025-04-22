@@ -144,7 +144,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   }
 
   // Incorporate I term.
-  control += pid->ki * pid->total_error;
+  //control += pid->ki * pid->total_error;
 
   return control;
 }
