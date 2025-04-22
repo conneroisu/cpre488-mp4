@@ -56,35 +56,35 @@ typedef struct
 // Used in the inner loop of the cascaded control system.
 // Processes the error between desired and measured roll rate
 // Outputs motor commands to achieve desired roll rate
-static PidObject pidRollRate;
+PidObject pidRollRate;
 
 // pidPitchRate controls the angular velocity around the pitch axis (Y-axis)
 //
 // Used in the inner loop of the cascaded control system.
 // Processes the error between desired and measured pitch rate>
 // Outputs motor commands to achieve desired pitch rate
-static PidObject pidPitchRate;
+PidObject pidPitchRate;
 
 // pidYawRate controls the angular velocity around the yaw axis (Z-axis)
 //
 // Used in the inner loop of the cascaded control system.
 // Processes the error between desired and measured yaw rate.
 // Outputs motor commands to achieve desired yaw rate
-static PidObject pidYawRate;
+PidObject pidYawRate;
 
 // pidRoll controls the absolute roll angle of the drone (**x-axis**).
 //
 // Used in the outer loop of the cascaded control system.
 // Processes the error between desired and measured roll angle.
 // Outputs a desired roll rate that becomes setpoint for pidRollRate.
-static PidObject pidRoll;
+PidObject pidRoll;
 
 // pidPitch controls the absolute pitch angle of the drone (**y-axis**).
 //
 // Used in the outer loop of the cascaded control system.
 // Processes the error between desired and measured pitch angle.
 // Outputs a desired pitch rate that becomes setpoint for pidPitchRate.
-static PidObject pidPitch;
+PidObject pidPitch;
 
 // PidObject controls the absolute yaw angle (heading) of the drone
 // (**z-axis**).
@@ -92,7 +92,7 @@ static PidObject pidPitch;
 // Used in the outer loop of the cascaded control system.
 // Processes the error between desired and measured yaw angle.
 // Outputs a desired yaw rate that becomes setpoint for pidYawRate
-static PidObject pidYaw;
+PidObject pidYaw;
 
 float capAngle(float angle);
 
