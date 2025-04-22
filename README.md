@@ -47,19 +47,8 @@ We used the Crazyflie client interface to visualize the attitude angles and rate
 
 **Troubleshooting**
 
-At one point, we encountered instability in yaw control. After reviewing our code and logs, we discovered a sign error in the yaw rate PID controller that was causing an incorrect response.
-
-Once corrected, the drone was able to maintain heading more effectively.
-
-Additionally, we found that our thrust control was too aggressive, leading to sudden altitude jumps. We implemented a smoother ramp-up and clamp mechanism for the thrust output, which greatly improved vertical stability.
-
-**Final Results**
-
-By the end of the lab, our drone was able to maintain level flight and respond predictably to manual input. The controller was stable across all three axes, and thrust output was consistent with expected behavior. Our logs showed good agreement between desired and measured rates, indicating proper PID tuning.
-
-**Reflection**
-
-This lab provided valuable hands-on experience with implementing and debugging a real-time embedded control system. We gained a deeper understanding of the control loops governing UAV stability, and how small errors can lead to significant flight issues. Working as a team, we divided tasks effectively and supported one another in troubleshooting, which was key to our success.
+TODO : Add all the troubleshooting we did section
+- Trash number of operable drones
 
 Going forward, we feel more confident in working with PID controllers and embedded flight systems. This lab was a great foundation for more advanced UAV development tasks.
 
