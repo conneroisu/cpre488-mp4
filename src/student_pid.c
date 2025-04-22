@@ -86,7 +86,7 @@ void studentPidInit(PidObject *pid, const float desired, const float kp,
   pid->dt = dt;
   pid->setpoint = desired;
   pid->total_error = 0;
-  pid->total_error = 0;
+  pid->prev_error = 0;
   pid->i_limit = 0;
   pid->first_error_read_saved = 0;
   pid->cap_error_angle = cap_error_angle;

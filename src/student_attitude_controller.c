@@ -45,9 +45,6 @@ void studentAttitudeControllerResetAllPID(void)
   studentAttitudeControllerResetRollAttitudePID();
   studentAttitudeControllerResetPitchAttitudePID();
   studentAttitudeControllerResetYawAttitudePID();
-  studentPidReset(&pidRollRate);
-  studentPidReset(&pidPitchRate);
-  studentPidReset(&pidYawRate);
 }
 
 /**
