@@ -1,9 +1,6 @@
 # cpre488-mp4
-CprE 488 \- Embedded Systems Design
 
-MP-4: UAV Control (ver. 2.0)
-
-**Assigned**: Monday of Week 10 **Due**: Monday of Week 12 **Points**: 100 + bonus points
+MP-4: UAV Control
 
 *Note: the goal of this Machine Problem is for you to work with your group to increase your exposure to three different aspects of embedded system design:*
 
@@ -16,7 +13,6 @@ MP-4: UAV Control (ver. 2.0)
 Figure 1. Crazyflie top down diagram
 
 | **LED Lights** | **Diagnostic** |
-| --- | --- |
 | flashing red LED | Calibrating |
 | Slow flashing LED | Sensors have not been calibrated |
 | Red LED flashing 5 times quickly | Failed to pass self checkup. Talk to TA if this happens |
@@ -31,16 +27,47 @@ The control process starts with the state estimator module receiving sensor data
 
 You will be implementing the State Controller’s cascading PID in part 2 of this lab.
 
-|  | ![](https://class.ece.iastate.edu/cpre488/labs/MP4/MP-4_files/image006.jpg) |
+![](https://class.ece.iastate.edu/cpre488/labs/MP4/MP-4_files/image006.jpg)
 
-  
+**UAV Control Lab Report**
+
+For this lab, our team worked collaboratively to implement and test key components of the UAV flight control system, focusing on developing a custom controller for attitude and thrust regulation. The primary goal of this lab was to write and tune our own control algorithms that would allow the drone to maintain stability and respond correctly to input commands.
+
+**Implementation**
+
+Our first step was to integrate the student controller code into the flight control software. We worked inside the `controller_student.c` and `student_attitude_controller.c` files. We created PID controllers for roll rate, pitch rate, and yaw rate. Each controller required initialization, error computation, and output saturation to keep control signals within safe bounds.
+
+To ensure correct functioning, we added logging for each axis's PID outputs as well as the target attitude and rate commands. Being limited to twelve logging variables greatly limited our ability to debug. This data helped us monitor the controller's behavior in real time during flights.
+
+**Tuning and Testing**
+
+The most challenging part of the lab was tuning the PID gains. We started with conservative values and performed incremental tuning after each test flight. We observed oscillations in the pitch axis at first, which we mitigated by lowering the proportional gain and increasing the derivative term slightly.
+
+We used the Crazyflie client interface to visualize the attitude angles and rate responses. During tests, we recorded flight data and analyzed logs using tools provided with the lab materials. This slightly helped us verify that our controller tracked the desired attitude and rate commands.
+
+**Troubleshooting**
+
+At one point, we encountered instability in yaw control. After reviewing our code and logs, we discovered a sign error in the yaw rate PID controller that was causing an incorrect response.
+
+Once corrected, the drone was able to maintain heading more effectively.
+
+Additionally, we found that our thrust control was too aggressive, leading to sudden altitude jumps. We implemented a smoother ramp-up and clamp mechanism for the thrust output, which greatly improved vertical stability.
+
+**Final Results**
+
+By the end of the lab, our drone was able to maintain level flight and respond predictably to manual input. The controller was stable across all three axes, and thrust output was consistent with expected behavior. Our logs showed good agreement between desired and measured rates, indicating proper PID tuning.
+
+**Reflection**
+
+This lab provided valuable hands-on experience with implementing and debugging a real-time embedded control system. We gained a deeper understanding of the control loops governing UAV stability, and how small errors can lead to significant flight issues. Working as a team, we divided tasks effectively and supported one another in troubleshooting, which was key to our success.
+
+Going forward, we feel more confident in working with PID controllers and embedded flight systems. This lab was a great foundation for more advanced UAV development tasks.
 
 Figure 3. Cascading PID diagram
 
 The Crazyflie runs off of a cascaded PID system where the output of the first PID controller is then used as an input for a second PID controller. This layout can be seen in figure 3, the output from the attitude PID controller, the desired attitude rate, becomes the input of the attitude rate PID controller. In part 2, we  implemented the attitude and attitude rate PID controllers for roll, pitch, and yaw. In part 1, you determined the PID values that should be present in the controllers by using a working PID controller before implementing it yourself.
 
 ## Building Firmware
-
 
 We found it useful to have a script for creating new configurations for building and flashing firmware to different drones as it kept our iteration times as short as possible.
 
