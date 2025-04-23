@@ -179,78 +179,73 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
   accelz = sensors->acc.z;
 }
 
-/**
- * Logging variables for the command and reference signals for the
- * student PID controller
- */
-LOG_GROUP_START(ctrlStdnt)
+// /**
+//  * Logging variables for the command and reference signals for the
+//  * student PID controller
+//  */
+// LOG_GROUP_START(ctrlStdnt)
 
-// 488 TODO setup logging parameters, replace null with pointer to globabl variable
+// // 488 TODO setup logging parameters, replace null with pointer to globabl variable
 
-/**
- * @brief Thrust command output
- */
-LOG_ADD(LOG_FLOAT, cmd_thrust, &cmd_thrust)
-/**
- * @brief Roll command output
- */
-LOG_ADD(LOG_FLOAT, cmd_roll, &cmd_roll)
-/**
- * @brief Pitch command output
- */
-LOG_ADD(LOG_FLOAT, cmd_pitch, &cmd_pitch)
-/**
- * @brief yaw command output
- */
-LOG_ADD(LOG_FLOAT, cmd_yaw, &cmd_yaw)
-/**
- * @brief Gyro roll measurement in degrees
- */
-LOG_ADD(LOG_FLOAT, r_roll, &r_roll)
-/**
- * @brief Gyro pitch measurement in degrees
- */
-LOG_ADD(LOG_FLOAT, r_pitch, &r_pitch)
-/**
- * @brief Gyro yaw rate measurement in degrees
- */
-LOG_ADD(LOG_FLOAT, r_yaw, &r_yaw)
-/**
- * @brief Acceleration in the z axis in G-force
- */
-LOG_ADD(LOG_FLOAT, accelz, &accelz)
-/**
- * @brief Desired roll setpoint
- */
-LOG_ADD(LOG_FLOAT, roll, &attitudeDesired.roll)
-/**
- * @brief Desired pitch setpoint
- */
-LOG_ADD(LOG_FLOAT, pitch, &attitudeDesired.pitch)
-/**
- * @brief Desired yaw setpoint
- */
-LOG_ADD(LOG_FLOAT, yaw, &attitudeDesired.yaw)
-/**
- * @brief Desired roll rate setpoint
- */
-LOG_ADD(LOG_FLOAT, rollRate, &rateDesired.roll)
-/**
- * @brief Desired pitch rate setpoint
- */
-LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
-/**
- * @brief Desired yaw rate setpoint
- */
-LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
+// /**
+//  * @brief Thrust command output
+//  */
+// LOG_ADD(LOG_FLOAT, cmd_thrust, &cmd_thrust)
+// /**
+//  * @brief Roll command output
+//  */
+// LOG_ADD(LOG_FLOAT, cmd_roll, &cmd_roll)
+// /**
+//  * @brief Pitch command output
+//  */
+// LOG_ADD(LOG_FLOAT, cmd_pitch, &cmd_pitch)
+// /**
+//  * @brief yaw command output
+//  */
+// LOG_ADD(LOG_FLOAT, cmd_yaw, &cmd_yaw)
+// /**
+//  * @brief Gyro roll measurement in degrees
+//  */
+// LOG_ADD(LOG_FLOAT, r_roll, &r_roll)
+// /**
+//  * @brief Gyro pitch measurement in degrees
+//  */
+// LOG_ADD(LOG_FLOAT, r_pitch, &r_pitch)
+// /**
+//  * @brief Gyro yaw rate measurement in degrees
+//  */
+// LOG_ADD(LOG_FLOAT, r_yaw, &r_yaw)
+// /**
+//  * @brief Acceleration in the z axis in G-force
+//  */
+// LOG_ADD(LOG_FLOAT, accelz, &accelz)
+// /**
+//  * @brief Desired roll setpoint
+//  */
+// LOG_ADD(LOG_FLOAT, roll, &attitudeDesired.roll)
+// /**
+//  * @brief Desired pitch setpoint
+//  */
+// LOG_ADD(LOG_FLOAT, pitch, &attitudeDesired.pitch)
+// /**
+//  * @brief Desired yaw setpoint
+//  */
+// LOG_ADD(LOG_FLOAT, yaw, &attitudeDesired.yaw)
+// /**
+//  * @brief Desired roll rate setpoint
+//  */
+// LOG_ADD(LOG_FLOAT, rollRate, &rateDesired.roll)
+// /**
+//  * @brief Desired pitch rate setpoint
+//  */
+// LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
+// /**
+//  * @brief Desired yaw rate setpoint
+//  */
+// LOG_ADD(LOG_FLOAT, yawRate, &rateDesired.yaw)
 
-LOG_ADD(LOG_FLOAT, gyro_x, &gyro_x)
-LOG_ADD(LOG_FLOAT, gyro_y, &gyro_y)
-LOG_ADD(LOG_FLOAT, gyro_z, &gyro_z)
+// LOG_ADD(LOG_FLOAT, gyro_x, &gyro_x)
+// LOG_ADD(LOG_FLOAT, gyro_y, &gyro_y)
+// LOG_ADD(LOG_FLOAT, gyro_z, &gyro_z)
 
-LOG_GROUP_STOP(ctrlStdnt)
-
-// LOG_GROUP_START(Test_Stand)
-// LOG_ADD(LOG_FLOAT, angle, &dummy_ts_angle)
-// LOG_ADD(LOG_FLOAT, rate, &dummy_ts_rate)
-// LOG_GROUP_STOP(Test_Stand)
+// LOG_GROUP_STOP(ctrlStdnt)

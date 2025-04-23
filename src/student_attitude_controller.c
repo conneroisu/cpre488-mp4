@@ -4,42 +4,42 @@
 
 #include "student_attitude_controller.h"
 
-bool isInit = false;
+static bool isInit = false;
 
 // pidRollRate controls the angular velocity around the roll axis (**x-axis**).
 //
 // Used in the inner loop of the cascaded control system.
 // Processes the error between desired and measured roll rate
 // Outputs motor commands to achieve desired roll rate
-PidObject pidRollRate = PID_OBJECT_BLANK;
+static PidObject pidRollRate = PID_OBJECT_BLANK;
 
 // pidPitchRate controls the angular velocity around the pitch axis (Y-axis)
 //
 // Used in the inner loop of the cascaded control system.
 // Processes the error between desired and measured pitch rate>
 // Outputs motor commands to achieve desired pitch rate
-PidObject pidPitchRate = PID_OBJECT_BLANK;
+static PidObject pidPitchRate = PID_OBJECT_BLANK;
 
 // pidYawRate controls the angular velocity around the yaw axis (Z-axis)
 //
 // Used in the inner loop of the cascaded control system.
 // Processes the error between desired and measured yaw rate.
 // Outputs motor commands to achieve desired yaw rate
-PidObject pidYawRate = PID_OBJECT_BLANK;
+static PidObject pidYawRate = PID_OBJECT_BLANK;
 
 // pidRoll controls the absolute roll angle of the drone (**x-axis**).
 //
 // Used in the outer loop of the cascaded control system.
 // Processes the error between desired and measured roll angle.
 // Outputs a desired roll rate that becomes setpoint for pidRollRate.
-PidObject pidRoll = PID_OBJECT_BLANK;
+static PidObject pidRoll = PID_OBJECT_BLANK;
 
 // pidPitch controls the absolute pitch angle of the drone (**y-axis**).
 //
 // Used in the outer loop of the cascaded control system.
 // Processes the error between desired and measured pitch angle.
 // Outputs a desired pitch rate that becomes setpoint for pidPitchRate.
-PidObject pidPitch = PID_OBJECT_BLANK;
+static PidObject pidPitch = PID_OBJECT_BLANK;
 
 // PidObject controls the absolute yaw angle (heading) of the drone
 // (**z-axis**).
@@ -47,7 +47,7 @@ PidObject pidPitch = PID_OBJECT_BLANK;
 // Used in the outer loop of the cascaded control system.
 // Processes the error between desired and measured yaw angle.
 // Outputs a desired yaw rate that becomes setpoint for pidYawRate
-PidObject pidYaw = PID_OBJECT_BLANK;
+static PidObject pidYaw = PID_OBJECT_BLANK;
 
 /**
  * @brief Convert float to 16 bit integer
@@ -311,173 +311,173 @@ void studentAttitudeControllerCorrectRatePID( //
 }
 
 
-/**
- *  Log variables of attitude PID controller
- */
-LOG_GROUP_START(s_pid_attitude)
-/**
- * @brief Proportional output roll
- */
-LOG_ADD(LOG_FLOAT, roll_outP, &pidRoll.kp)
-/**
- * @brief Integral output roll
- */
-LOG_ADD(LOG_FLOAT, roll_outI, &pidRoll.ki)
-/**
- * @brief Derivative output roll
- */
-LOG_ADD(LOG_FLOAT, roll_outD, &pidRoll.kd)
-/**
- * @brief Proportional output pitch
- */
-LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitch.kp)
-/**
- * @brief Integral output pitch
- */
-LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitch.ki)
-/**
- * @brief Derivative output pitch
- */
-LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitch.kd)
-/**
- * @brief Proportional output yaw
- */
-LOG_ADD(LOG_FLOAT, yaw_outP, &pidYaw.kp)
-/**
- * @brief Intergal output yaw
- */
-LOG_ADD(LOG_FLOAT, yaw_outI, &pidYaw.ki)
-/**
- * @brief Derivative output yaw
- */
-LOG_ADD(LOG_FLOAT, yaw_outD, &pidYaw.kd)
-LOG_GROUP_STOP(s_pid_attitude)
+// /**
+//  *  Log variables of attitude PID controller
+//  */
+// LOG_GROUP_START(s_pid_attitude)
+// /**
+//  * @brief Proportional output roll
+//  */
+// LOG_ADD(LOG_FLOAT, roll_outP, &pidRoll.kp)
+// /**
+//  * @brief Integral output roll
+//  */
+// LOG_ADD(LOG_FLOAT, roll_outI, &pidRoll.ki)
+// /**
+//  * @brief Derivative output roll
+//  */
+// LOG_ADD(LOG_FLOAT, roll_outD, &pidRoll.kd)
+// /**
+//  * @brief Proportional output pitch
+//  */
+// LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitch.kp)
+// /**
+//  * @brief Integral output pitch
+//  */
+// LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitch.ki)
+// /**
+//  * @brief Derivative output pitch
+//  */
+// LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitch.kd)
+// /**
+//  * @brief Proportional output yaw
+//  */
+// LOG_ADD(LOG_FLOAT, yaw_outP, &pidYaw.kp)
+// /**
+//  * @brief Intergal output yaw
+//  */
+// LOG_ADD(LOG_FLOAT, yaw_outI, &pidYaw.ki)
+// /**
+//  * @brief Derivative output yaw
+//  */
+// LOG_ADD(LOG_FLOAT, yaw_outD, &pidYaw.kd)
+// LOG_GROUP_STOP(s_pid_attitude)
 
-/**
- *  Log variables of attitude rate &pid controller
- */
-LOG_GROUP_START(s_pid_rate)
-/**
- * @brief Proportional output roll rate
- */
-LOG_ADD(LOG_FLOAT, roll_outP, &pidRollRate.kp)
-/**
- * @brief Integral output roll rate
- */
-LOG_ADD(LOG_FLOAT, roll_outI, &pidRollRate.ki)
-/**
- * @brief Derivative output roll rate
- */
-LOG_ADD(LOG_FLOAT, roll_outD, &pidRollRate.kd)
-/**
- * @brief Proportional output pitch rate
- */
-LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitchRate.kp)
-/**
- * @brief Integral output pitch rate
- */
-LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitchRate.ki)
-/**
- * @brief Derivative output pitch rate
- */
-LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitchRate.kd)
-/**
- * @brief Proportional output yaw rate
- */
-LOG_ADD(LOG_FLOAT, yaw_outP, &pidYawRate.kp)
-/**
- * @brief Integral output yaw rate
- */
-LOG_ADD(LOG_FLOAT, yaw_outI, &pidYawRate.ki)
-/**
- * @brief Derivative output yaw rate
- */
-LOG_ADD(LOG_FLOAT, yaw_outD, &pidYawRate.kd)
-LOG_GROUP_STOP(s_pid_rate)
+// /**
+//  *  Log variables of attitude rate &pid controller
+//  */
+// LOG_GROUP_START(s_pid_rate)
+// /**
+//  * @brief Proportional output roll rate
+//  */
+// LOG_ADD(LOG_FLOAT, roll_outP, &pidRollRate.kp)
+// /**
+//  * @brief Integral output roll rate
+//  */
+// LOG_ADD(LOG_FLOAT, roll_outI, &pidRollRate.ki)
+// /**
+//  * @brief Derivative output roll rate
+//  */
+// LOG_ADD(LOG_FLOAT, roll_outD, &pidRollRate.kd)
+// /**
+//  * @brief Proportional output pitch rate
+//  */
+// LOG_ADD(LOG_FLOAT, pitch_outP, &pidPitchRate.kp)
+// /**
+//  * @brief Integral output pitch rate
+//  */
+// LOG_ADD(LOG_FLOAT, pitch_outI, &pidPitchRate.ki)
+// /**
+//  * @brief Derivative output pitch rate
+//  */
+// LOG_ADD(LOG_FLOAT, pitch_outD, &pidPitchRate.kd)
+// /**
+//  * @brief Proportional output yaw rate
+//  */
+// LOG_ADD(LOG_FLOAT, yaw_outP, &pidYawRate.kp)
+// /**
+//  * @brief Integral output yaw rate
+//  */
+// LOG_ADD(LOG_FLOAT, yaw_outI, &pidYawRate.ki)
+// /**
+//  * @brief Derivative output yaw rate
+//  */
+// LOG_ADD(LOG_FLOAT, yaw_outD, &pidYawRate.kd)
+// LOG_GROUP_STOP(s_pid_rate)
 
-/**
- * Tuning settings for the gains of the PID
- * controller for the attitude of the Crazyflie which consists
- * of the Yaw Pitch and Roll
- */
-PARAM_GROUP_START(s_pid_attitude)
-/**
- * @brief Proportional gain for the PID roll controller
- */
-PARAM_ADD(PARAM_FLOAT, roll_kp, &PID_ROLL_KP)
-/**
- * @brief Integral gain for the PID roll controller
- */
-PARAM_ADD(PARAM_FLOAT, roll_ki, &PID_ROLL_KI)
-/**
- * @brief Derivative gain for the PID roll controller
- */
-PARAM_ADD(PARAM_FLOAT, roll_kd, &PID_ROLL_KD)
-/**
- * @brief Proportional gain for the PID pitch controller
- */
-PARAM_ADD(PARAM_FLOAT, pitch_kp, &PID_PITCH_KP)
-/**
- * @brief Integral gain for the PID pitch controller
- */
-PARAM_ADD(PARAM_FLOAT, pitch_ki, &PID_PITCH_KI)
-/**
- * @brief Derivative gain for the PID pitch controller
- */
-PARAM_ADD(PARAM_FLOAT, pitch_kd, &PID_PITCH_KD)
-/**
- * @brief Proportional gain for the PID yaw controller
- */
-PARAM_ADD(PARAM_FLOAT, yaw_kp, &PID_YAW_KP)
-/**
- * @brief Integral gain for the PID yaw controller
- */
-PARAM_ADD(PARAM_FLOAT, yaw_ki, &PID_YAW_KI)
-/**
- * @brief Derivative gain for the PID yaw controller
- */
-PARAM_ADD(PARAM_FLOAT, yaw_kd, &PID_YAW_KD)
-PARAM_GROUP_STOP(s_pid_attitude)
+// /**
+//  * Tuning settings for the gains of the PID
+//  * controller for the attitude of the Crazyflie which consists
+//  * of the Yaw Pitch and Roll
+//  */
+// PARAM_GROUP_START(s_pid_attitude)
+// /**
+//  * @brief Proportional gain for the PID roll controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, roll_kp, &PID_ROLL_KP)
+// /**
+//  * @brief Integral gain for the PID roll controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, roll_ki, &PID_ROLL_KI)
+// /**
+//  * @brief Derivative gain for the PID roll controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, roll_kd, &PID_ROLL_KD)
+// /**
+//  * @brief Proportional gain for the PID pitch controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, pitch_kp, &PID_PITCH_KP)
+// /**
+//  * @brief Integral gain for the PID pitch controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, pitch_ki, &PID_PITCH_KI)
+// /**
+//  * @brief Derivative gain for the PID pitch controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, pitch_kd, &PID_PITCH_KD)
+// /**
+//  * @brief Proportional gain for the PID yaw controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, yaw_kp, &PID_YAW_KP)
+// /**
+//  * @brief Integral gain for the PID yaw controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, yaw_ki, &PID_YAW_KI)
+// /**
+//  * @brief Derivative gain for the PID yaw controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, yaw_kd, &PID_YAW_KD)
+// PARAM_GROUP_STOP(s_pid_attitude)
 
-/**
- * Tuning settings for the gains of the PID controller for the rate angles of
- * the Crazyflie, which consists of the yaw, pitch and roll rates
- */
-PARAM_GROUP_START(s_pid_rate)
-/**
- * @brief Proportional gain for the PID roll rate controller
- */
-PARAM_ADD(PARAM_FLOAT, roll_kp, &PID_ROLL_RATE_KP)
-/**
- * @brief Integral gain for the PID roll rate controller
- */
-PARAM_ADD(PARAM_FLOAT, roll_ki, &PID_ROLL_RATE_KI)
-/**
- * @brief Derivative gain for the PID roll rate controller
- */
-PARAM_ADD(PARAM_FLOAT, roll_kd, &PID_ROLL_RATE_KD)
-/**
- * @brief Proportional gain for the PID pitch rate controller
- */
-PARAM_ADD(PARAM_FLOAT, pitch_kp, &PID_PITCH_RATE_KP)
-/**
- * @brief Integral gain for the PID pitch rate controller
- */
-PARAM_ADD(PARAM_FLOAT, pitch_ki, &PID_PITCH_RATE_KI)
-/**
- * @brief Derivative gain for the PID pitch rate controller
- */
-PARAM_ADD(PARAM_FLOAT, pitch_kd, &PID_PITCH_RATE_KD)
-/**
- * @brief Proportional gain for the PID yaw rate controller
- */
-PARAM_ADD(PARAM_FLOAT, yaw_kp, &PID_YAW_RATE_KP)
-/**
- * @brief Integral gain for the PID yaw rate controller
- */
-PARAM_ADD(PARAM_FLOAT, yaw_ki, &PID_YAW_RATE_KI)
-/**
- * @brief Derivative gain for the PID yaw rate controller
- */
-PARAM_ADD(PARAM_FLOAT, yaw_kd, &PID_YAW_RATE_KD)
-PARAM_GROUP_STOP(s_pid_rate)
+// /**
+//  * Tuning settings for the gains of the PID controller for the rate angles of
+//  * the Crazyflie, which consists of the yaw, pitch and roll rates
+//  */
+// PARAM_GROUP_START(s_pid_rate)
+// /**
+//  * @brief Proportional gain for the PID roll rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, roll_kp, &PID_ROLL_RATE_KP)
+// /**
+//  * @brief Integral gain for the PID roll rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, roll_ki, &PID_ROLL_RATE_KI)
+// /**
+//  * @brief Derivative gain for the PID roll rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, roll_kd, &PID_ROLL_RATE_KD)
+// /**
+//  * @brief Proportional gain for the PID pitch rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, pitch_kp, &PID_PITCH_RATE_KP)
+// /**
+//  * @brief Integral gain for the PID pitch rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, pitch_ki, &PID_PITCH_RATE_KI)
+// /**
+//  * @brief Derivative gain for the PID pitch rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, pitch_kd, &PID_PITCH_RATE_KD)
+// /**
+//  * @brief Proportional gain for the PID yaw rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, yaw_kp, &PID_YAW_RATE_KP)
+// /**
+//  * @brief Integral gain for the PID yaw rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, yaw_ki, &PID_YAW_RATE_KI)
+// /**
+//  * @brief Derivative gain for the PID yaw rate controller
+//  */
+// PARAM_ADD(PARAM_FLOAT, yaw_kd, &PID_YAW_RATE_KD)
+// PARAM_GROUP_STOP(s_pid_rate)
