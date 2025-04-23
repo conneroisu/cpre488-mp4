@@ -130,7 +130,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   updateAverageError(&pid->error, error);
 
   // Incorporate P term.
-  float control = pid->kp * pid->error.avg_error;
+  float control = pid->kp * error;
 
 
   // ERROR_AVERAGE_MAX_READINGS must happen before D is updated.
@@ -156,7 +156,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
       pid->prev_avg_error = pid->error.avg_error;
       pid->prev_error_saved = 1;
     }
-    pid->total_error += pid->error.avg_error * pid->dt;
+    pid->total_error += error * pid->dt;
 
     // Limit total error.
     if (pid->total_error > pid->i_limit)
