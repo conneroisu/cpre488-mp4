@@ -38,16 +38,32 @@ extern const float PID_YAW_KD;
 #define DEFAULT_PID_INTEGRATION_LIMIT 5000.0
 #define DEFAULT_PID_OUTPUT_LIMIT 0.0
 
+// Any rate readings less than this value are considered to be zero.
+#define MEASURED_CUTOFF 3
+
+// Store up to this amount of error readings for computing the average error.
+#define ERROR_AVERAGE_MAX_READINGS 10
+
+typedef struct average_error
+{
+  float error_readings[ERROR_AVERAGE_MAX_READINGS];
+  int count;
+  int next_write_index;
+  float avg_error;
+} average_error_t;
+
 typedef struct
 {
   // 488 TODO write PidObject struct
   // needs all values that will be used for PID calculations
   // error, kp, ki, kd, setpoint ...
-  float kp, ki, kd, dt, setpoint, i_limit, total_error, prev_error;
+  float kp, ki, kd, dt, setpoint, i_limit, total_error, last_d_contribution, prev_avg_error;
+
+  average_error_t error;
 
   // first_error_read_saved: Indicates if the first error reading has been saved.
   // cap_error_angle: Indicates if the calculated error should be capped between -180 and 180
-  int first_error_read_saved, cap_error_angle;
+  int prev_error_saved, cap_error_angle;
 
 } PidObject;
 

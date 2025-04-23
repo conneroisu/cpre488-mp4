@@ -84,10 +84,19 @@ void studentPidInit(PidObject *pid, const float desired, const float kp,
   pid->dt = dt;
   pid->setpoint = desired;
   pid->total_error = 0;
-  pid->prev_error = 0;
+  pid->prev_avg_error = 0;
   pid->i_limit = 0;
-  pid->first_error_read_saved = 0;
+  pid->prev_error_saved = 0;
   pid->cap_error_angle = cap_error_angle;
+
+  pid->error.count = 0;
+  pid->error.avg_error = 0;
+  pid->error.next_write_index = 0;
+  
+  for(int i = 0; i < ERROR_AVERAGE_MAX_READINGS; ++i)
+  {
+    pid->error.error_readings[i] = 0;
+  }
 }
 
 /**
@@ -102,10 +111,10 @@ void studentPidInit(PidObject *pid, const float desired, const float kp,
 float studentPidUpdate(PidObject *pid, const float measured,
                        const bool updateError) {
 
-  // Limit measured
+  // Apply measured value cutoff.
   float modified_measured = measured;
 
-  if(fabs(modified_measured) < 20)
+  if(fabs(modified_measured) < MEASURED_CUTOFF)
   {
     modified_measured = 0;
   }
@@ -117,36 +126,80 @@ float studentPidUpdate(PidObject *pid, const float measured,
     error = capAngle(error);
   }
 
+  updateAverageError(&pid->error, error);
+
   // Incorporate P term.
   float control = pid->kp * error;
 
 
-  // If the first error reading has not happened yet, do NOT incorporate D.
-  if(pid->first_error_read_saved)
+  // ERROR_AVERAGE_MAX_READINGS must happen before D is updated.
+  // If previous error has NOT been saved yet, don't update!.
+  if(pid->prev_error_saved)
   {
     // Incorporate D term.
-    control += pid->kd * ((error - pid->prev_error) / pid->dt);
+    // If we have read a new set of ERROR_AVERAGE_MAX_READINGS, update the D contribution.
+    if(pid->error.count == ERROR_AVERAGE_MAX_READINGS && !pid->error.next_write_index)
+    {
+      pid->last_d_contribution = pid->kd * ((pid->error.avg_error - pid->prev_avg_error) / pid->dt);
+    }
+
+    control += pid->last_d_contribution;
   }
 
   // Update error.
-  if (updateError) {
-    pid->prev_error = error;
-    pid->total_error += error * pid->dt;
+  if (updateError)
+  {
+    // Only update prev error once we have a new set of regular error readings.
+    if(pid->error.count == ERROR_AVERAGE_MAX_READINGS && !pid->error.next_write_index)
+    {
+      pid->prev_avg_error = pid->error.avg_error;
+      pid->prev_error_saved = 1;
+    }
+    pid->total_error += pid->error.avg_error * pid->dt;
 
     // Limit total error.
-    if (pid->total_error > pid->i_limit) {
+    if (pid->total_error > pid->i_limit)
+    {
       pid->total_error = pid->i_limit;
-    } else if (pid->total_error < -pid->i_limit) {
+    } 
+    else if (pid->total_error < -pid->i_limit)
+    {
       pid->total_error = -pid->i_limit;
     }
-
-    pid->first_error_read_saved = 1;
   }
 
   // Incorporate I term.
   control += pid->ki * pid->total_error;
 
   return control;
+}
+
+void updateAverageError(average_error_t* avg_error, float error)
+{
+    // Update error average
+    avg_error->error_readings[avg_error->next_write_index] = error;
+    if(avg_error->next_write_index == (ERROR_AVERAGE_MAX_READINGS - 1))
+    {
+      avg_error->next_write_index = 0;
+    }
+    else
+    {
+      avg_error->next_write_index++;
+    }
+
+    if(avg_error->count < ERROR_AVERAGE_MAX_READINGS)
+    {
+      avg_error->count++;
+    }
+
+    float total = 0;
+
+    for(int i = 0; i < avg_error->count; ++i)
+    {
+      total += avg_error->error_readings[i];
+    }
+
+    avg_error->avg_error = total / avg_error->count;
 }
 
 /**
@@ -165,9 +218,18 @@ void studentPidSetIntegralLimit(PidObject *pid, const float limit) {
  * @param[in] pid   A pointer to the pid object.
  */
 void studentPidReset(PidObject *pid) {
-  pid->prev_error = 0;
+  pid->prev_avg_error = 0;
   pid->total_error = 0;
-  pid->first_error_read_saved = 0;
+  pid->prev_error_saved = 0;
+
+  pid->error.avg_error = 0;
+  pid->error.count = 0;
+  pid->error.next_write_index = 0;
+
+  for(int i = 0; i < ERROR_AVERAGE_MAX_READINGS; ++i)
+  {
+    pid->error.error_readings[i] = 0;
+  }
 }
 
 /**
