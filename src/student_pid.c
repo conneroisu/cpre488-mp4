@@ -115,7 +115,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   // Apply measured value cutoff.
   float modified_measured = measured;
 
-  if(fabs(modified_measured) < MEASURED_CUTOFF)
+  if((float) fabs(modified_measured) < MEASURED_CUTOFF)
   {
     modified_measured = 0;
   }
