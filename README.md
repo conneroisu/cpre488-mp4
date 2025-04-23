@@ -9,7 +9,7 @@ Big Items:
 
 ## Crazyflie System Overview
 
-![[Cascading-PID-Diagram.png]]
+![Cascading-PID-Diagram.png](assets/Cascading-PID-Diagram.png)
 
 Figure 2. Crazyflie control diagram
 
@@ -107,3 +107,9 @@ Sometimes Windows screws up the line endings of the vm.sh file so this script ca
 ```bash
 sed -i 's/\r$//' vm.sh
 ```
+
+## Reflections
+
+Logging Blocks are a terrible idea. They are not only slow, but they are also very difficult to use. As there must be only 12 logging variables at a time, or else you crash the gui or, sometimes, the vm, to make any changes we had to be sure that we only had 12 variables being logged at a time excluding the test stand variables.
+
+We think that if the logging were purely just a console output, it would be much easier to use. 
