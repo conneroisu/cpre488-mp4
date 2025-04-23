@@ -57,11 +57,12 @@ static PidObject pidYaw = PID_OBJECT_BLANK;
  * @param in float
  * @return int16_t
  */
+#define LIMIT 10000
 static inline int16_t saturateSignedInt16(float in) {
-  if ((int16_t) in > INT16_MAX) {
-    return INT16_MAX;
-  } else if ((int16_t) in < -INT16_MAX) {
-    return -INT16_MAX;
+  if ((int16_t) in > LIMIT) {
+    return LIMIT;
+  } else if ((int16_t) in < -LIMIT) {
+    return -LIMIT;
   } else {
     return (int16_t)in;
   }
