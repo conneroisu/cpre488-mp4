@@ -4,7 +4,50 @@
 
 #include "student_attitude_controller.h"
 
-static bool isInit = false;
+bool isInit = false;
+
+// pidRollRate controls the angular velocity around the roll axis (**x-axis**).
+//
+// Used in the inner loop of the cascaded control system.
+// Processes the error between desired and measured roll rate
+// Outputs motor commands to achieve desired roll rate
+PidObject pidRollRate = PID_OBJECT_BLANK;
+
+// pidPitchRate controls the angular velocity around the pitch axis (Y-axis)
+//
+// Used in the inner loop of the cascaded control system.
+// Processes the error between desired and measured pitch rate>
+// Outputs motor commands to achieve desired pitch rate
+PidObject pidPitchRate = PID_OBJECT_BLANK;
+
+// pidYawRate controls the angular velocity around the yaw axis (Z-axis)
+//
+// Used in the inner loop of the cascaded control system.
+// Processes the error between desired and measured yaw rate.
+// Outputs motor commands to achieve desired yaw rate
+PidObject pidYawRate = PID_OBJECT_BLANK;
+
+// pidRoll controls the absolute roll angle of the drone (**x-axis**).
+//
+// Used in the outer loop of the cascaded control system.
+// Processes the error between desired and measured roll angle.
+// Outputs a desired roll rate that becomes setpoint for pidRollRate.
+PidObject pidRoll = PID_OBJECT_BLANK;
+
+// pidPitch controls the absolute pitch angle of the drone (**y-axis**).
+//
+// Used in the outer loop of the cascaded control system.
+// Processes the error between desired and measured pitch angle.
+// Outputs a desired pitch rate that becomes setpoint for pidPitchRate.
+PidObject pidPitch = PID_OBJECT_BLANK;
+
+// PidObject controls the absolute yaw angle (heading) of the drone
+// (**z-axis**).
+//
+// Used in the outer loop of the cascaded control system.
+// Processes the error between desired and measured yaw angle.
+// Outputs a desired yaw rate that becomes setpoint for pidYawRate
+PidObject pidYaw = PID_OBJECT_BLANK;
 
 /**
  * @brief Convert float to 16 bit integer

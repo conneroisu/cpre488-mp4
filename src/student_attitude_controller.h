@@ -9,6 +9,9 @@
 
 #include "student_pid.h"
 
+// All PID Object values set to zero. Used when defining the PID objects.
+#define PID_OBJECT_BLANK ((PidObject) {.kp = 0, .ki = 0, .kd = 0, .dt = 0, .setpoint = 0, .i_limit = 0, .total_error = 0, .prev_error = 0, .first_error_read_saved = 0, .cap_error_angle = 0})
+
 // Maximum integral term accumulation for roll rate controller
 // Setting to 0.0f means no integral windup protection for roll rate
 #define PID_ROLL_RATE_INTEGRAL_LIMIT (float)(33.3f)
