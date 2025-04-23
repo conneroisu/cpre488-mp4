@@ -5,34 +5,34 @@
 
 #define EPSILON 0.001f
 
-extern const float PID_ROLL_RATE_KP;
-extern const float PID_ROLL_RATE_KI;
-extern const float PID_ROLL_RATE_KD;
+extern float PID_ROLL_RATE_KP;
+extern float PID_ROLL_RATE_KI;
+extern float PID_ROLL_RATE_KD;
 #define PID_ROLL_RATE_INTEGRATION_LIMIT 33.3
 
-extern const float PID_PITCH_RATE_KP;
-extern const float PID_PITCH_RATE_KI;
-extern const float PID_PITCH_RATE_KD;
+extern float PID_PITCH_RATE_KP;
+extern float PID_PITCH_RATE_KI;
+extern float PID_PITCH_RATE_KD;
 #define PID_PITCH_RATE_INTEGRATION_LIMIT 33.3
 
-extern const float PID_YAW_RATE_KP;
-extern const float PID_YAW_RATE_KI;
-extern const float PID_YAW_RATE_KD;
+extern float PID_YAW_RATE_KP;
+extern float PID_YAW_RATE_KI;
+extern float PID_YAW_RATE_KD;
 #define PID_YAW_RATE_INTEGRATION_LIMIT 200
 
-extern const float PID_ROLL_KP;
-extern const float PID_ROLL_KI;
-extern const float PID_ROLL_KD;
+extern float PID_ROLL_KP;
+extern float PID_ROLL_KI;
+extern float PID_ROLL_KD;
 #define PID_ROLL_INTEGRATION_LIMIT 20.0
 
-extern const float PID_PITCH_KP;
-extern const float PID_PITCH_KI;
-extern const float PID_PITCH_KD;
+extern float PID_PITCH_KP;
+extern float PID_PITCH_KI;
+extern float PID_PITCH_KD;
 #define PID_PITCH_INTEGRATION_LIMIT 20.0
 
-extern const float PID_YAW_KP;
-extern const float PID_YAW_KI;
-extern const float PID_YAW_KD;
+extern float PID_YAW_KP;
+extern float PID_YAW_KI;
+extern float PID_YAW_KD;
 #define PID_YAW_INTEGRATION_LIMIT 360.0
 
 #define DEFAULT_PID_INTEGRATION_LIMIT 5000.0
