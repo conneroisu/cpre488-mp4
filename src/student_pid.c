@@ -140,7 +140,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
     // If we have read a new set of ERROR_AVERAGE_MAX_READINGS, update the D contribution.
     if(pid->error.count == ERROR_AVERAGE_MAX_READINGS && !pid->error.next_write_index)
     {
-      pid->last_d_contribution = pid->kd * ((pid->error.avg_error - pid->prev_avg_error) / pid->dt);
+      pid->last_d_contribution = pid->kd * ((pid->error.avg_error - pid->prev_avg_error) / (pid->dt * ERROR_AVERAGE_MAX_READINGS));
     }
 
     control += pid->last_d_contribution;
