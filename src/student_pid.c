@@ -1,8 +1,8 @@
 #include "student_pid.h"
+#include "log.h"
 #include "num.h"
 #include <float.h>
 #include <math.h>
-#include "log.h"
 
 const float PID_ROLL_RATE_KP = 800;
 const float PID_ROLL_RATE_KI = 5;
@@ -29,38 +29,26 @@ const float PID_YAW_KD = 0.0;
  * @param angle
  * @return float
  */
+float capAngle(float angle) {
+  int coterminal = (int)angle / 360;
 
- float capAngle(float angle) 
- {
-   int coterminal = (int) angle / 360;
- 
-   angle -= coterminal * 360;
- 
-   // Assumed units are degrees.
-   if(angle > 0)
-   {
-        if(angle <= 180.0f)
-        {
-        return angle;
-        }
-        else
-        {
-        return (-180.0f) + angle;
-        }
-   }
-   else
-   {
-        if(angle >= -180.0f)
-        {
-        return angle;
-        }
-        else
-        {
-        return (180.0f) + angle;
-        }
-   }
+  angle -= coterminal * 360;
 
- }
+  // Assumed units are degrees.
+  if (angle > 0) {
+    if (angle <= 180.0f) {
+      return angle;
+    } else {
+      return (-180.0f) + angle;
+    }
+  } else {
+    if (angle >= -180.0f) {
+      return angle;
+    } else {
+      return (180.0f) + angle;
+    }
+  }
+}
 
 /**
  * PID object initialization.
@@ -76,8 +64,8 @@ const float PID_YAW_KD = 0.0;
  * @param[in] enableDFilter Enable setting for the D lowpass filter
  */
 void studentPidInit(PidObject *pid, const float desired, const float kp,
-                    const float ki, const float kd, const float dt, const int cap_error_angle)
-{
+                    const float ki, const float kd, const float dt,
+                    const int cap_error_angle) {
   pid->kp = kp;
   pid->ki = ki;
   pid->kd = kd;
@@ -103,18 +91,15 @@ float studentPidUpdate(PidObject *pid, const float measured,
                        const bool updateError) {
   float error = pid->setpoint - measured;
 
-  if(pid->cap_error_angle)
-  {
+  if (pid->cap_error_angle) {
     error = capAngle(error);
   }
 
   // Incorporate P term.
   float control = pid->kp * error;
 
-
   // If the first error reading has not happened yet, do NOT incorporate D.
-  if(pid->first_error_read_saved)
-  {
+  if (pid->first_error_read_saved) {
     // Incorporate D term.
     control += pid->kd * ((error - pid->prev_error) / pid->dt);
   }
@@ -135,7 +120,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   }
 
   // Incorporate I term.
-  //control += pid->ki * pid->total_error;
+  // control += pid->ki * pid->total_error;
 
   return control;
 }

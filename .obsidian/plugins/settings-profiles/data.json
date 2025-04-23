@@ -1,0 +1,13 @@
+{
+  "activeProfile": {
+    "name": "sb",
+    "modifiedAt": "2025-03-19T22:00:50.110Z"
+  },
+  "profileUpdate": true,
+  "profileUpdateDelay": 800,
+  "uiUpdate": true,
+  "uiUpdateInterval": 1000,
+  "devices": {
+    "9a351849218fadde73bbe667645215e43483b85447014bad774f88b3960cdd23": "/home/connerohnesorge/.local/share/obsidianplugins/Profiles"
+  }
+}

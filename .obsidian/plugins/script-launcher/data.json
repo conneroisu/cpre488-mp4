@@ -1,0 +1,19 @@
+[
+  {
+    "name": "publish",
+    "path": "C:\\Users\\Conne\\Documents\\0Vaults\\SecondBrain\\Projects\\ObsidianDev\\awesome-vaults\\scripts\\publish.bat",
+    "showOnBottomBar": true,
+    "icon": ""
+  },
+  {
+    "name": "publish Canvas Temple",
+    "path": "C:\\Users\\Conne\\Documents\\0Vaults\\SecondBrain\\000 Canvas Temple Plugin/Scripts/publish.bat",
+    "icon": "hammer"
+  },
+  {
+    "name": "publish canvas utilities plugin",
+    "path": "C:\\Users\\Conne\\Documents\\0Vaults\\SecondBrain\\000 Canvas Temple Plugin/Scripts/canvas utitility.bat",
+    "icon": "",
+    "showOnBottomBar": false
+  }
+]

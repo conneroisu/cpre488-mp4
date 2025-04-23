@@ -44,7 +44,6 @@ bool controllerStudentTest(void) {
   return pass;
 }
 
-
 /**
  * This function is called periodically to update the PID loop,
  * Reads state estimate and setpoint values and passes them
@@ -65,52 +64,46 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
                        const sensorData_t *sensors, const state_t *state,
                        const uint32_t tick) {
 
-  float p_rate, r_rate, y_rate = 0;
-
+  float y_rate = 0.0f;
+  float p_rate = 0.0f;
+  float r_rate = 0.0f;
 
   // check if time to update the attutide controller
-  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick))
-  {
+  if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick)) {
 
-    //only support attitude and attitude rate control
-    if(setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable)
-    {
-      DEBUG_PRINT("Student controller does not support vehicle position or velocity mode. Check flight mode.");
+    // only support attitude and attitude rate control
+    if (setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable ||
+        setpoint->mode.z != modeDisable) {
+      DEBUG_PRINT("Student controller does not support vehicle position or "
+                  "velocity mode. Check flight mode.");
       control->thrust = 0;
       control->roll = 0;
       control->pitch = 0;
       control->yaw = 0;
       return;
-    }
-    else
-    {
-      // When in attitude control, attitude rates are calculated via the attitude PID controller.
-      // When in attitude rate control, attitude rates are not calculated and instead directly passed.
-      // When in mixed, roll and pitch attitudes are set (so the rates are calculated), but the yaw rate is passed in directly.
+    } else {
+      // When in attitude control, attitude rates are calculated via the
+      // attitude PID controller. When in attitude rate control, attitude rates
+      // are not calculated and instead directly passed. When in mixed, roll and
+      // pitch attitudes are set (so the rates are calculated), but the yaw rate
+      // is passed in directly.
 
-      // Attitude control (yaw can be abs or velocity since the attitude PID needs to run for "attitude" and "mixed" modes)
-      if(setpoint->mode.pitch == modeAbs && setpoint->mode.roll == modeAbs && setpoint->mode.yaw != modeDisable)
-      {
+      // Attitude control (yaw can be abs or velocity since the attitude PID
+      // needs to run for "attitude" and "mixed" modes)
+      if (setpoint->mode.pitch == modeAbs && setpoint->mode.roll == modeAbs &&
+          setpoint->mode.yaw != modeDisable) {
         // Run attitude PID to get the rates.
-        studentAttitudeControllerCorrectAttitudePID
-        (
-          state->attitude.roll,
-          state->attitude.pitch,
-          state->attitude.yaw,
-          capAngle(setpoint->attitude.roll),
-          capAngle(setpoint->attitude.pitch),
-          capAngle(setpoint->attitude.yaw),
-          &r_rate,
-          &p_rate,
-          &y_rate
-        );
+        studentAttitudeControllerCorrectAttitudePID(
+            state->attitude.roll, state->attitude.pitch, state->attitude.yaw,
+            capAngle(setpoint->attitude.roll),
+            capAngle(setpoint->attitude.pitch),
+            capAngle(setpoint->attitude.yaw), &r_rate, &p_rate, &y_rate);
 
         // Update desired attitudes (logging)
         attitudeDesired = setpoint->attitude;
 
         // If mixed mode, overwrite yaw to the setpoint yaw rate.
-        if(setpoint->mode.yaw == modeVelocity)
-        {
+        if (setpoint->mode.yaw == modeVelocity) {
           y_rate = setpoint->attitudeRate.yaw;
 
           // Yaw attitude PID should be reset since we are not using its value.
@@ -118,8 +111,9 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
         }
       }
       // Attitude rate control
-      else if(setpoint->mode.pitch == modeVelocity && setpoint->mode.roll == modeVelocity && setpoint->mode.yaw == modeVelocity)
-      {
+      else if (setpoint->mode.pitch == modeVelocity &&
+               setpoint->mode.roll == modeVelocity &&
+               setpoint->mode.yaw == modeVelocity) {
         r_rate = setpoint->attitudeRate.roll;
         p_rate = setpoint->attitudeRate.pitch;
         y_rate = setpoint->attitudeRate.yaw;
@@ -131,44 +125,33 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
 
       // Run the rate PID to get control values.
       // Roll, pitch, and yaw values set.
-      studentAttitudeControllerCorrectRatePID
-      (
-        sensors->gyro.x,
-        sensors->gyro.y,
-        sensors->gyro.z,
-        r_rate,
-        p_rate,
-        y_rate,
-        &(control->roll),
-        &(control->pitch),
-        &(control->yaw)
-      );
+      studentAttitudeControllerCorrectRatePID(
+          sensors->gyro.x, sensors->gyro.y, sensors->gyro.z, r_rate, p_rate,
+          y_rate, &(control->roll), &(control->pitch), &(control->yaw));
 
       gyro_x = sensors->gyro.x;
       gyro_y = sensors->gyro.y;
       gyro_z = sensors->gyro.z;
-    
+
       // Update desired rates. (logging)
       rateDesired.pitch = p_rate;
       rateDesired.roll = r_rate;
       rateDesired.yaw = y_rate;
     }
-
   }
 
   // Set thrust
   control->thrust = setpoint->thrust;
 
   // Reset PID if no thrust and set control values to 0.
-  if(setpoint->thrust < EPSILON)
-  {
+  if (setpoint->thrust < EPSILON) {
     control->pitch = 0;
     control->roll = 0;
     control->yaw = 0;
     studentAttitudeControllerResetAllPID();
   }
 
-  //copy values for logging
+  // copy values for logging
   cmd_thrust = control->thrust;
   cmd_roll = control->roll;
   cmd_pitch = control->pitch;
@@ -185,7 +168,8 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
  */
 LOG_GROUP_START(ctrlStdnt)
 
-// 488 TODO setup logging parameters, replace null with pointer to globabl variable
+// 488 TODO setup logging parameters, replace null with pointer to globabl
+// variable
 
 /**
  * @brief Thrust command output

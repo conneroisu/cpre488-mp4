@@ -15,36 +15,35 @@ static bool isInit = false;
  * @return int16_t
  */
 static inline int16_t saturateSignedInt16(float in) {
-  if ((int16_t) in > INT16_MAX) {
+  if ((int16_t)in > INT16_MAX) {
     return INT16_MAX;
-  } else if ((int16_t) in < -INT16_MAX) {
+  } else if ((int16_t)in < -INT16_MAX) {
     return -INT16_MAX;
   } else {
     return (int16_t)in;
   }
 }
 
-void studentAttitudeControllerResetRollAttitudePID(void)
-{
+void studentAttitudeControllerResetRollAttitudePID(void) {
   studentPidReset(&pidRoll);
 }
 
-void studentAttitudeControllerResetYawAttitudePID(void)
-{
+void studentAttitudeControllerResetYawAttitudePID(void) {
   studentPidReset(&pidYaw);
 }
 
-void studentAttitudeControllerResetPitchAttitudePID(void)
-{
+void studentAttitudeControllerResetPitchAttitudePID(void) {
   studentPidReset(&pidPitch);
 }
 
 // Also reset rate PIDs, not just attitude PIDs.
-void studentAttitudeControllerResetAllPID(void)
-{
+void studentAttitudeControllerResetAllPID(void) {
   studentAttitudeControllerResetRollAttitudePID();
   studentAttitudeControllerResetPitchAttitudePID();
   studentAttitudeControllerResetYawAttitudePID();
+  studentPidReset(&pidRollRate);
+  studentPidReset(&pidPitchRate);
+  studentPidReset(&pidYawRate);
 }
 
 /**
@@ -59,68 +58,55 @@ void studentAttitudeControllerInit(const float updateDt) {
   }
   isInit = true;
 
-  studentPidInit(                    //
-      &pidRollRate,                  //
-      0,                             //
-      PID_ROLL_RATE_KP,              //
-      PID_ROLL_RATE_KI,              //
-      PID_ROLL_RATE_KD,              //
-      updateDt,
-      0
-  );
-  studentPidInit(                    //
-      &pidPitchRate,                 //
-      0,                             //
-      PID_PITCH_RATE_KP,             //
-      PID_PITCH_RATE_KI,             //
-      PID_PITCH_RATE_KD,             //
-      updateDt,
-      0
-  );
-  studentPidInit(                    //
-      &pidYawRate,                   //
-      0,                             //
-      PID_YAW_RATE_KP,               //
-      PID_YAW_RATE_KI,               //
-      PID_YAW_RATE_KD,               //
-      updateDt,
-      0
-  );
+  studentPidInit(       //
+      &pidRollRate,     //
+      0,                //
+      PID_ROLL_RATE_KP, //
+      PID_ROLL_RATE_KI, //
+      PID_ROLL_RATE_KD, //
+      updateDt, 0);
+  studentPidInit(        //
+      &pidPitchRate,     //
+      0,                 //
+      PID_PITCH_RATE_KP, //
+      PID_PITCH_RATE_KI, //
+      PID_PITCH_RATE_KD, //
+      updateDt, 0);
+  studentPidInit(      //
+      &pidYawRate,     //
+      0,               //
+      PID_YAW_RATE_KP, //
+      PID_YAW_RATE_KI, //
+      PID_YAW_RATE_KD, //
+      updateDt, 0);
 
   studentPidSetIntegralLimit(&pidRollRate, PID_ROLL_RATE_INTEGRAL_LIMIT);
   studentPidSetIntegralLimit(&pidPitchRate, PID_PITCH_RATE_INTEGRAL_LIMIT);
   studentPidSetIntegralLimit(&pidYawRate, PID_YAW_RATE_INTEGRAL_LIMIT);
 
-
   // Error is an angle for these and should
   // be capped between -180 and 180.
-  studentPidInit(               //
-      &pidRoll,                 //
-      0,                        //
-      PID_ROLL_KP,              //
-      PID_ROLL_KI,              //
-      PID_ROLL_KD,              //
-      updateDt,
-      1
-  );
-  studentPidInit(               //
-      &pidPitch,                //
-      0,                        //
-      PID_PITCH_KP,             //
-      PID_PITCH_KI,             //
-      PID_PITCH_KD,             //
-      updateDt,
-      1
-  );
-  studentPidInit(               //
-      &pidYaw,                  //
-      0,                        //
-      PID_YAW_KP,               //
-      PID_YAW_KI,               //
-      PID_YAW_KD,               //
-      updateDt,
-      1
-  );
+  studentPidInit(  //
+      &pidRoll,    //
+      0,           //
+      PID_ROLL_KP, //
+      PID_ROLL_KI, //
+      PID_ROLL_KD, //
+      updateDt, 1);
+  studentPidInit(   //
+      &pidPitch,    //
+      0,            //
+      PID_PITCH_KP, //
+      PID_PITCH_KI, //
+      PID_PITCH_KD, //
+      updateDt, 1);
+  studentPidInit( //
+      &pidYaw,    //
+      0,          //
+      PID_YAW_KP, //
+      PID_YAW_KI, //
+      PID_YAW_KD, //
+      updateDt, 1);
 
   studentPidSetIntegralLimit(&pidRoll, PID_ROLL_INTEGRAL_LIMIT);
   studentPidSetIntegralLimit(&pidPitch, PID_PITCH_INTEGRAL_LIMIT);
@@ -196,10 +182,8 @@ void studentAttitudeControllerCorrectAttitudePID( //
   studentPidSetDesired(&pidYaw, eulerYawDesired);
 
   // Update roll and pitch PIDs
-  *rollRateDesired =
-      studentPidUpdate(&pidRoll, eulerRollActual, true);
-  *pitchRateDesired =
-      studentPidUpdate(&pidPitch, eulerPitchActual, true);
+  *rollRateDesired = studentPidUpdate(&pidRoll, eulerRollActual, true);
+  *pitchRateDesired = studentPidUpdate(&pidPitch, eulerPitchActual, true);
 
   // Update yaw PID with normalized error
   *yawRateDesired = studentPidUpdate(&pidYaw, eulerYawActual, true);
@@ -254,19 +238,15 @@ void studentAttitudeControllerCorrectRatePID( //
   studentPidSetDesired(&pidYawRate, yawRateDesired);
 
   // Update all attitude rate PIDs
-  float rollOutput =
-      studentPidUpdate(&pidRollRate, rollRateActual, true);
-  float pitchOutput =
-      studentPidUpdate(&pidPitchRate, pitchRateActual, true);
-  float yawOutput =
-      studentPidUpdate(&pidYawRate, yawRateActual, true);
+  float rollOutput = studentPidUpdate(&pidRollRate, rollRateActual, true);
+  float pitchOutput = studentPidUpdate(&pidPitchRate, pitchRateActual, true);
+  float yawOutput = studentPidUpdate(&pidYawRate, yawRateActual, true);
 
   // Convert floating point outputs to int16_t motor commands
   *rollCmd = saturateSignedInt16(rollOutput);
   *pitchCmd = saturateSignedInt16(pitchOutput);
   *yawCmd = saturateSignedInt16(yawOutput);
 }
-
 
 /**
  *  Log variables of attitude PID controller

@@ -1,0 +1,55 @@
+/* Custom Callouts */
+/* By Conner Ohnesorge */
+
+/* Context Callout has color of red and icon of line-chart */
+.callout[data-callout="context"] {
+    --callout-color: 255, 77, 77 !important;
+    --callout-icon:  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-right"><path d="M22 18a2 2 0 0 1-2 2H3c-1.1 0-1.3-.6-.4-1.3L20.4 4.3c.9-.7 1.6-.4 1.6.7Z"/></svg>' !important;
+}
+/* Problem Callout has color of red and icon of server-crash */
+.callout[data-callout="problem"] {
+    --callout-color: 255, 77, 77 !important;
+    --callout-icon: server-crash !important;
+}
+/* Answer Callout has color of black and icon of fingerprint */
+.callout[data-callout="answer"] {
+    --callout-color: 0,0,0 !important;
+    --callout-icon: fingerprint !important;
+}
+/* Utility Callout has color of grey and icon of hammer */
+.callout[data-callout="utility"] {
+    --callout-color: 77, 77, 77 !important;
+    --callout-icon: hammer !important;
+}
+.callout[data-callout="track"]{
+    --callout-color: 77, 77, 77 !important;
+    --callout-icon: line-chart !important;
+}
+.callout[data-callout="unsorted"]{
+    --callout-color: 123, 179, 121 !important;
+    --callout-icon: sort-desc !important;
+}
+.callout[data-callout="academic"]{
+    --callout-color: 77, 77, 77 !important;
+    --callout-icon: graduation-cap !important;
+}
+.callout[data-callout="alias"]{
+    --callout-color: 255, 255, 255 !important;
+    --callout-icon: baseline !important;
+}
+.callout[data-callout="balance"]{
+    --callout-color: 255, 255, 255 !important;
+    --callout-icon: scale !important;
+}
+.callout[data-callout="createdtoday"]{
+    --callout-color: 77, 77, 77 !important;
+    --callout-icon: calendar !important;
+}
+.callout[data-callout="key"]{
+    --callout-color: 252, 207, 3 !important;
+    --callout-icon: key !important;
+}
+.callout[data-callout="project"]{
+    --callout-color: 77, 77, 77 !important;
+    --callout-icon: landmark !important;
+}

@@ -1,0 +1,268 @@
+{
+  "main": {
+    "id": "ba3c0e93f92b98ff",
+    "type": "split",
+    "children": [
+      {
+        "id": "ea70c4c85796c1b3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5f21043220e7432a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
+            }
+          },
+          {
+            "id": "9a45cdb3aa4d9812",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "academia/ARCH321/Homework/Responses/Module-2/Reflection-4/Reflection-4.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Reflection-4"
+            }
+          },
+          {
+            "id": "e420328a89fed439",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "pictures/Pasted image 20250309104211.png"
+              },
+              "icon": "lucide-image",
+              "title": "Pasted image 20250309104211"
+            }
+          },
+          {
+            "id": "7f8fd3affeafbab5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "0027712066ebe5cd",
+    "type": "split",
+    "children": [
+      {
+        "id": "915dedc9855d4a27",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9913786c45063b8d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "2138d95259c9b627",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "resume.md",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "d86f563e810cd745",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a3615d455dd5c784",
+    "type": "split",
+    "children": [
+      {
+        "id": "d7aa5f203d96297d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1d962a019dbd7ee2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "3f3345c9c5426e5e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "612e270931ff648b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "48c387bee376ec2f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {},
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "obsidian-kanban:Create new board": false,
+      "vim-toggle:Toggle Vim Mode": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false,
+      "obsidian-to-anki-plugin:Obsidian_to_Anki - Scan Vault": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-advanced-slides:Show Slide Preview": false
+    }
+  },
+  "active": "7f8fd3affeafbab5",
+  "lastOpenFiles": [
+    "src/controller_student.c~",
+    "src/student_pid.c~",
+    "Makefile~",
+    "Makefile",
+    "main.c",
+    "src/student_attitude_controller.c~",
+    "README.md~",
+    "assets/Cascading-PID-Diagram.png",
+    "README.md",
+    "assets/e400bd1b7fa440b592a51045a79bdf26_MD5.svg",
+    "assets/76659270baada00b1577ba8bd221f82c_MD5.png",
+    "assets/402aec8476b245150b4cbc5e49b8d688_MD5.svg",
+    "pictures",
+    "academia/CPRE488/Homework/HW-03/Problem-1.md",
+    "academia/CPRE488/Homework/HW-03-merged.md",
+    "academia/CPRE488/Homework/HW-03/Problem-2.md",
+    "pictures/Pasted image 20250310044745.png",
+    "Untitled 2.md",
+    "Untitled 3.md",
+    "pictures/Pasted image 20250309104211.png",
+    "academia/EE491/Boot Linux Xilinx.md",
+    "academia/CPRE488/Homework/HW-03/Getting Started - Xilinx Wiki - Confluence.md",
+    "academia/CPRE488/Homework/HW-03/ldd3.pdf",
+    "Untitled 1.md",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-4/Reflection-4.md",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-4/earthquakesanfran.png",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-4/Reflection-4.docx",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-3/Reflection-2.md",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-3/columbianwhitecity.png",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-3/Reflection-2.docx",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-1/Reflection-1.md",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-2/Reflection-2.md",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-2/sweat.png",
+    "academia/ARCH321/Homework/Responses/Module-2/Reflection-1/cutncover.png",
+    "Untitled.md",
+    "academia/ARCH321/Lecture/Module-02/Module 02 Overview History of the American City (Spring 2025).md",
+    "academia/ARCH321/Lecture/Module-01/Module 01 Overview History of the American City (Spring 2025).md",
+    "tigris-slides.md",
+    "diffusion + reasoning.md",
+    "academia/ARCH321/Homework/Responses/Module-1/Reflect-2/Module-1-Reflect-2.md",
+    "academia/ARCH321/Homework/Responses/Module-1/Reflect-1/Module-1-Reflect-1.md",
+    "resume.md",
+    "resume.prompt.md",
+    "Clippings/Untitled.md",
+    "Clippings/OpenAI Platform.md",
+    "academia/CPRE488/Homework/HW-02-merged.md",
+    "Untitled.canvas",
+    "EE324 Cheetsheet 2.canvas",
+    "EE324 Cheetsheet 1.canvas",
+    "EE324 Cheetsheet.canvas",
+    "EE322 Cheetsheet.canvas",
+    "EE322 Cheetsheet 1.canvas",
+    "academia/archive/CPRE288/Homework/CPRE288-Homework-05/GPIO Diagram.canvas",
+    "academia/archive/EE224/Exams/Midterm 2 EE224 1/Midterm2 EE224 1.canvas"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-relativenumber",
+	"name": "Relativenumber (relative line numbers)",
+	"version": "1.0.0",
+	"minAppVersion": "0.13.0",
+	"description": "Displays relative line numbers in the editor's gutter.",
+	"author": "Rob Stevenson",
+	"authorUrl": "https://github.com/thisdotrob/",
+	"isDesktopOnly": true
+}

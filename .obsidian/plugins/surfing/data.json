@@ -1,0 +1,41 @@
+{
+  "defaultSearchEngine": "google",
+  "customSearchEngine": [
+    {
+      "name": "duckduckgo",
+      "url": "https://duckduckgo.com/?q="
+    }
+  ],
+  "ignoreList": [
+    "notion",
+    "craft"
+  ],
+  "alwaysShowCustomSearch": true,
+  "showOtherSearchEngines": true,
+  "showSearchBarInPage": false,
+  "markdownPath": "8887 - Web/",
+  "customHighlightFormat": true,
+  "highlightFormat": "[{CONTENT}]({URL})",
+  "highlightInSameTab": false,
+  "openInSameTab": false,
+  "showRefreshButton": true,
+  "openInObsidianWeb": true,
+  "useCustomIcons": false,
+  "useWebview": false,
+  "useIconList": true,
+  "darkMode": false,
+  "bookmarkManager": {
+    "openBookMark": true,
+    "pagination": "12",
+    "category": "\"计算机\\n    算法\\n    数据结构\\nobsidian\\n    surfing\\n    dataview\\n\"",
+    "defaultColumnList": [
+      "name",
+      "description",
+      "category",
+      "tags",
+      "created",
+      "modified"
+    ]
+  },
+  "treeData": []
+}

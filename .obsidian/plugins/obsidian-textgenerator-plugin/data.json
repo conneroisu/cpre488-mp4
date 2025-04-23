@@ -1,0 +1,139 @@
+{
+  "version": "0.7.41",
+  "endpoint": "https://api.openai.com",
+  "models": {},
+  "api_key": "",
+  "encrypt_keys": false,
+  "selectedProvider": "OpenAI Chat (Langchain)",
+  "max_tokens": 1200,
+  "temperature": 0.5,
+  "frequency_penalty": 0.5,
+  "prompt": "",
+  "showStatusBar": true,
+  "outputToBlockQuote": false,
+  "freeCursorOnStreaming": false,
+  "allowJavascriptRun": false,
+  "experiment": false,
+  "promptsPath": "textgenerator/prompts",
+  "prefix": "\n\n",
+  "tgSelectionLimiter": "^\\*\\*\\*",
+  "stream": true,
+  "context": {
+    "includeTitle": true,
+    "includeStaredBlocks": true,
+    "includeFrontmatter": true,
+    "includeHeadings": true,
+    "includeChildren": true,
+    "includeMentions": true,
+    "includeHighlights": true,
+    "includeExtractions": true,
+    "includeClipboard": true
+  },
+  "requestTimeout": 300000,
+  "options": {
+    "generate-text": true,
+    "generate-text-with-metadata": true,
+    "insert-generated-text-From-template": true,
+    "create-generated-text-From-template": false,
+    "insert-text-From-template": false,
+    "create-text-From-template": false,
+    "show-modal-From-template": true,
+    "set_max_tokens": true,
+    "set-model": true,
+    "packageManager": true,
+    "create-template": false,
+    "get-title": true,
+    "generated-text-to-clipboard-From-template": false,
+    "calculate-tokens": true,
+    "calculate-tokens-for-template": true,
+    "modal-suggest": true,
+    "text-extractor-tool": false,
+    "stop-stream": true
+  },
+  "advancedOptions": {
+    "generateTitleInstructEnabled": false,
+    "generateTitleInstruct": "Generate a title for the current document (do not use * \" \\ / < > : | ? .):\n{{substring content 0 255}}"
+  },
+  "autoSuggestOptions": {
+    "customInstructEnabled": true,
+    "customInstruct": "Continue the follwing text:\nTitle: {{title}}\n{{query}}",
+    "isEnabled": true,
+    "allowInNewLine": false,
+    "delay": 300,
+    "numberOfSuggestions": 5,
+    "triggerPhrase": "  ",
+    "stop": ".",
+    "showStatus": true,
+    "customProvider": false,
+    "inlineSuggestions": false,
+    "overrideTrigger": " "
+  },
+  "extractorsOptions": {
+    "PDFExtractor": true,
+    "WebPageExtractor": true,
+    "YoutubeExtractor": true,
+    "AudioExtractor": false,
+    "ImageExtractorEmbded": true,
+    "ImageExtractor": true
+  },
+  "displayErrorInEditor": false,
+  "LLMProviderOptions": {
+    "whisper": {
+      "base_path": "https://api.openai.com/v1",
+      "model": "whisper-1",
+      "api_key": ""
+    },
+    "OpenAI Chat (Langchain)": {
+      "basePath": "https://api.openai.com/v1",
+      "model": "gpt-4o",
+      "api_key": ""
+    },
+    "Default (Custom)": {
+      "endpoint": "api.groq.com/openai/v1",
+      "custom_header": "{\n    \"Content-Type\": \"application/json\",\n    authorization: \"Bearer {{api_key}}\"\n}",
+      "custom_body": "{\n    model: \"{{model}}\",\n    temperature: {{temperature}},\n    top_p: {{top_p}},\n    frequency_penalty: {{frequency_penalty}},\n    presence_penalty: {{presence_penalty}},\n    max_tokens: {{max_tokens}},\n    n: {{n}},\n    stream: {{stream}},\n    stop: \"{{stop}}\",\n    messages: {{stringify messages}}\n}",
+      "model": "llama-3.1-70b-versatile",
+      "sanatization_streaming": "// catch error\nif (res.status >= 300) {\n  const err = data?.error?.message || JSON.stringify(data);\n  throw err;\n}\nlet resultTexts = [];\nconst lines = this.chunk.split(\"\\ndata: \");\n\nconst parsedLines = lines\n    .map((line) => line.replace(/^data: /, \"\").trim()) // Remove the \"data: \" prefix\n    .filter((line) => line !== \"\" && line !== \"[DONE]\") // Remove empty lines and \"[DONE]\"\n    .map((line) => {\n        try {\n            return JSON.parse(line)\n        } catch { }\n    }) // Parse the JSON string\n    .filter(Boolean);\n\nfor (const parsedLine of parsedLines) {\n    const { choices } = parsedLine;\n    const { delta } = choices[0];\n    const { content } = delta;\n    // Update the UI with the new content\n    if (content) {\n        resultTexts.push(content);\n    }\n}\nreturn resultTexts.join(\"\");",
+      "sanatization_response": "// catch error\nif (res.status >= 300) {\n  const err = data?.error?.message || JSON.stringify(data);\n  throw err;\n}\n\n// get choices\nconst choices = (data.choices || data).map(c=> c.message);\n\n// the return object should be in the format of \n// { content: string }[] \n// if there's only one response, put it in the array of choices.\nreturn choices;",
+      "frequency_penalty": 0,
+      "presence_penalty": 0.5,
+      "top_p": 1,
+      "api_key": ""
+    },
+    "Default (Custom) 1": {
+      "endpoint": "api.groq.com/openai/v1",
+      "custom_header": "{\n    \"Content-Type\": \"application/json\",\n    authorization: \"Bearer {{api_key}}\"\n}",
+      "custom_body": "{\n    model: \"{{model}}\",\n    temperature: {{temperature}},\n    top_p: {{top_p}},\n    frequency_penalty: {{frequency_penalty}},\n    presence_penalty: {{presence_penalty}},\n    max_tokens: {{max_tokens}},\n    n: {{n}},\n    stream: {{stream}},\n    stop: \"{{stop}}\",\n    messages: {{stringify messages}}\n}",
+      "model": "llama-3.1-70b-versatile",
+      "sanatization_streaming": "// catch error\nif (res.status >= 300) {\n  const err = data?.error?.message || JSON.stringify(data);\n  throw err;\n}\nlet resultTexts = [];\nconst lines = this.chunk.split(\"\\ndata: \");\n\nconst parsedLines = lines\n    .map((line) => line.replace(/^data: /, \"\").trim()) // Remove the \"data: \" prefix\n    .filter((line) => line !== \"\" && line !== \"[DONE]\") // Remove empty lines and \"[DONE]\"\n    .map((line) => {\n        try {\n            return JSON.parse(line)\n        } catch { }\n    }) // Parse the JSON string\n    .filter(Boolean);\n\nfor (const parsedLine of parsedLines) {\n    const { choices } = parsedLine;\n    const { delta } = choices[0];\n    const { content } = delta;\n    // Update the UI with the new content\n    if (content) {\n        resultTexts.push(content);\n    }\n}\nreturn resultTexts.join(\"\");",
+      "sanatization_response": "// catch error\nif (res.status >= 300) {\n  const err = data?.error?.message || JSON.stringify(data);\n  throw err;\n}\n\n// get choices\nconst choices = (data.choices || data).map(c=> c.message);\n\n// the return object should be in the format of \n// { content: string }[] \n// if there's only one response, put it in the array of choices.\nreturn choices;",
+      "frequency_penalty": 0,
+      "presence_penalty": 0.5,
+      "top_p": 1,
+      "api_key": ""
+    },
+    "OpenAI Instruct (Langchain)": {
+      "basePath": "https://api.openai.com/v1",
+      "model": "gpt-3.5-turbo-instruct"
+    }
+  },
+  "LLMProviderOptionsKeysHashed": {
+    "whisper.api_key": "__@#key_prefix#@__",
+    "Default (Custom).api_key": "__@#key_prefix#@__gsk_6BbXTYN6mw3nhz5ojKCLWGdyb3FYjBLtO6x4i0hia4x3HZQ6ktlX",
+    "OpenAI Chat (Langchain).api_key": "__@#key_prefix#@__sk-proj-cPiZsGqqmhHPe5AWkDgFtOk-6M02pSAsCcK9wCsBsZYb_tAUN7XFsGZ1K-x1oqp52ORTc-1Jx3T3BlbkFJ8iVTOuNaCxHoPV0RplEOZbtrbOLx9DPAwW23BwgGJ9bR3pCBNyYZLrzqvcgaDWQeE0RJsloDYA",
+    "Default (Custom) 1.api_key": "__@#key_prefix#@__gsk_6BbXTYN6mw3nhz5ojKCLWGdyb3FYjBLtO6x4i0hia4x3HZQ6ktlX"
+  },
+  "engine": "gpt-4-0613",
+  "textGenPath": "textgenerator/",
+  "slashSuggestOptions": {
+    "isEnabled": true,
+    "triggerPhrase": "/"
+  },
+  "LLMProviderProfiles": {
+    "Default (Custom) 1": {
+      "extends": "Default (Custom)",
+      "name": "Default 1"
+    }
+  },
+  "api_key_encrypted": "__@#key_prefix#@__sk-proj-cPiZsGqqmhHPe5AWkDgFtOk-6M02pSAsCcK9wCsBsZYb_tAUN7XFsGZ1K-x1oqp52ORTc-1Jx3T3BlbkFJ8iVTOuNaCxHoPV0RplEOZbtrbOLx9DPAwW23BwgGJ9bR3pCBNyYZLrzqvcgaDWQeE0RJsloDYA"
+}

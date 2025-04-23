@@ -1,0 +1,9 @@
+{
+  "template": "{\n        folder: file.parent.path,\n        title: file.basename,\n        extension: file.extension,\n        parent: file.parent.basename,\n        parent_path: file.parent.path,\n        parent_parent: file.parent.parent.basename,\n        parent_parent_path: file.parent.parent.path,\n        tags:[\n            \"generated\", \n    \n\n        ]\n}",
+  "folderToIgnore": "Meta",
+  "internal": {
+    "ignoredFolders": [
+      "Meta"
+    ]
+  }
+}

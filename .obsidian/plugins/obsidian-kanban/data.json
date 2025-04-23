@@ -1,0 +1,20 @@
+{
+  "new-line-trigger": "enter",
+  "new-card-insertion-method": "prepend",
+  "new-note-folder": "/",
+  "show-checkboxes": true,
+  "tag-colors": [],
+  "date-display-format": "MMM-ddd-Do-YYYY-DDDD",
+  "show-relative-date": true,
+  "date-picker-week-start": 0,
+  "link-date-to-daily-note": true,
+  "archive-date-separator": "#tasks",
+  "metadata-keys": [
+    {
+      "metadataKey": "type",
+      "label": "Type",
+      "shouldHideLabel": false,
+      "containsMarkdown": false
+    }
+  ]
+}

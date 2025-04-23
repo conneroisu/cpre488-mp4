@@ -1,0 +1,11 @@
+
+/* alt file indicator */
+.status-bar-item.plugin-grappling-hook:not(:empty)::before {
+	content: "↪";
+	margin-right: 2px;
+}
+
+/* do not leave some gap for themes adding padding to statusbar items */
+.status-bar-item.plugin-grappling-hook:empty {
+	display: none;
+}

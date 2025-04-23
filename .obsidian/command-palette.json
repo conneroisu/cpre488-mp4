@@ -1,0 +1,9 @@
+{
+  "pinned": [
+    "daily-notes",
+    "obsidian-textgenerator-plugin:generate-text",
+    "templater-obsidian:insert-templater",
+    "audio-recorder:start",
+    "audio-recorder:stop"
+  ]
+}

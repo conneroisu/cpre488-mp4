@@ -1,0 +1,23 @@
+{
+  "apps": [
+    {
+      "name": "Microsoft Word",
+      "code": "\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\"",
+      "arguments": "",
+      "showInMenu": true
+    },
+    {
+      "name": "Windows Terminal",
+      "code": "wt",
+      "arguments": "",
+      "showInMenu": true
+    },
+    {
+      "name": "nvim",
+      "code": "\"C:\\Users\\Conne\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Neovim\\Neovim Qt.lnk\"",
+      "arguments": "",
+      "showInMenu": true
+    }
+  ],
+  "sysexpInFileMenu": true
+}

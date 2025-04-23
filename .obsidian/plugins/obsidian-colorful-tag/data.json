@@ -1,0 +1,620 @@
+{
+  "TagSettings": [
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Iowa State University Class",
+        "background-color": "blue",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "EE201"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Iowa State University Class",
+        "background-color": "Cyan",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "CS227"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Iowa State University Class",
+        "background-color": "purple",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "PHYSICS232"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Iowa State University Class",
+        "background-color": "lime",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "MATH267"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Active Class",
+        "background-color": "yellow",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "active-class"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Active-issue",
+        "background-color": "yellow",
+        "text-color": "red",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "issue"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This page is a work in progress",
+        "background-color": "aqua",
+        "text-color": "red",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "WIP"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Homework Assignment ",
+        "background-color": "tan",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Homework"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Day of LIfe",
+        "background-color": "orange",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Day"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Lecture Notes ",
+        "background-color": "green",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "lecture"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": Issue Adressed",
+        "background-color": "black",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Completed"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is a problem showing the application of a certain concept . ",
+        "background-color": "red",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Problem"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is a Conceptual Idea",
+        "background-color": "",
+        "text-color": "",
+        "text-size": "white",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Concept"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is an Preparation Page for an Exam",
+        "background-color": "black",
+        "text-color": "blue",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "ExamPrep"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is a announcement about an acedamia class",
+        "background-color": "white",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "class/announcements"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is an individual persion ",
+        "background-color": "white ",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "individual"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is a living person",
+        "background-color": "gray",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "person"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is a contact file",
+        "background-color": "aqua",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "contact"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is a Blog Post",
+        "background-color": "purple",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Blog"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This page is about Obsidian Markdown",
+        "background-color": "#000",
+        "text-color": "gray",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Obsidian"
+    },
+    {
+      "attributes": {
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This page has something to do with markdown ",
+        "background-color": "white",
+        "text-color": "black",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "Markdown"
+    },
+    {
+      "attributes": {
+        "nest-tag": "",
+        "remove-hash": "",
+        "remove-tag-name": "",
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This page is on the tasks list",
+        "background-color": "black",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "tasks"
+    },
+    {
+      "attributes": {
+        "nest-tag": "",
+        "remove-hash": "",
+        "remove-tag-name": "",
+        "radius": "",
+        "prefix": "",
+        "suffix": ": This is a Template",
+        "background-color": "red",
+        "text-color": "white",
+        "text-size": "",
+        "border": "",
+        "font-weight": ""
+      },
+      "opened": false,
+      "enable": true,
+      "tagDetail": {
+        "attributes": {},
+        "opened": false,
+        "itemType": {},
+        "tagIndex": -1
+      },
+      "name_": "template"
+    }
+  ],
+  "GlobalTagSetting": {
+    "attributes": {
+      "font-weight": "900",
+      "prefix": "[tag] "
+    },
+    "opened": false,
+    "enableList_": {
+      "border": false,
+      "font-weight": true,
+      "radius": true,
+      "prefix": true,
+      "text-color": false
+    }
+  },
+  "UseTagDetail": true,
+  "StoreTagDetailInYaml": "plugin",
+  "TagDetailData": {
+    "academia/EE224/Homework/HW7 LTI Systems and Frequency Response/Problem 6 Homework 7 EE224/Problem 6 Homework 7 EE224.md": [],
+    "Brain/Publish/projects/Enigma Machine.md": [],
+    "academia/EE224/Homework/HW8 Fourier Series and Properties/Problem 3 EE 224 Homework 8.md": [],
+    "Meta/templates/public/templates_for_obsidian_database/Unclassifiedmd (91).md": [],
+    "Brain/Meta/project(template).md": []
+  },
+  "MetaFileTagDetails": {
+    "Tempates for Canvas Obsidian.md": [],
+    "Todoist Master List.md": [
+      "#FFFFFF-16-0-285"
+    ],
+    "academia/EE230/Homework/HW5/Problem 3 (Problem 5-3) Homework 6 EE230.md": [],
+    "academia/EE303/Homework/HW2/Problem 4 Homework 2 EE303.md": [],
+    "academia/EE303/Homework/HW2/Problem 6 Homework 2 EE303.md": [],
+    "academia/EE224/Exams/Midterm 2 EE224/Midterm 2 EE224.md": [],
+    "academia/EE224/Main Concepts/Module 1 Signal Basics.md": [],
+    "!Dropbackage/Convolution Property of Fourier Representations.md": [],
+    "academia/EE224/Homework/HW7 LTI Systems and Frequency Response/Problem 6 Homework 7 EE224/Problem 6 Homework 7 EE224.md": [
+      "6-128-244",
+      "6-148-264"
+    ],
+    "academia/EE303/Main Concepts/Power Flow.md": [
+      "#power-flow-4-0-78",
+      "#load-flow-4-12-90",
+      "#contingency-analysis-4-23-101",
+      "#economic-dispatch-4-45-123",
+      "#optimal-power-flow-4-64-142",
+      "#bus-5-0-162"
+    ],
+    "Meta/templates/academic class(template).md": [],
+    "EE 224 Signals and Systems I.md": [],
+    "Meta/templates/skills(template).md": [],
+    "Brain/Publish/about.md": [],
+    "Brain/Publish/projects/Obsidian Spice.md": [],
+    "Brain/Publish/projects/Enigma Machine.md": [
+      "#include-5-45425-45595",
+      "#include-5-47229-47399",
+      "#include-5-47309-47479",
+      "#include-5-47339-47509"
+    ],
+    "academia/MATH265/Inbox/MATH 265 Multivariable.md": [
+      "#task-10-6-1008"
+    ],
+    "Meta/templates/day(template).md": [],
+    "academia/EE224/Homework/HW8 Fourier Series and Properties/Problem 1 EE 224 Homework 8.md": [],
+    "academia/EE303/Main Concepts/Introduction to the Interconnected Power System Network Module B2.md": [
+      "#tasks-13-52-1130"
+    ],
+    "academia/EE224/Homework/HW8 Fourier Series and Properties/Problem 3 EE 224 Homework 8.md": [],
+    "Responding Post Interview Chris Langton.md": [
+      "#book-10-188-904"
+    ],
+    "Lecture 16 Generics.md": [],
+    "academia/CS228/Homework/HW3/Conner_Ohnesorge_HW3/docs/Doubly Linked List Notes.md": [],
+    "academia/EE224/Homework/HW9 Fourier Transforms/Problem 1 EE224 Homework 9.md": [],
+    "academia/EE224/Homework/HW9 Fourier Transforms/HW9 Fourier Transforms.md": [
+      "#tasks-8-37-86",
+      "#tasks-9-38-131",
+      "#tasks-10-37-175",
+      "#tasks-11-37-219",
+      "#tasks-12-37-263",
+      "#tasks-13-37-307"
+    ],
+    "academia/EE224/Homework/HW9 Fourier Transforms/Problem 5 EE224 Homework 9.md": [],
+    "academia/EE224/Homework/HW9 Fourier Transforms/Problem 4 EE224 Homework 9.md": [],
+    "academia/EE230/Lab/Lab7 Design Project/Prompt.md": [],
+    "academia/EE230/Homework/HW8 PN-Junctions and Diodes/Problem 3 Homework 8 EE230.md": [
+      "#EE230Textbook-0-20-20"
+    ],
+    "academia/EE230/Homework/HW8 PN-Junctions and Diodes/Problem 4 Homework 8 EE230.md": [],
+    "academia/EE230/Homework/HW8 PN-Junctions and Diodes/Problem 5 Homework 8 EE230.md": [],
+    "academia/EE230/Homework/HW8 PN-Junctions and Diodes/Problem 6 Homework 8 EE230.md": [],
+    "academia/EE230/Homework/HW8 PN-Junctions and Diodes/Problem 7 Homework 8 EE230.md": [],
+    "academia/EE230/Homework/HW8 PN-Junctions and Diodes/Problem 8 Homework 8 EE230.md": [
+      "#tasks-1-28-64"
+    ],
+    "Meta/templates/public/templates_for_obsidian_database/Unclassifiedmd (17).md": [],
+    "Description.md": [],
+    "Meta/templates/public/templates_for_obsidian_database/Course Question Template.md": [],
+    "Meta/templates/public/templates_for_obsidian_database/Unclassifiedmd (91).md": [
+      "33-22-725",
+      "36-0-751",
+      "36-21-772",
+      "36-33-784",
+      "36-46-797"
+    ],
+    "Meta/templates/public/templates_for_obsidian_database/Article Reflection Template.md": [
+      "2-11-34",
+      "3-9-64"
+    ],
+    "Meta/templates/public/templates_for_obsidian_database/Article Reflection Template/Article Reflection Template.md": [
+      "35-11-949",
+      "36-9-979"
+    ],
+    "Meta/templates/public/templates_for_obsidian_database/Book Reflections Template.md": [
+      "0-11-11",
+      "1-9-38"
+    ],
+    "Projects/aligned-mark/README.md": [],
+    "academia/EE224/Lab/Lab7 Math Behind the Music Part Two/Lab7 Math Behind the Music Part Two.md": [],
+    "Textual Neural Backpacking.md": [],
+    "Brain/Meta/project(template).md": [],
+    "academia/EE230/Quizzes/Module 4 Quiz 2/Module 4 Quiz 2.md": [
+      "#EE230-2-82-99"
+    ],
+    "Brain/Projects/shipping-container-vertical-farm-simulation/docs/worlds/worlds.md": [],
+    "Brain/Projects/shipping-container-vertical-farm-simulation/docs/documentation/dataview.md": [
+      "#books-47-5-2874"
+    ]
+  }
+}

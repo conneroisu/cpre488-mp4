@@ -1,0 +1,38 @@
+{
+  "ProgressProperties": {
+    "enabled": true,
+    "properties": [
+      {
+        "name": "Total Tasks",
+        "type": "Total Tasks"
+      },
+      {
+        "name": "Completed Tasks",
+        "type": "Completed Tasks"
+      },
+      {
+        "name": "Incomplete Tasks",
+        "type": "Incomplete Tasks"
+      }
+    ]
+  },
+  "IgnoredProperties": {
+    "enabled": false,
+    "properties": []
+  },
+  "AutoProperties": {
+    "enabled": true,
+    "properties": []
+  },
+  "EditMode": {
+    "mode": "All Single",
+    "properties": []
+  },
+  "KanbanHelper": {
+    "enabled": true,
+    "boards": []
+  },
+  "UIElements": {
+    "enabled": true
+  }
+}

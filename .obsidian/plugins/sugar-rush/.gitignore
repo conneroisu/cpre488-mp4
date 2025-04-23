@@ -1,0 +1,64 @@
+# vscode
+.vscode 
+
+# Intellij
+*.iml
+.idea
+
+# npm
+node_modules
+
+# Don't include the compiled main.js file in the repo.
+# They should be uploaded to GitHub releases instead.
+main.js
+
+# Exclude sourcemaps
+*.map
+
+# obsidian
+data.json
+
+# Exclude macOS Finder (System Explorer) View States
+.DS_Store
+
+# Exclude macOS Thumbnail
+._*
+
+# Exclude Windows Thumbs.db
+Thumbs.db
+
+# Exclude Windows Desktop.ini
+Desktop.ini
+
+# Exclude Windows Recycle Bin
+$RECYCLE.BIN/
+
+# PNPM store and lock and gen
+.pnpm-store
+.pnpm-lock.yaml
+.pnpmfile.cjs
+.pnpmfile.js
+
+
+# Exclude macOS Spotlight metadata
+.Spotlight-V100
+.Trashes
+
+
+# Exclude macOS Files
+
+# Exclude macOS Folder
+.AppleDouble
+.LSOverride
+.TemporaryItems
+
+bin/
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

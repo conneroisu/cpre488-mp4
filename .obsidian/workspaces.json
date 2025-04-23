@@ -1,0 +1,562 @@
+{
+  "workspaces": {
+    "Home": {
+      "main": {
+        "id": "e9655945f7444781",
+        "type": "split",
+        "children": [
+          {
+            "id": "b410e0d12af446cb",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "5ad1cbf451a6f27c",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "Idea(template)",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"Meta/markdown-templates/Idea(template).md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":7,\"ch\":20},\"to\":{\"line\":7,\"ch\":20}}}"
+                    },
+                    {
+                      "title": "Workout(template)",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"Meta/markdown-templates/Workout(template).md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":11,\"ch\":7},\"to\":{\"line\":11,\"ch\":7}}}"
+                    },
+                    {
+                      "title": "Problem(template)",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"Meta/markdown-templates/Problem(template).md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":13,\"ch\":0},\"to\":{\"line\":13,\"ch\":0}}}"
+                    },
+                    {
+                      "title": "Workout(template)",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"Meta/markdown-templates/Workout(template).md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":10,\"ch\":3},\"to\":{\"line\":10,\"ch\":3}},\"scroll\":0}"
+                    },
+                    {
+                      "title": "Lecture(template)",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"Meta/markdown-templates/Lecture(template).md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":16,\"ch\":0},\"to\":{\"line\":16,\"ch\":0}}}"
+                    },
+                    {
+                      "title": "Kanbaned(template)",
+                      "icon": "lucide-trello",
+                      "state": "{\"type\":\"kanban\",\"state\":{\"file\":\"Meta/markdown-templates/Kanbaned(template).md\"}}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "Homework(template)",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"Meta/markdown-templates/Homework(template).md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":11,\"ch\":0},\"to\":{\"line\":11,\"ch\":0}}}"
+                    },
+                    {
+                      "title": "Idea(template)",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"Meta/markdown-templates/Idea(template).md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":11,\"ch\":0},\"to\":{\"line\":11,\"ch\":0}},\"scroll\":0}"
+                    },
+                    {
+                      "title": "Electric Power Generation and Machine Controls",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE303/Main Concepts/Electric Power Generation and Machine Controls.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{\"scroll\":0}"
+                    },
+                    {
+                      "title": "Per Unit Analysis",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE303/Main Concepts/Per Unit Analysis.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{\"scroll\":19.767676767676768}"
+                    },
+                    {
+                      "title": "Electric Power Generation and Machine Controls",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE303/Main Concepts/Electric Power Generation and Machine Controls.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{\"scroll\":18.514285714285712}"
+                    },
+                    {
+                      "title": "Induction Motor Drives",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE303/Main Concepts/Induction Motor Drives.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "Digital Circuits",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE230/Main Concepts/Digital Circuits.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "MOSFETs",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE230/Main Concepts/MOSFETs.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "Filter Circuits",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE230/Main Concepts/Filter Circuits.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "Laplace & Fourier Transforms",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"academia/EE230/Main Concepts/Laplace & Fourier Transforms.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "Dec-Sun-18th-2022-352",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"daily-report/Dec-Sun-18th-2022-352.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{}"
+                    },
+                    {
+                      "title": "Dec-Sat-17th-2022-351",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"daily-report/Dec-Sat-17th-2022-351.md\",\"mode\":\"preview\",\"source\":false}}",
+                      "eState": "{\"scroll\":5.860103626943005}"
+                    },
+                    {
+                      "title": "Dec-Sun-18th-2022-352",
+                      "icon": "lucide-file",
+                      "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"daily-report/Dec-Sun-18th-2022-352.md\",\"mode\":\"source\",\"source\":false}}",
+                      "eState": "{\"cursor\":{\"from\":{\"line\":0,\"ch\":0},\"to\":{\"line\":0,\"ch\":0}}}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "daily-report/Dec-Sun-18th-2022-352.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "55f7174b331d7389",
+            "type": "split",
+            "children": [
+              {
+                "id": "b0ed9452b623aeed",
+                "type": "tabs",
+                "children": [
+                  {
+                    "id": "c877c7f0c4cdeea0",
+                    "type": "leaf",
+                    "pane-relief:history-v1": {
+                      "pos": 1,
+                      "stack": [
+                        {
+                          "title": "Nov-Sun-27th-2022-331",
+                          "icon": "lucide-file",
+                          "state": "{\"type\":\"markdown\",\"state\":{\"file\":\"daily-report/Nov-Sun-27th-2022-331.md\",\"mode\":\"source\",\"source\":false}}",
+                          "eState": "{\"cursor\":{\"from\":{\"line\":49,\"ch\":60},\"to\":{\"line\":49,\"ch\":60}},\"scroll\":41.895833333333336}"
+                        },
+                        {
+                          "state": "{}",
+                          "eState": "{}"
+                        }
+                      ]
+                    },
+                    "state": {
+                      "type": "markdown",
+                      "state": {
+                        "file": "X - Tasks/Tasks.md",
+                        "mode": "source",
+                        "source": false
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "c17bcdd7ddaa3772",
+                "type": "tabs",
+                "children": [
+                  {
+                    "id": "4302fbc820f3614b",
+                    "type": "leaf",
+                    "pane-relief:history-v1": {
+                      "pos": 0,
+                      "stack": [
+                        {
+                          "state": "{}",
+                          "eState": "{}"
+                        }
+                      ]
+                    },
+                    "state": {
+                      "type": "localgraph",
+                      "state": {
+                        "file": "daily-report/Dec-Sun-18th-2022-352.md",
+                        "options": {
+                          "collapse-filter": true,
+                          "search": "",
+                          "localJumps": 1,
+                          "localBacklinks": true,
+                          "localForelinks": true,
+                          "localInterlinks": false,
+                          "showTags": false,
+                          "showAttachments": false,
+                          "hideUnresolved": false,
+                          "collapse-color-groups": true,
+                          "colorGroups": [],
+                          "collapse-display": true,
+                          "showArrow": false,
+                          "textFadeMultiplier": 0,
+                          "nodeSizeMultiplier": 1,
+                          "lineSizeMultiplier": 1,
+                          "collapse-forces": true,
+                          "centerStrength": 0.518713248970312,
+                          "repelStrength": 10,
+                          "linkStrength": 1,
+                          "linkDistance": 250,
+                          "scale": 0.6825543414659146,
+                          "close": true
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "direction": "horizontal"
+          }
+        ],
+        "direction": "vertical"
+      },
+      "left": {
+        "id": "ff206c05a9cea0c7",
+        "type": "split",
+        "children": [
+          {
+            "id": "1d229fdebcf3812e",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "274c76d26b0cf3dc",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "file-explorer",
+                  "state": {
+                    "sortOrder": "alphabetical"
+                  }
+                }
+              },
+              {
+                "id": "c83369f6dc60d2bf",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "search",
+                  "state": {
+                    "query": "EE230",
+                    "matchingCase": false,
+                    "explainSearch": true,
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical"
+                  }
+                }
+              },
+              {
+                "id": "499b59f7ee9eebb4",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "starred",
+                  "state": {}
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "horizontal",
+        "width": 260.51103591918945,
+        "collapsed": true
+      },
+      "right": {
+        "id": "4e87232e0608a7d7",
+        "type": "split",
+        "children": [
+          {
+            "id": "790ffa59c4d2b664",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "f5f283cf8b841319",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "backlink",
+                  "state": {
+                    "file": "daily-report/Dec-Sun-18th-2022-352.md",
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical",
+                    "showSearch": false,
+                    "searchQuery": "",
+                    "backlinkCollapsed": false,
+                    "unlinkedCollapsed": true
+                  }
+                }
+              },
+              {
+                "id": "1119642711e2076a",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "outgoing-link",
+                  "state": {
+                    "file": "daily-report/Dec-Sun-18th-2022-352.md",
+                    "linksCollapsed": false,
+                    "unlinkedCollapsed": true
+                  }
+                }
+              },
+              {
+                "id": "2d11fd0922184a3a",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "tag",
+                  "state": {
+                    "sortOrder": "frequency",
+                    "useHierarchy": true
+                  }
+                }
+              },
+              {
+                "id": "808438990271327a",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "outline",
+                  "state": {
+                    "file": "daily-report/Dec-Sun-18th-2022-352.md"
+                  }
+                }
+              },
+              {
+                "id": "e5497ff9f2a1f675",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "podcast_player_view",
+                  "state": {}
+                }
+              },
+              {
+                "id": "ef5fa5c428dc80c3",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "ch.der-tobi.obsidian-simple-mention",
+                  "state": {}
+                }
+              },
+              {
+                "id": "a3a5734bfb79ad55",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "empty",
+                  "state": {}
+                }
+              },
+              {
+                "id": "aad9a6bb190678a5",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "Strange New Worlds",
+                  "state": {}
+                }
+              },
+              {
+                "id": "a9780f6cacadcb6a",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "mathpad-view",
+                  "state": {}
+                }
+              },
+              {
+                "id": "c3a537c17af2bbd3",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "advanced-tables-toolbar",
+                  "state": {}
+                }
+              },
+              {
+                "id": "aeebd388234ec52f",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "empty",
+                  "state": {}
+                }
+              },
+              {
+                "id": "48b38e67c02f67b5",
+                "type": "leaf",
+                "pane-relief:history-v1": {
+                  "pos": 0,
+                  "stack": [
+                    {
+                      "state": "{}",
+                      "eState": "{}"
+                    }
+                  ]
+                },
+                "state": {
+                  "type": "Saved Queries View",
+                  "state": {}
+                }
+              }
+            ],
+            "currentTab": 8
+          }
+        ],
+        "direction": "horizontal",
+        "width": 300,
+        "collapsed": true
+      },
+      "active": "5ad1cbf451a6f27c",
+      "ophidian:layout-settings": {
+        "pane-relief:focus-lock": true
+      }
+    }
+  },
+  "active": "Home"
+}
