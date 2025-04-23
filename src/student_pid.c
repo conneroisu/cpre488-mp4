@@ -101,13 +101,16 @@ void studentPidInit(PidObject *pid, const float desired, const float kp,
  */
 float studentPidUpdate(PidObject *pid, const float measured,
                        const bool updateError) {
-  float error = pid->setpoint - measured;
 
-  // Limit error
-  if(abs((int) error) < 20)
+  // Limit measured
+  float modified_measured = measured;
+
+  if(fabs(modified_measured) < 20)
   {
-    error = 0;
+    modified_measured = 0;
   }
+
+  float error = pid->setpoint - modified_measured;
 
   if(pid->cap_error_angle)
   {

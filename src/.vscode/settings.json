@@ -13,6 +13,7 @@
         "typeinfo": "c",
         "controller_student.h": "c",
         "student_attitude_controller.h": "c",
-        "sensfusion6.h": "c"
+        "sensfusion6.h": "c",
+        "math.h": "c"
     }
 }
