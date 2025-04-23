@@ -108,6 +108,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
     error = capAngle(error);
   }
 
+  // Only use P for now.
   // Incorporate P term.
   float control = pid->kp * error;
 
@@ -116,7 +117,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   if(pid->first_error_read_saved)
   {
     // Incorporate D term.
-    control += pid->kd * ((error - pid->prev_error) / pid->dt);
+    //control += pid->kd * ((error - pid->prev_error) / pid->dt);
   }
 
   // Update error.
