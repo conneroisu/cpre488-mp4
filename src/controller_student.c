@@ -129,7 +129,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
         studentAttitudeControllerResetAllPID();
       }
 
-      float c_roll, c_pitch, c_yaw = 0;
+      int16_t c_roll, c_pitch, c_yaw = 0;
 
       // Run the rate PID to get control values.
       // Roll, pitch, and yaw values set.
