@@ -4,15 +4,15 @@
 #include <math.h>
 #include "log.h"
 
-const float PID_ROLL_RATE_KP = 800;
-const float PID_ROLL_RATE_KI = 5;
-const float PID_ROLL_RATE_KD = 60;
-const float PID_PITCH_RATE_KP = 400;
-const float PID_PITCH_RATE_KI = 2;
-const float PID_PITCH_RATE_KD = 40;
-const float PID_YAW_RATE_KP = 300;
-const float PID_YAW_RATE_KI = 1;
-const float PID_YAW_RATE_KD = 10;
+const float PID_ROLL_RATE_KP = 80;
+const float PID_ROLL_RATE_KI = 0.5;
+const float PID_ROLL_RATE_KD = 6;
+const float PID_PITCH_RATE_KP = 40;
+const float PID_PITCH_RATE_KI = 0.2;
+const float PID_PITCH_RATE_KD = 4;
+const float PID_YAW_RATE_KP = 30;
+const float PID_YAW_RATE_KI = 0.1;
+const float PID_YAW_RATE_KD = 1;
 const float PID_ROLL_KP = 10.43;
 const float PID_ROLL_KI = 0.0;
 const float PID_ROLL_KD = 2.0;
