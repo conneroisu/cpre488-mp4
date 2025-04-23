@@ -67,6 +67,8 @@ typedef struct
 
 } PidObject;
 
+void updateAverageError(average_error_t* avg_error, float error);
+
 float capAngle(float angle);
 
 void studentPidInit(PidObject *pid, const float desired, const float kp,
