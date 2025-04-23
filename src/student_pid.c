@@ -112,40 +112,39 @@ float studentPidUpdate(PidObject *pid, const float measured,
 
   float error = modified_measured - pid->setpoint;
 
-  // if(pid->cap_error_angle)
-  // {
-  //   error = capAngle(error);
-  // }
+  if(pid->cap_error_angle)
+  {
+    error = capAngle(error);
+  }
 
-  // Only use P for now.
   // Incorporate P term.
   float control = pid->kp * error;
 
 
-  // // If the first error reading has not happened yet, do NOT incorporate D.
-  // if(pid->first_error_read_saved)
-  // {
-  //   // Incorporate D term.
-  //   //control += pid->kd * ((error - pid->prev_error) / pid->dt);
-  // }
+  // If the first error reading has not happened yet, do NOT incorporate D.
+  if(pid->first_error_read_saved)
+  {
+    // Incorporate D term.
+    control += pid->kd * ((error - pid->prev_error) / pid->dt);
+  }
 
-  // // Update error.
-  // if (updateError) {
-  //   pid->prev_error = error;
-  //   pid->total_error += error * pid->dt;
+  // Update error.
+  if (updateError) {
+    pid->prev_error = error;
+    pid->total_error += error * pid->dt;
 
-  //   // Limit total error.
-  //   if (pid->total_error > pid->i_limit) {
-  //     pid->total_error = pid->i_limit;
-  //   } else if (pid->total_error < -pid->i_limit) {
-  //     pid->total_error = -pid->i_limit;
-  //   }
+    // Limit total error.
+    if (pid->total_error > pid->i_limit) {
+      pid->total_error = pid->i_limit;
+    } else if (pid->total_error < -pid->i_limit) {
+      pid->total_error = -pid->i_limit;
+    }
 
-  //   pid->first_error_read_saved = 1;
-  // }
+    pid->first_error_read_saved = 1;
+  }
 
   // Incorporate I term.
-  //control += pid->ki * pid->total_error;
+  control += pid->ki * pid->total_error;
 
   return control;
 }
