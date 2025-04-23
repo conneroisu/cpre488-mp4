@@ -72,3 +72,9 @@ echo "CLOAD_CMDS=-w radio://0/$channel/2M/E7E7E7E7E7" > ~/MicroCART/crazyflie_so
 echo "Config file generated successfully."
 
 code ~/MicroCART/crazyflie_software/crazyflie-firmware-lab-part-2/
+
+cd ~/MicroCART/crazyflie_software/crazyflie-firmware-lab-part-2/
+
+make CONTROLLER="Student"
+
+make cload
