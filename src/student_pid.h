@@ -39,10 +39,10 @@ extern const float PID_YAW_KD;
 #define DEFAULT_PID_OUTPUT_LIMIT 0.0
 
 // Any rate readings less than this value are considered to be zero.
-#define MEASURED_CUTOFF 20
+#define MEASURED_CUTOFF 30
 
 // Store up to this amount of error readings for computing the average error.
-#define ERROR_AVERAGE_MAX_READINGS 10
+#define ERROR_AVERAGE_MAX_READINGS 100
 
 typedef struct average_error
 {

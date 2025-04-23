@@ -21,7 +21,7 @@ const float PID_PITCH_KI = 10.0;
 const float PID_PITCH_KD = 2.0;
 const float PID_YAW_KP = 20;
 const float PID_YAW_KI = 0.0;
-const float PID_YAW_KD = 2.0;
+const float PID_YAW_KD = 5.0;
 
 /**
  * Limit the input angle between -180 and 180
