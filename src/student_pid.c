@@ -110,7 +110,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
     modified_measured = 0;
   }
 
-  float error = pid->setpoint - modified_measured;
+  float error = modified_measured - pid->setpoint;
 
   // if(pid->cap_error_angle)
   // {
