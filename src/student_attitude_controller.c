@@ -58,12 +58,18 @@ static PidObject pidYaw = PID_OBJECT_BLANK;
  * @return int16_t
  */
 #define LIMIT 10000
-static inline int16_t saturateSignedInt16(float in) {
-  if ((int16_t) in > LIMIT) {
+static int16_t limit_control_value(float in)
+{
+  if (in > LIMIT)
+  {
     return LIMIT;
-  } else if ((int16_t) in < -LIMIT) {
+  } 
+  else if (in < -LIMIT) 
+  {
     return -LIMIT;
-  } else {
+  } 
+  else 
+  {
     return (int16_t)in;
   }
 }
@@ -306,9 +312,9 @@ void studentAttitudeControllerCorrectRatePID( //
       studentPidUpdate(&pidYawRate, yawRateActual, true);
 
   // Convert floating point outputs to int16_t motor commands
-  *rollCmd = saturateSignedInt16(rollOutput);
-  *pitchCmd = saturateSignedInt16(pitchOutput);
-  *yawCmd = saturateSignedInt16(yawOutput);
+  *rollCmd = limit_control_value(rollOutput);
+  *pitchCmd = limit_control_value(pitchOutput);
+  *yawCmd = limit_control_value(yawOutput);
 }
 
 
