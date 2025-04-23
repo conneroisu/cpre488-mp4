@@ -103,6 +103,12 @@ float studentPidUpdate(PidObject *pid, const float measured,
                        const bool updateError) {
   float error = pid->setpoint - measured;
 
+  // Limit error
+  if(abs((int) error) < 20)
+  {
+    error = 0;
+  }
+
   if(pid->cap_error_angle)
   {
     error = capAngle(error);
