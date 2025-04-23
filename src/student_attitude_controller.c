@@ -15,13 +15,11 @@ static bool isInit = false;
  * @return int16_t
  */
 static inline int16_t saturateSignedInt16(float in) {
-  if ((int16_t)in > INT16_MAX) {
+  if (in > (float)INT16_MAX)
     return INT16_MAX;
-  } else if ((int16_t)in < -INT16_MAX) {
+  if (in < -(float)INT16_MAX)
     return -INT16_MAX;
-  } else {
-    return (int16_t)in;
-  }
+  return (int16_t)in;
 }
 
 void studentAttitudeControllerResetRollAttitudePID(void) {
