@@ -18,7 +18,7 @@ extern const float PID_PITCH_RATE_KD;
 extern const float PID_YAW_RATE_KP;
 extern const float PID_YAW_RATE_KI;
 extern const float PID_YAW_RATE_KD;
-#define PID_YAW_RATE_INTEGRATION_LIMIT 166.7
+#define PID_YAW_RATE_INTEGRATION_LIMIT 200
 
 extern const float PID_ROLL_KP;
 extern const float PID_ROLL_KI;
