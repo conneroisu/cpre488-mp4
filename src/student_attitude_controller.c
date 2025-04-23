@@ -309,6 +309,19 @@ void studentAttitudeControllerCorrectRatePID( //
   studentPidSetDesired(&pidPitchRate, pitchRateDesired);
   studentPidSetDesired(&pidYawRate, yawRateDesired);
 
+  // Update PID constants (could change from GUI)
+  studentPidSetKp(&pidRollRate, PID_ROLL_RATE_KP);
+  studentPidSetKi(&pidRollRate, PID_ROLL_RATE_KI);
+  studentPidSetKd(&pidRollRate, PID_ROLL_RATE_KD);
+
+  studentPidSetKp(&pidPitchRate, PID_PITCH_RATE_KP);
+  studentPidSetKi(&pidPitchRate, PID_PITCH_RATE_KI);
+  studentPidSetKd(&pidPitchRate, PID_PITCH_RATE_KD);
+
+  studentPidSetKp(&pidYawRate, PID_YAW_RATE_KP);
+  studentPidSetKi(&pidYawRate, PID_YAW_RATE_KI);
+  studentPidSetKd(&pidYawRate, PID_YAW_RATE_KD);
+
   // Update all attitude rate PIDs
   float rollOutput =
       studentPidUpdate(&pidRollRate, rollRateActual, true);
