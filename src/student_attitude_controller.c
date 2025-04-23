@@ -57,7 +57,7 @@ static PidObject pidYaw;
  * @param in float
  * @return int16_t
  */
-#define LIMIT 15000
+#define LIMIT 5000
 static int16_t limit_control_value(float in)
 {
   if (in > LIMIT)
