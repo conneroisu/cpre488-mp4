@@ -120,7 +120,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
     modified_measured = 0;
   }
 
-  float error = (pid->invert_error) ? (modified_measured - pid->setpoint) : (modified_measured - pid->setpoint);
+  float error = (pid->invert_error) ? (modified_measured - pid->setpoint) : (pid->setpoint - modified_measured);
 
   if(pid->cap_error_angle)
   {
@@ -130,7 +130,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
   updateAverageError(&pid->error, error);
 
   // Incorporate P term.
-  float control = pid->kp * error;
+  float control = pid->kp * pid->error.avg_error;
 
 
   // ERROR_AVERAGE_MAX_READINGS must happen before D is updated.
