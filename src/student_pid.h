@@ -42,7 +42,7 @@ extern const float PID_YAW_KD;
 #define MEASURED_CUTOFF (float)60.0
 
 // Store up to this amount of error readings for computing the average error.
-#define ERROR_AVERAGE_MAX_READINGS 100
+#define ERROR_AVERAGE_MAX_READINGS 5
 
 typedef struct average_error
 {
