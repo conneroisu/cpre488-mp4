@@ -39,7 +39,7 @@ extern const float PID_YAW_KD;
 #define DEFAULT_PID_OUTPUT_LIMIT 0.0
 
 // Any rate readings less than this value are considered to be zero.
-#define MEASURED_CUTOFF 3
+#define MEASURED_CUTOFF 2
 
 // Store up to this amount of error readings for computing the average error.
 #define ERROR_AVERAGE_MAX_READINGS 10
@@ -58,6 +58,7 @@ typedef struct
   // needs all values that will be used for PID calculations
   // error, kp, ki, kd, setpoint ...
   float kp, ki, kd, dt, setpoint, i_limit, total_error, last_d_contribution, prev_avg_error;
+  int invert_error;
 
   average_error_t error;
 
@@ -72,7 +73,7 @@ void updateAverageError(average_error_t* avg_error, float error);
 float capAngle(float angle);
 
 void studentPidInit(PidObject *pid, const float desired, const float kp,
-                    const float ki, const float kd, const float dt, const int cap_error_angle);
+                    const float ki, const float kd, const float dt, const int cap_error_angle, const int invert_error);
 
 void studentPidSetIntegralLimit(PidObject *pid, const float limit);
 

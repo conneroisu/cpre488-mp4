@@ -15,13 +15,13 @@ const float PID_YAW_RATE_KI = 1;
 const float PID_YAW_RATE_KD = 10;
 const float PID_ROLL_KP = 10.43;
 const float PID_ROLL_KI = 0.0;
-const float PID_ROLL_KD = 0.0;
+const float PID_ROLL_KD = 2.0;
 const float PID_PITCH_KP = 11.24;
 const float PID_PITCH_KI = 10.0;
-const float PID_PITCH_KD = 0.0;
+const float PID_PITCH_KD = 2.0;
 const float PID_YAW_KP = 20;
 const float PID_YAW_KI = 0.0;
-const float PID_YAW_KD = 0.0;
+const float PID_YAW_KD = 2.0;
 
 /**
  * Limit the input angle between -180 and 180
@@ -76,7 +76,7 @@ const float PID_YAW_KD = 0.0;
  * @param[in] enableDFilter Enable setting for the D lowpass filter
  */
 void studentPidInit(PidObject *pid, const float desired, const float kp,
-                    const float ki, const float kd, const float dt, const int cap_error_angle)
+                    const float ki, const float kd, const float dt, const int cap_error_angle, const int invert_error)
 {
   pid->kp = kp;
   pid->ki = ki;
@@ -88,6 +88,7 @@ void studentPidInit(PidObject *pid, const float desired, const float kp,
   pid->i_limit = 0;
   pid->prev_error_saved = 0;
   pid->cap_error_angle = cap_error_angle;
+  pid->invert_error = invert_error;
 
   pid->error.count = 0;
   pid->error.avg_error = 0;
@@ -119,7 +120,7 @@ float studentPidUpdate(PidObject *pid, const float measured,
     modified_measured = 0;
   }
 
-  float error = modified_measured - pid->setpoint;
+  float error = (pid->invert_error) ? (modified_measured - pid->setpoint) : (modified_measured - pid->setpoint);
 
   if(pid->cap_error_angle)
   {

@@ -57,7 +57,7 @@ static PidObject pidYaw;
  * @param in float
  * @return int16_t
  */
-#define LIMIT 10000
+#define LIMIT 15000
 static int16_t limit_control_value(float in)
 {
   if (in > LIMIT)
@@ -116,6 +116,7 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_ROLL_RATE_KI,              //
       PID_ROLL_RATE_KD,              //
       updateDt,
+      0,
       0
   );
   studentPidInit(                    //
@@ -125,6 +126,7 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_PITCH_RATE_KI,             //
       PID_PITCH_RATE_KD,             //
       updateDt,
+      0,
       0
   );
   studentPidInit(                    //
@@ -134,7 +136,8 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_YAW_RATE_KI,               //
       PID_YAW_RATE_KD,               //
       updateDt,
-      0
+      0,
+      1
   );
 
   studentPidSetIntegralLimit(&pidRollRate, PID_ROLL_RATE_INTEGRAL_LIMIT);
@@ -151,7 +154,8 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_ROLL_KI,              //
       PID_ROLL_KD,              //
       updateDt,
-      1
+      1,
+      0
   );
   studentPidInit(               //
       &pidPitch,                //
@@ -160,7 +164,8 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_PITCH_KI,             //
       PID_PITCH_KD,             //
       updateDt,
-      1
+      1,
+      0
   );
   studentPidInit(               //
       &pidYaw,                  //
@@ -169,7 +174,8 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_YAW_KI,               //
       PID_YAW_KD,               //
       updateDt,
-      1
+      1,
+      0
   );
 
   studentPidSetIntegralLimit(&pidRoll, PID_ROLL_INTEGRAL_LIMIT);
