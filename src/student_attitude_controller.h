@@ -36,11 +36,10 @@
 // Setting to 0.0f means no integral windup protection for yaw angle
 #define PID_YAW_INTEGRAL_LIMIT (float)(360.0f)
 
-// low pass filter settings
-#define ATTITUDE_LPF_CUTOFF_FREQ 15.0f
-#define ATTITUDE_LPF_ENABLE false
-#define ATTITUDE_RATE_LPF_CUTOFF_FREQ 30.0f
-#define ATTITUDE_RATE_LPF_ENABLE false
+// Min percentage of largest sensor reading to keep the value.
+// If the sensor reading is not at least this percentage of the largest sensor reading,
+// the sensor reading is treated as zero.
+#define MIN_PERCENT_SENSOR_READ_KEEP 10
 
 void studentAttitudeControllerInit(const float updateDt);
 

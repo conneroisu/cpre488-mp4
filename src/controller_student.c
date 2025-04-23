@@ -130,14 +130,50 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
       }
 
       int16_t c_roll, c_pitch, c_yaw = 0;
+      
+      float g_x, g_y, g_z, max = 0;
+
+      g_x = sensors->gyro.x;
+      g_y = sensors->gyro.y;
+      g_z = sensors->gyro.z;
+
+      // Determine max
+      max = (float) fabs(g_x);
+
+      if((float) fabs(g_y) > max)
+      {
+        max = (float) fabs(g_y);
+      }
+
+      if((float) fabs(g_z) > max)
+      {
+        max = (float) fabs(g_z);
+      }
+
+      // Compare g_x, g_y, and g_z to max, if they are small in comparison, set them to 0.
+      if((float) fabs(g_x) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
+      {
+        g_x = 0;
+      }
+
+      if((float) fabs(g_y) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
+      {
+        g_y = 0;
+      }
+
+      if((float) fabs(g_z) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
+      {
+        g_z = 0;
+      }
+
 
       // Run the rate PID to get control values.
       // Roll, pitch, and yaw values set.
       studentAttitudeControllerCorrectRatePID
       (
-        sensors->gyro.x,
-        sensors->gyro.y,
-        sensors->gyro.z,
+        g_x,
+        g_y,
+        g_z,
         r_rate,
         p_rate,
         y_rate,
