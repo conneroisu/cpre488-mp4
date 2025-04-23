@@ -251,6 +251,19 @@ void studentAttitudeControllerCorrectAttitudePID( //
   studentPidSetDesired(&pidPitch, eulerPitchDesired);
   studentPidSetDesired(&pidYaw, eulerYawDesired);
 
+  // Update PID constants (could change from GUI)
+  studentPidSetKp(&pidRoll, PID_ROLL_KP);
+  studentPidSetKi(&pidRoll, PID_ROLL_KI);
+  studentPidSetKd(&pidRoll, PID_ROLL_KD);
+
+  studentPidSetKp(&pidPitch, PID_PITCH_KP);
+  studentPidSetKi(&pidPitch, PID_PITCH_KI);
+  studentPidSetKd(&pidPitch, PID_PITCH_KD);
+
+  studentPidSetKp(&pidYaw, PID_YAW_KP);
+  studentPidSetKi(&pidYaw, PID_YAW_KI);
+  studentPidSetKd(&pidYaw, PID_YAW_KD);
+
   // Update roll and pitch PIDs
   *rollRateDesired =
       studentPidUpdate(&pidRoll, eulerRollActual, true);
