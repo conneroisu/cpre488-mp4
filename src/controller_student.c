@@ -208,6 +208,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
     control->roll = 0;
     control->yaw = 0;
     studentAttitudeControllerResetAllPID();
+    studentRateControllerResetAllPID();
   }
 
   //copy values for logging
@@ -226,8 +227,6 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
  * student PID controller
  */
 LOG_GROUP_START(ctrlStdnt)
-
-// 488 TODO setup logging parameters, replace null with pointer to globabl variable
 
 /**
  * @brief Thrust command output

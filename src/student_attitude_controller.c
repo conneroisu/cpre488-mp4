@@ -97,6 +97,28 @@ void studentAttitudeControllerResetAllPID(void)
   studentAttitudeControllerResetYawAttitudePID();
 }
 
+// reset the role rate pid object
+void studentRateControllerResetRollRatePID(void) {
+  studentPidReset(&pidRollRate);
+}
+
+// reset the pitch rate pid object
+void studentRateControllerResetPitchRatePID(void) {
+  studentPidReset(&pidPitchRate);
+}
+
+// reset the yaw rate pid object
+void studentRateControllerResetYawRatePID(void) {
+  studentPidReset(&pidYawRate);
+}
+
+// reset all the rate pid objects
+void studentRateControllerResetAllPID(void) {
+  studentRateControllerResetRollRatePID();
+  studentRateControllerResetPitchRatePID();
+  studentRateControllerResetYawRatePID();
+}
+
 /**
  * @brief Initialize all PID data structures with PID coefficients defined in
  * student_pid.h
