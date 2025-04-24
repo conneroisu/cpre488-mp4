@@ -75,4 +75,24 @@ void studentAttitudeControllerResetYawAttitudePID(void);
  */
 void studentAttitudeControllerResetAllPID(void);
 
+/**
+ * Reset controller roll rate PID
+ */
+void studentRateControllerResetRollRatePID(void);
+
+/**
+ * Reset controller pitch rate PID
+ */
+void studentRateControllerResetPitchRatePID(void);
+
+/**
+ * Reset controller yaw rate PID
+ */
+void studentRateControllerResetYawRatePID(void);
+
+/**
+ * Reset all controller rate PID
+ */
+void studentAttitudeControllerResetAllPID(void);
+
 #endif /* STUDENT_ATTITUDE_CONTROLLER_H_ */
