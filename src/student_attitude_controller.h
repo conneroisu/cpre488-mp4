@@ -1,3 +1,7 @@
+/**
+ * student_attitude_pid_controller.h: Attitude controller using PID correctors
+ */
+
 #ifndef STUDENT_ATTITUDE_CONTROLLER_H_
 #define STUDENT_ATTITUDE_CONTROLLER_H_
 
