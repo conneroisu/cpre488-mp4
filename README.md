@@ -121,6 +121,13 @@ In part 1 of the lab, we used the GUI to tune the PID values for the attitude an
 
 After some experimentation, we were able to fly in part 1! One thing we noticed is that when we set D to anything above around 0.1 for the attitude controller, the drone would start spinning out of control. We are not sure why this is the case since we did not look into the part 1 code.
 
+### Part 1 PID Values: Order = (P, I, D)
+- Roll Rate: 500, 5, 60
+- Pitch Rate: 500, 2, 40
+- Yaw Rate: 300, 1, 10
+- Roll Attitude: 10.43, 0, 0
+- Pitch Attitude: 11.24, 10, 0
+- Yaw Attitude: 20, 0, 0
 
 ### Part 2
 Without the extension, we would have not gotten part 2 done! However, Dr. Jones graciously extended the lab so we got two more days to tackle our issues. We noticed that having just P (I and D set to zero) resulted in some odd behavior. The drone would rotate faster when commanding a faster rate to the rate controller, sometimes reverse when commanding a new rate, and would be at the wrong speeds. It was like it was "deciding its own setpoints" instead of using the ones we set.
@@ -130,3 +137,19 @@ After looking into the code, we noticed that we introduced a bug into the satura
 Moving on, we got most of our rate PIDs working, but one in particular was not functional. We noticed that when we commanded just the pitch, it would spin out of control. After looking at the commanded pitch, roll, and yaw rate values in the GUI, we noticed that yaw and roll commanded values were huge, but the yaw and roll readings were not big at all compared to the pitch reading. We concluded that we needed some sort of "dominator" function that would see if the largest sensor reading (pitch, roll, or yaw) is much, much larger than the other sensor readings. If one of the other sensors readings is super tiny compared to the largest ones, it is treated as being zero. This makes it so we don't register small sensor readings when a large one is present since the smaller readings are usually caused by the large reading. Implementing this feature toned down those large roll and yaw commands, making it so we could command the pitch rate!
 
 Finally, we tuned the attitude PID controller and adjusted some of the rate PID values and were able to fly the drone with our own code! Flight was fairly stable, but we noticed the drone would flip if we put the throttle too high while changing pitch or roll. We believe that this is due to an integer overflow of the motor control values since the change is quite sudden and causes the drone to divebomb. Overall, this lab was quite fun, challenging, and provided good practice tuning and writing our own PID loops!
+
+### Part 2 PID Values: Order = (P, I, D)
+- Roll Rate: 60, 1, 5
+- Pitch Rate: 60, 1, 5
+- Yaw Rate: 80, 1, 1
+- Roll Attitude: 15, 1, 0
+- Pitch Attitude: 15, 2, 0
+- Yaw Attitude: 2, 1, 0
+
+### I limit Values (limits how much total error can grow)
+- Roll Rate: 33.3
+- Pitch Rate: 33.3
+- Yaw Rate: 200
+- Roll Attitude: 20
+- Pitch Attitude: 20
+- Yaw Attitude: 360
