@@ -1,1 +1,6 @@
-{}
+{
+  "baseFontSizeAction": false,
+  "enabledCssSnippets": [
+    "ImageAlign"
+  ]
+}
