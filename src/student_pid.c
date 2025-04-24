@@ -4,24 +4,24 @@
 #include <math.h>
 #include "log.h"
 
-float PID_ROLL_RATE_KP = 180;
-float PID_ROLL_RATE_KI = 40;
-float PID_ROLL_RATE_KD = 35;
-float PID_PITCH_RATE_KP = 120;
-float PID_PITCH_RATE_KI = 25;
+float PID_ROLL_RATE_KP = 60;
+float PID_ROLL_RATE_KI = 1;
+float PID_ROLL_RATE_KD = 5;
+float PID_PITCH_RATE_KP = 60;
+float PID_PITCH_RATE_KI = 1;
 float PID_PITCH_RATE_KD = 5;
-float PID_YAW_RATE_KP = 120;
-float PID_YAW_RATE_KI = 25;
+float PID_YAW_RATE_KP = 60;
+float PID_YAW_RATE_KI = 1;
 float PID_YAW_RATE_KD = 1;
-float PID_ROLL_KP = 10.43;
-float PID_ROLL_KI = 0.0;
-float PID_ROLL_KD = 2.0;
-float PID_PITCH_KP = 11.24;
-float PID_PITCH_KI = 10.0;
-float PID_PITCH_KD = 2.0;
-float PID_YAW_KP = 20;
-float PID_YAW_KI = 0.0;
-float PID_YAW_KD = 5.0;
+float PID_ROLL_KP = 15;
+float PID_ROLL_KI = 1;
+float PID_ROLL_KD = 0;
+float PID_PITCH_KP = -15;
+float PID_PITCH_KI = -2;
+float PID_PITCH_KD = 0;
+float PID_YAW_KP = 2;
+float PID_YAW_KI = 1;
+float PID_YAW_KD = 0;
 
 /**
  * Limit the input angle between -180 and 180
