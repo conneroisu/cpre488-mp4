@@ -113,3 +113,20 @@ sed -i 's/\r$//' vm.sh
 Logging Blocks are a terrible idea. They are not only slow, but they are also very difficult to use. As there must be only 12 logging variables at a time, or else you crash the gui or, sometimes, the vm, to make any changes we had to be sure that we only had 12 variables being logged at a time excluding the test stand variables.
 
 We think that if the logging were purely just a console output, it would be much easier to use. 
+
+
+## Overall Summary
+### Part 1
+In part 1 of the lab, we used the GUI to tune the PID values for the attitude and rate PID controllers. We noticed that the PID values were quite high (300-800 for P, 0 - 10, for I and, 0 - 45, for D), which was a bit odd.
+
+After some experimentation, we were able to fly in part 1! One thing we noticed is that when we set D to anything above around 0.1 for the attitude controller, the drone would start spinning out of control. We are not sure why this is the case since we did not look into the part 1 code.
+
+
+### Part 2
+Without the extension, we would have not gotten part 2 done! However, Dr. Jones graciously extended the lab so we got two more days to tackle our issues. We noticed that having just P (I and D set to zero) resulted in some odd behavior. The drone would rotate faster when commanding a faster rate to the rate controller, sometimes reverse when commanding a new rate, and would be at the wrong speeds. It was like it was "deciding its own setpoints" instead of using the ones we set.
+
+After looking into the code, we noticed that we introduced a bug into the saturateInt16 function. We added an `int16_t` cast to the passed in float in the comparison to the 16-bit integer limit. This is wrong since we should be comparing the float which has a larger integer range than a 16-bit integer! So, if the float value was greater than the max 16-bit integer value, it would rollover, which is incorrect! In addition, we theorized that the motor control values would rollover if the commanded values for pitch, roll, and yaw were too large. The motor control values are 16-bit integers and are a function of the thrust, roll command, yaw command, and pitch command values. If these values are too large (like the 16-bit integer limit), a rollover could occur, causing the drone to reverse its direction and do all sorts of unexpected stuff! To solve this, we made our PID values much smaller for part 2 than part 1 and also limited the control values to around 15000.
+
+Moving on, we got most of our rate PIDs working, but one in particular was not functional. We noticed that when we commanded just the pitch, it would spin out of control. After looking at the commanded pitch, roll, and yaw rate values in the GUI, we noticed that yaw and roll commanded values were huge, but the yaw and roll readings were not big at all compared to the pitch reading. We concluded that we needed some sort of "dominator" function that would see if the largest sensor reading (pitch, roll, or yaw) is much, much larger than the other sensor readings. If one of the other sensors readings is super tiny compared to the largest ones, it is treated as being zero. This makes it so we don't register small sensor readings when a large one is present since the smaller readings are usually caused by the large reading. Implementing this feature toned down those large roll and yaw commands, making it so we could command the pitch rate!
+
+Finally, we tuned the attitude PID controller and adjusted some of the rate PID values and were able to fly the drone with our own code! Flight was fairly stable, but we noticed the drone would flip if we put the throttle too high while changing pitch or roll. We believe that this is due to an integer overflow of the motor control values since the change is quite sudden and causes the drone to divebomb. Overall, this lab was quite fun, challenging, and provided good practice tuning and writing our own PID loops!
