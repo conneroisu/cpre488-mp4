@@ -53,7 +53,7 @@
 // Min percentage of largest sensor reading to keep the value.
 // If the sensor reading is not at least this percentage of the largest sensor
 // reading, the sensor reading is treated as zero.
-#define MIN_PERCENT_SENSOR_READ_KEEP (float)0.2
+#define MIN_PERCENT_SENSOR_READ_KEEP (float)0.1
 
 void studentAttitudeControllerInit(const float updateDt);
 
