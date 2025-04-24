@@ -127,7 +127,7 @@ void studentAttitudeControllerInit(const float updateDt) {
       PID_PITCH_RATE_KD,             //
       updateDt,
       0,
-      0
+      1
   );
   studentPidInit(                    //
       &pidYawRate,                   //
