@@ -208,6 +208,7 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
     control->roll = 0;
     control->yaw = 0;
     studentAttitudeControllerResetAllPID();
+    studentRateControllerResetAllPID();
   }
 
   //copy values for logging
