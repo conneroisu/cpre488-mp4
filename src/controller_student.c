@@ -150,20 +150,23 @@ void controllerStudent(control_t *control, setpoint_t *setpoint,
         max = (float) fabs(g_z);
       }
 
-      // Compare g_x, g_y, and g_z to max, if they are small in comparison, set them to 0.
-      if((float) fabs(g_x) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
+      if(max >= MIN_ABS_FOR_DOMINATE)
       {
-        g_x = 0;
-      }
+        // Compare g_x, g_y, and g_z to max, if they are small in comparison, set them to 0.
+        if((float) fabs(g_x) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
+        {
+          g_x = 0;
+        }
 
-      if((float) fabs(g_y) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
-      {
-        g_y = 0;
-      }
+        if((float) fabs(g_y) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
+        {
+          g_y = 0;
+        }
 
-      if((float) fabs(g_z) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
-      {
-        g_z = 0;
+        if((float) fabs(g_z) < (max * MIN_PERCENT_SENSOR_READ_KEEP))
+        {
+          g_z = 0;
+        }
       }
 
 
