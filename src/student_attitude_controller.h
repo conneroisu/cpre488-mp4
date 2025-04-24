@@ -55,7 +55,7 @@
 // reading, the sensor reading is treated as zero.
 #define MIN_PERCENT_SENSOR_READ_KEEP (float)0.1
 
-#define MIN_ABS_FOR_DOMINATE (float) 60
+#define MIN_ABS_FOR_DOMINATE (float) 20
 
 void studentAttitudeControllerInit(const float updateDt);
 
