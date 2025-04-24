@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/VDMA_Notes.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "VDMA_Notes"
+              "title": "README"
             }
           }
         ]
@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "5dafaf69ae97a2bc",
@@ -166,6 +165,9 @@
   },
   "active": "d873ad2cfea0a972",
   "lastOpenFiles": [
+    "SB3_Submission",
+    "New folder",
+    "CPRE488_SB3_MP4_Report_Submission.pdf",
     "HW/HW4/src/pid.c",
     "HW/HW4/src/Makefile",
     "HW/HW4/img/GryoMath.png",
@@ -178,10 +180,7 @@
     "HW/HW4/CPRE488_HW4_Submission_NolanEastburn.md",
     "HW/HW4/AccelerometerMath.pdf",
     "HW/HW4/AccelerometerMath.xopp",
-    "HW/HW4",
     "HW/HW3/CPRE488_HW3_Submission_NolanEastburn.md",
-    "HW/HW3",
-    "HW/HW2/src/Makefile",
     "HW/HW2/math.png",
     "HW/HW2/diagram.png",
     "HW/HW2/CPRE488_HW2_Submission_NolanEastburn.md",

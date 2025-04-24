@@ -1,6 +1,7 @@
 {
   "baseFontSizeAction": false,
   "enabledCssSnippets": [
-    "ImageAlign"
+    "ImageAlign",
+    "CustomStyles"
   ]
 }
