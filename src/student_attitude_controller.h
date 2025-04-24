@@ -107,6 +107,6 @@ void studentRateControllerResetYawRatePID(void);
 /**
  * Reset all controller rate PID
  */
-void studenRateControllerResetAllPID(void);
+void studentRateControllerResetAllPID(void);
 
 #endif /* STUDENT_ATTITUDE_CONTROLLER_H_ */
