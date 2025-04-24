@@ -112,6 +112,7 @@ void studentRateControllerResetYawRatePID(void) {
   studentPidReset(&pidYawRate);
 }
 
+// reset all the rate pid objects
 void studentRateControllerResetAllPID(void) {
   studentRateControllerResetRollRatePID();
   studentRateControllerResetPitchRatePID();
